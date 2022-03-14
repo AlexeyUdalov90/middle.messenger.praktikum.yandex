@@ -2,10 +2,10 @@
   "name": "middle.messenger.praktikum.yandex",
   "version": "1.0.0",
   "description": "",
-  "source": "static/index.html",
+  "source": "src/pages/index.hbs",
   "scripts": {
-    "dev": "parcel -p 3000 --open",
-    "build": "parcel build"
+    "dev": "parcel --no-cache",
+    "build": "parcel build --no-cache --public-url ./"
   },
   "repository": {
     "type": "git",
@@ -19,9 +19,9 @@
   },
   "homepage": "https://github.com/AlexeyUdalov90/middle.messenger.praktikum.yandex#readme",
   "devDependencies": {
-    "@parcel/transformer-sass": "^2.3.2",
+    "@anikin/parcel-transformer-handlebars": "1.0.9",
     "parcel": "2.3.2",
-    "postcss": "^8.4.8",
+    "postcss-nested": "5.0.6",
     "postcss-preset-env": "7.4.2"
   }
 }
