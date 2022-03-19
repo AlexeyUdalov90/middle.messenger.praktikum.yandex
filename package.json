@@ -28,6 +28,7 @@
     "autoprefixer": "10.4.4",
     "express": "4.17.3",
     "parcel": "2.3.2",
+    "postcss": "8.4.12",
     "postcss-nested": "5.0.6",
     "postcss-preset-env": "7.4.2"
   }
