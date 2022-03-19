@@ -4,7 +4,7 @@
   "description": "",
   "source": "src/pages/index.hbs",
   "scripts": {
-    "dev": "parcel --no-cache",
+    "serve": "parcel --no-cache",
     "build": "parcel build --no-cache --public-url ./"
   },
   "repository": {

@@ -1,0 +1,10 @@
+.messenger {
+  &__left {
+    flex-shrink: 0;
+    width: 310px;
+  }
+
+  &__right {
+    flex-grow: 1;
+  }
+}

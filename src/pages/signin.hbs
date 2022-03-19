@@ -1,0 +1,50 @@
+---
+title: Регистрация в чат
+buttonText: Зарегистрироваться
+buttonClass: login__button
+css:
+  - login.css
+---
+{{!< base}}
+
+<main>
+  <section class="section login">
+    <div class="login__content">
+      <h2 class="title login__title">Регистрация</h2>
+      <form class="login__form">
+        <label class="form-field login__input">
+          <span class="form-field__label">Почта</span>
+          <input class="form-field__input" type="email" name="email" required>
+          <p class="form-field__error">Ошибка</p>
+        </label>
+        <label class="form-field login__input">
+          <span class="form-field__label">Логин</span>
+          <input class="form-field__input" type="text" name="login" required>
+          <p class="form-field__error">Ошибка</p>
+        </label>
+        <label class="form-field login__input">
+          <span class="form-field__label">Имя</span>
+          <input class="form-field__input" type="text" name="first_name" required>
+          <p class="form-field__error">Ошибка</p>
+        </label>
+        <label class="form-field login__input">
+          <span class="form-field__label">Фамилия</span>
+          <input class="form-field__input" type="text" name="second_name" required>
+          <p class="form-field__error">Ошибка</p>
+        </label>
+        <label class="form-field login__input">
+          <span class="form-field__label">Телефон</span>
+          <input class="form-field__input" type="tel" name="phone" required>
+          <p class="form-field__error">Ошибка</p>
+        </label>
+        <label class="form-field login__input">
+          <span class="form-field__label">Пароль</span>
+          <input class="form-field__input" type="password" name="password" required>
+          <p class="form-field__error">Ошибка</p>
+        </label>
+        {{> button}}
+      </form>
+      <a class="login__link" href="../pages/login.hbs">Войти</a>
+    </div>
+  </section>
+</main>
