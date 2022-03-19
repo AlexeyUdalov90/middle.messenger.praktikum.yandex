@@ -6,7 +6,7 @@
   "scripts": {
     "serve": "parcel --no-cache",
     "build": "parcel build --no-cache --public-url ./",
-    "start": "node ./server.js"
+    "start": "parcel build --no-cache --public-url ./ && node ./server.js"
   },
   "engines": {
     "node": "14.16.0"
