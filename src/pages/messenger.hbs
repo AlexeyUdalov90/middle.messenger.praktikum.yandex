@@ -7,7 +7,94 @@ css:
 
 <main>
   <section class="section messenger">
-    <div class="left-bar messenger__left"></div>
-    <div class="messenger__right"></div>
+    <div class="left-bar messenger__left">
+      <div class="messenger__panel messenger-panel">
+        <div class="messenger-panel__top">
+          <a class="messenger-panel__profile" href="./profile.hbs">Профиль ></a>
+          <div class="messenger-panel__search">
+            {{> search}}
+          </div>
+        </div>
+        <div class="messenger-panel__chat-list">
+          <div class="messenger-panel__chat-item chat">
+            <div class="chat__content">
+              <div class="chat__avatar"></div>
+              <div class="chat__wrapper">
+                <span class="chat__name">Андрей</span>
+                <span class="chat__last-message">Изображение</span>
+                <span class="chat__time">10:49</span>
+                <span class="chat__badge">2</span>
+              </div>
+            </div>
+          </div>
+          <div class="messenger-panel__chat-item chat">
+            <div class="chat__content">
+              <div class="chat__avatar"></div>
+              <div class="chat__wrapper">
+                <span class="chat__name">Киноклуб</span>
+                <span class="chat__last-message"><span class="chat__you">Вы: </span>стикер</span>
+                <span class="chat__time">12:00</span>
+              </div>
+            </div>
+          </div>
+          <div class="messenger-panel__chat-item chat">
+            <div class="chat__content">
+              <div class="chat__avatar"></div>
+              <div class="chat__wrapper">
+                <span class="chat__name">Илья</span>
+                <span class="chat__last-message">Друзья, у меня для вас особенный выпуск новостей!...</span>
+                <span class="chat__time">15:12</span>
+                <span class="chat__badge">4</span>
+              </div>
+            </div>
+          </div>
+          <div class="messenger-panel__chat-item chat active">
+            <div class="chat__content">
+              <div class="chat__avatar"></div>
+              <div class="chat__wrapper">
+                <span class="chat__name">Илья</span>
+                <span class="chat__last-message">Друзья, у меня для вас особенный выпуск новостей!...</span>
+                <span class="chat__time">24 Апр. 2020</span>
+                <span class="chat__badge">4</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="messenger__right">
+      <div class="messenger__talk talk">
+        <p class="talk__empty-message">Выберите чат чтобы отправить сообщение</p>
+        <div class="talk__top">
+          <div class="talk__avatar"></div>
+          <span class="talk__user-name">Вадим</span>
+          <button class="talk__setting-btn"></button>
+        </div>
+        <div class="talk__content">
+          <div class="talk__message message message my">
+            <p class="message__text">Круто!</p>
+            <div class="message__info">
+              <span class="message__status"></span>
+              <span class="message__time">12:00</span>
+            </div>
+          </div>
+          <div class="talk__message message">
+            <p class="message__text">Привет! Смотри, тут всплыл интересный кусок лунной космической истории — НАСА в какой-то момент попросила Хассельблад адаптировать модель SWC для полетов на Луну. Сейчас мы все знаем что астронавты летали с моделью 500 EL — и к слову говоря, все тушки этих камер все еще находятся на поверхности Луны, так как астронавты с собой забрали только кассеты с пленкой.</p>
+            <p class="message__text">Хассельблад в итоге адаптировал SWC для космоса, но что-то пошло не так и на ракету они так никогда и не попали. Всего их было произведено 25 штук, одну из них недавно продали на аукционе за 45000 евро.</p>
+            <div class="message__info">
+              <span class="message__time">11:56</span>
+            </div>
+          </div>
+          <span class="talk__date">19 июня</span>
+        </div>
+        <div class="talk__bottom">
+          <form class="talk-form">
+            <button class="talk-form__add-file-btn" type="button"></button>
+            <input class="talk-form__input" type="text" name="message" placeholder="Сообщение">
+            <button class="talk-form__submit-btn"></button>
+          </form>
+        </div>
+      </div>
+    </div>
   </section>
 </main>
