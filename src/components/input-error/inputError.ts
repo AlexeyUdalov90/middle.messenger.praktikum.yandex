@@ -14,7 +14,7 @@ export class InputError extends Block {
   render() {
     // language=hbs
     return `
-      <p class="input-error {{className}} {{#if text}}active{{/if}}">{{text}}</p>
+      <p class="input-error {{className}}">{{text}}</p>
     `;
   }
 }

@@ -1,6 +1,6 @@
 import { Block } from '../../core';
 import './login.css';
-import validation from '../../services/validation';
+import { checkValidation } from '../../services';
 
 export class LoginPage extends Block {
   protected getStateFromProps() {
@@ -14,18 +14,24 @@ export class LoginPage extends Block {
         login: '',
         password: ''
       },
-      onClick: () => {
-        console.log({
-          login: (this.refs['login'] as HTMLInputElement).value,
-          password: (this.refs['password'] as HTMLInputElement).value
-        })
+      onClick: (): void => {
+        const inputs: Array<HTMLInputElement> = [
+          (this.refs['login'] as HTMLInputElement),
+          (this.refs['password'] as HTMLInputElement)
+        ];
+
+        inputs.forEach(input => this.setChildProps(`${input.name}Error`, { text: checkValidation(input.name, input.value) }));
+
+        console.log(inputs.reduce((res: { [key: string]: string }, input) => {
+          res[input.name] = input.value;
+
+          return res;
+        }, {}));
       },
-      onBlurAndFocus: (e: InputEvent) => {
+      onBlurAndFocus: (e: InputEvent): void => {
         const input = e.target as HTMLInputElement;
 
-        console.log(`Input ${input.name} validation: `, validation(input.value));
-
-        this.setChildProps(`${input.name}Error`, { text: validation(input.value) })
+        this.setChildProps(`${input.name}Error`, { text: checkValidation(input.name, input.value) })
       }
     }
   }
@@ -65,7 +71,7 @@ export class LoginPage extends Block {
               }}}
               {{{InputError
                   className="form-field__error"
-                  ref="psswordError"
+                  ref="passwordError"
                   text="${errors.password}"
               }}}
             </label>
