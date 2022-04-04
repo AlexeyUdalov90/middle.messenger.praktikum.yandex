@@ -1,14 +1,21 @@
-type Test = {
-  a: string,
-  b: number
-}
+import { Block, renderDOM, registerComponent } from './core';
+import './styles/style.css';
 
-function index(props: Test): string {
-  const a: number = props.b
+// import OnboardingPage from './pages/onboarding';
+import LoginPage from './pages/login';
 
-  return `${props.a} ${a}`
-}
+const components = require('./components/**/index.ts') as {[key: string]: { default: typeof Block }};
 
-index({ a: 'test', b: 5 })
+Object.values(components).forEach(component => {
+  registerComponent(component.default);
+});
 
-export default index
+// class MyComponent extends Block {
+//   render() {
+//     return `<h1>First component</h1>`
+//   }
+// }
+
+document.addEventListener('DOMContentLoaded', () => {
+  renderDOM(LoginPage);
+});
