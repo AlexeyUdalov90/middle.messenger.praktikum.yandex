@@ -1,6 +1,6 @@
 import { Block } from '../../core';
-import './login.css';
 import { checkValidation } from '../../services';
+import '../../styles/login.css'
 
 export class LoginPage extends Block {
   protected getStateFromProps() {
@@ -75,9 +75,9 @@ export class LoginPage extends Block {
                   text="${errors.password}"
               }}}
             </label>
-            {{{Button text="Авторизоваться" onClick=onClick}}}
+            {{{Button text="Авторизоваться" className="login__button" onClick=onClick}}}
           </form>
-          <a class="login__link" href="#">Нет аккаунта?</a>
+          <a class="login__link" href="./signin.html">Нет аккаунта?</a>
         </div>
       </section>
     `;
