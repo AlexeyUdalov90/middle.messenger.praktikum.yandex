@@ -43,7 +43,11 @@ const validationMessages: { [key: string]: (value: string) => ValidationMessages
 }
 
 export default function (inputName: string, value: string): string {
-  const messages = validationMessages[inputName]?.(value) ?? [];
+  const messages = validationMessages[inputName]?.(value);
+
+  if (!messages) {
+    return '';
+  }
 
   return messages.find(message => message.isShow)?.text ?? '';
 }

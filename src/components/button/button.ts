@@ -3,24 +3,22 @@ import './button.css';
 
 interface ButtonProps {
   text: string,
-  className?: string,
-  onClick: () => {}
+  className?: string
+  type?: 'button' | 'submit' | 'reset'
 }
 
 export class Button extends Block {
-  constructor({ onClick, ...otherProps }: ButtonProps) {
+  constructor({ type = 'button', ...props }: ButtonProps) {
     super({
-      ...otherProps,
-      events: {
-        click: onClick
-      }
+      ...props,
+      type
     });
   }
 
   render() {
     // language=hbs
     return `
-        <button class="button {{className}}" type="button">{{text}}</button>
+        <button class="button {{className}}" type="{{type}}">{{text}}</button>
     `;
   }
 }

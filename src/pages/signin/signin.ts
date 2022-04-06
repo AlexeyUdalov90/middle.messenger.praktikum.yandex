@@ -3,6 +3,47 @@ import { checkValidation } from '../../services';
 import '../../styles/login.css';
 
 export class SignInPage extends Block {
+  constructor() {
+    super({
+      events: {
+        focusout: (e: Event) => {
+          const input = e.target as HTMLInputElement;
+
+          this.setState({
+            fields: {
+              ...this.state.fields,
+              [input.name]: input.value
+            },
+            errors: {
+              ...this.state.errors,
+              [input.name]: checkValidation(input.name, input.value)
+            }
+          });
+        },
+        submit: (e: Event) => {
+          e.preventDefault();
+          const errors = Object.entries(this.refs).reduce((res: any, [name, item]) => {
+            const input = item.querySelector('input') as HTMLInputElement;
+
+            if (input) {
+              res[name] = checkValidation(name, input.value);
+            }
+
+            return res;
+          }, {});
+
+          this.setState({
+            errors: {
+              ...errors
+            }
+          });
+
+          console.log(this.state.fields);
+        }
+      }
+    });
+  }
+
   protected getStateFromProps() {
     this.state = {
       title: 'Регистрация',
@@ -21,11 +62,6 @@ export class SignInPage extends Block {
         secondName: '',
         phone: '',
         password: ''
-      },
-      onBlurAndFocus: (e: InputEvent): void => {
-        const input = e.target as HTMLInputElement;
-
-        this.setChildProps(`${input.name}Error`, { text: checkValidation(input.name, input.value) })
       }
     }
   }
@@ -39,97 +75,13 @@ export class SignInPage extends Block {
         <div class="login__content">
           <h2 class="title login__title">{{title}}</h2>
             <form class="login__form">
-              <label class="form-field login__input">
-                <span class="form-field__label">Почта</span>
-                {{{Input
-                  type="email"
-                  name="email"
-                  ref="email"
-                  value="${fields.email}"
-                  onBlurAndFocus=onBlurAndFocus
-                }}}
-                {{{InputError
-                  className="form-field__error"
-                  ref="emailError"
-                  text="${errors.email}"
-                }}}
-              </label>
-              <label class="form-field login__input">
-                <span class="form-field__label">Логин</span>
-                {{{Input
-                  type="text"
-                  name="login"
-                  ref="login"
-                  value="${fields.login}"
-                  onBlurAndFocus=onBlurAndFocus
-                }}}
-                {{{InputError
-                  className="form-field__error"
-                  ref="loginError"
-                  text="${errors.login}"
-                }}}
-              </label>
-              <label class="form-field login__input">
-                <span class="form-field__label">Имя</span>
-                {{{Input
-                  type="text"
-                  name="first_name"
-                  ref="firstName"
-                  value="${fields.firstName}"
-                  onBlurAndFocus=onBlurAndFocus
-                }}}
-                {{{InputError
-                  className="form-field__error"
-                  ref="firstNameError"
-                  text="${errors.firstName}"
-                }}}
-              </label>
-              <label class="form-field login__input">
-                <span class="form-field__label">Фамилия</span>
-                {{{Input
-                  type="text"
-                  name="second_name"
-                  ref="secondName"
-                  value="${fields.secondName}"
-                  onBlurAndFocus=onBlurAndFocus
-                }}}
-                {{{InputError
-                  className="form-field__error"
-                  ref="secondNameError"
-                  text="${errors.secondName}"
-                }}}
-              </label>
-              <label class="form-field login__input">
-                <span class="form-field__label">Телефон</span>
-                {{{Input
-                  type="tel"
-                  name="phone"
-                  ref="phone"
-                  value="${fields.phone}"
-                  onBlurAndFocus=onBlurAndFocus
-                }}}
-                {{{InputError
-                  className="form-field__error"
-                  ref="secondNameError"
-                  text="${errors.phone}"
-                }}}
-              </label>
-              <label class="form-field login__input">
-                <span class="form-field__label">Пароль</span>
-                {{{Input
-                  type="password"
-                  name="password"
-                  ref="password"
-                  value="${fields.password}"
-                  onBlurAndFocus=onBlurAndFocus
-                }}}
-                {{{InputError
-                  className="form-field__error"
-                  ref="passwordError"
-                  text="${errors.password}"
-                }}}
-              </label>
-              {{{Button text="Зарегистрироваться" onClick=onClick}}}
+              {{{FormField className="login__input" label="Почта" type="email" name="email" value="${fields.email}" error="${errors.email}"}}}
+              {{{FormField className="login__input" label="Логин" type="text" name="login" value="${fields.login}" error="${errors.login}"}}}
+              {{{FormField className="login__input" label="Имя" type="text" name="first_name" value="${fields.firstName}" error="${errors.firstName}"}}}
+              {{{FormField className="login__input" label="Фамилия" type="text" name="second_name" value="${fields.secondName}" error="${errors.secondName}"}}}
+              {{{FormField className="login__input" label="Телефон" type="tel" name="phone" value="${fields.phone}" error="${errors.phone}"}}}
+              {{{FormField className="login__input" label="Пароль" type="password" name="password" value="${fields.password}" error="${errors.password}"}}}
+              {{{Button type="submit" text="Зарегистрироваться" className="login__button"}}}
             </form>
             <a class="login__link" href="./login.html">Войти</a>
           </div>

@@ -27,7 +27,6 @@ export default class Block<P = any> {
 
   protected state: any = {};
   protected refs: {[key: string]: HTMLElement} = {};
-  protected ref: string = '';
 
   public constructor(props?: P) {
     const eventBus = new EventBus<Events>();
@@ -83,13 +82,6 @@ export default class Block<P = any> {
     return true;
   }
 
-  setRef(ref: string) {
-    if (!ref) {
-      return;
-    }
-    this.ref = ref;
-  }
-
   setProps = (nextProps: P) => {
     if (!nextProps) {
       return;
@@ -105,16 +97,6 @@ export default class Block<P = any> {
 
     Object.assign(this.state, nextState);
   };
-
-  setChildProps(ref: string, props: P) {
-    const child = Object.values(this.children).find(comp => comp.ref === ref);
-
-    if (!child || !props) {
-      return;
-    }
-
-    child.setProps(props);
-  }
 
   get element() {
     return this._element;

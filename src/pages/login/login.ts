@@ -3,6 +3,57 @@ import { checkValidation } from '../../services';
 import '../../styles/login.css'
 
 export class LoginPage extends Block {
+  constructor() {
+    super({
+      events: {
+        focusout: (e: Event) => {
+          const input = e.target as HTMLInputElement;
+
+          this.setState({
+            fields: {
+              ...this.state.fields,
+              [input.name]: input.value
+            },
+            errors: {
+              ...this.state.errors,
+              [input.name]: checkValidation(input.name, input.value)
+            }
+          });
+        },
+        focusin: (e: Event) => {
+          const input = e.target as HTMLInputElement;
+
+          this.setState({
+            errors: {
+              ...this.state.errors,
+              [input.name]: ''
+            }
+          });
+        },
+        submit: (e: Event) => {
+          e.preventDefault();
+          const errors = Object.entries(this.refs).reduce((res: any, [name, item]) => {
+            const input = item.querySelector('input') as HTMLInputElement;
+
+            if (input) {
+              res[name] = checkValidation(name, input.value);
+            }
+
+            return res;
+          }, {});
+
+          this.setState({
+            errors: {
+              ...errors
+            }
+          });
+
+          console.log(this.state.fields);
+        }
+      }
+    });
+  }
+
   protected getStateFromProps() {
     this.state = {
       title: 'Вход',
@@ -13,25 +64,6 @@ export class LoginPage extends Block {
       errors: {
         login: '',
         password: ''
-      },
-      onClick: (): void => {
-        const inputs: Array<HTMLInputElement> = [
-          (this.refs['login'] as HTMLInputElement),
-          (this.refs['password'] as HTMLInputElement)
-        ];
-
-        inputs.forEach(input => this.setChildProps(`${input.name}Error`, { text: checkValidation(input.name, input.value) }));
-
-        console.log(inputs.reduce((res: { [key: string]: string }, input) => {
-          res[input.name] = input.value;
-
-          return res;
-        }, {}));
-      },
-      onBlurAndFocus: (e: InputEvent): void => {
-        const input = e.target as HTMLInputElement;
-
-        this.setChildProps(`${input.name}Error`, { text: checkValidation(input.name, input.value) })
       }
     }
   }
@@ -45,37 +77,9 @@ export class LoginPage extends Block {
         <div class="login__content">
           <h2 class="title login__title">{{title}}</h2>
           <form class="login__form">
-            <label class="login__input form-field">
-              <span class="form-field__label">Логин</span>
-              {{{Input
-                  type="text"
-                  name="login"
-                  ref="login"
-                  value="${fields.login}"
-                  onBlurAndFocus=onBlurAndFocus
-              }}}
-              {{{InputError
-                  className="form-field__error"
-                  ref="loginError"
-                  text="${errors.login}"
-              }}}
-            </label>
-            <label class="login__input form-field">
-              <span class="form-field__label">Пароль</span>
-              {{{Input
-                  type="password"
-                  name="password"
-                  ref="password"
-                  value="${fields.password}"
-                  onBlurAndFocus=onBlurAndFocus
-              }}}
-              {{{InputError
-                  className="form-field__error"
-                  ref="passwordError"
-                  text="${errors.password}"
-              }}}
-            </label>
-            {{{Button text="Авторизоваться" className="login__button" onClick=onClick}}}
+            {{{FormField className="login__input" ref="login" label="Логин" type="text" name="login" value="${fields.login}" error="${errors.login}"}}}
+            {{{FormField className="login__input" ref="password" label="Пароль" type="password" name="password" value="${fields.password}" error="${errors.password}"}}}
+            {{{Button type="submit" text="Авторизоваться" className="login__button"}}}
           </form>
           <a class="login__link" href="./signin.html">Нет аккаунта?</a>
         </div>

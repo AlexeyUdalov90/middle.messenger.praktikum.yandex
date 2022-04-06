@@ -22,7 +22,6 @@ export default function registerComponent<Props = any>(Component: BlockConstruct
     children[component.id] = component;
 
     if (ref) {
-      component.setRef(ref);
       refs[ref] = component.getContent();
     }
 
