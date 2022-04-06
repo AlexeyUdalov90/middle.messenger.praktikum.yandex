@@ -77,8 +77,8 @@ export class SignInPage extends Block {
             <form class="login__form">
               {{{FormField className="login__input" label="Почта" type="email" name="email" value="${fields.email}" error="${errors.email}"}}}
               {{{FormField className="login__input" label="Логин" type="text" name="login" value="${fields.login}" error="${errors.login}"}}}
-              {{{FormField className="login__input" label="Имя" type="text" name="first_name" value="${fields.firstName}" error="${errors.firstName}"}}}
-              {{{FormField className="login__input" label="Фамилия" type="text" name="second_name" value="${fields.secondName}" error="${errors.secondName}"}}}
+              {{{FormField className="login__input" label="Имя" type="text" name="firstName" value="${fields.firstName}" error="${errors.firstName}"}}}
+              {{{FormField className="login__input" label="Фамилия" type="text" name="secondName" value="${fields.secondName}" error="${errors.secondName}"}}}
               {{{FormField className="login__input" label="Телефон" type="tel" name="phone" value="${fields.phone}" error="${errors.phone}"}}}
               {{{FormField className="login__input" label="Пароль" type="password" name="password" value="${fields.password}" error="${errors.password}"}}}
               {{{Button type="submit" text="Зарегистрироваться" className="login__button"}}}
