@@ -10,35 +10,39 @@ export class SignInPage extends Block {
           const input = e.target as HTMLInputElement;
 
           this.setState({
-            fields: {
-              ...this.state.fields,
-              [input.name]: input.value
-            },
-            errors: {
-              ...this.state.errors,
-              [input.name]: checkValidation(input.name, input.value)
+            [input.name]: {
+              value: input.value,
+              error: checkValidation(input.name, input.value)
             }
           });
         },
         submit: (e: Event) => {
           e.preventDefault();
-          const errors = Object.entries(this.refs).reduce((res: any, [name, item]) => {
+          const nextSate = Object.entries(this.refs).reduce((res: any, [name, item]) => {
             const input = item.querySelector('input') as HTMLInputElement;
 
             if (input) {
-              res[name] = checkValidation(name, input.value);
+              res[name] = {
+                value: input.value,
+                error: checkValidation(name, input.value)
+              };
             }
 
             return res;
           }, {});
 
-          this.setState({
-            errors: {
-              ...errors
-            }
-          });
+          this.setState(nextSate);
 
-          console.log(this.state.fields);
+          const { email, login, firstName, secondName, phone, password } = this.state;
+
+          console.log({
+            email: email.value,
+            login: login.value,
+            'first_name': firstName.value,
+            'second_name': secondName.value,
+            phone: phone.value,
+            password: password.value
+          });
         }
       }
     });
@@ -47,27 +51,35 @@ export class SignInPage extends Block {
   protected getStateFromProps() {
     this.state = {
       title: 'Регистрация',
-      fields: {
-        email: '',
-        login: '',
-        firstName: '',
-        secondName: '',
-        phone: '',
-        password: ''
+      email: {
+        value: '',
+        error: ''
       },
-      errors: {
-        email: '',
-        login: '',
-        firstName: '',
-        secondName: '',
-        phone: '',
-        password: ''
+      login: {
+        value: '',
+        error: ''
+      },
+      firstName: {
+        value: '',
+        error: ''
+      },
+      secondName: {
+        value: '',
+        error: ''
+      },
+      phone: {
+        value: '',
+        error: ''
+      },
+      password: {
+        value: '',
+        error: ''
       }
     }
   }
 
   render() {
-    const { fields, errors } = this.state;
+    const { email, login, firstName, secondName, phone, password } = this.state;
 
     // language=hbs
     return `
@@ -75,12 +87,12 @@ export class SignInPage extends Block {
         <div class="login__content">
           <h2 class="title login__title">{{title}}</h2>
             <form class="login__form">
-              {{{FormField className="login__input" label="Почта" type="email" name="email" value="${fields.email}" error="${errors.email}"}}}
-              {{{FormField className="login__input" label="Логин" type="text" name="login" value="${fields.login}" error="${errors.login}"}}}
-              {{{FormField className="login__input" label="Имя" type="text" name="firstName" value="${fields.firstName}" error="${errors.firstName}"}}}
-              {{{FormField className="login__input" label="Фамилия" type="text" name="secondName" value="${fields.secondName}" error="${errors.secondName}"}}}
-              {{{FormField className="login__input" label="Телефон" type="tel" name="phone" value="${fields.phone}" error="${errors.phone}"}}}
-              {{{FormField className="login__input" label="Пароль" type="password" name="password" value="${fields.password}" error="${errors.password}"}}}
+              {{{FormField className="login__input" ref="email" label="Почта" type="email" name="email" value="${email.value}" error="${email.error}"}}}
+              {{{FormField className="login__input" ref="login" label="Логин" type="text" name="login" value="${login.value}" error="${login.error}"}}}
+              {{{FormField className="login__input" ref="firstName" label="Имя" type="text" name="firstName" value="${firstName.value}" error="${firstName.error}"}}}
+              {{{FormField className="login__input" ref="secondName" label="Фамилия" type="text" name="secondName" value="${secondName.value}" error="${secondName.error}"}}}
+              {{{FormField className="login__input" ref="phone" label="Телефон" type="tel" name="phone" value="${phone.value}" error="${phone.error}"}}}
+              {{{FormField className="login__input" ref="password" label="Пароль" type="password" name="password" value="${password.value}" error="${password.error}"}}}
               {{{Button type="submit" text="Зарегистрироваться" className="login__button"}}}
             </form>
             <a class="login__link" href="./login.html">Войти</a>

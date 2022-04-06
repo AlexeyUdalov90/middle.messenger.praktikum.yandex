@@ -10,45 +10,45 @@ export class LoginPage extends Block {
           const input = e.target as HTMLInputElement;
 
           this.setState({
-            fields: {
-              ...this.state.fields,
-              [input.name]: input.value
-            },
-            errors: {
-              ...this.state.errors,
-              [input.name]: checkValidation(input.name, input.value)
+            [input.name]: {
+              value: input.value,
+              error: checkValidation(input.name, input.value)
             }
           });
         },
-        focusin: (e: Event) => {
-          const input = e.target as HTMLInputElement;
-
-          this.setState({
-            errors: {
-              ...this.state.errors,
-              [input.name]: ''
-            }
-          });
-        },
+        // focusin: (e: Event) => {
+        //   const input = e.target as HTMLInputElement;
+        //
+        //   this.setState({
+        //     [input.name]: {
+        //       value: input.value,
+        //       error: checkValidation(input.name, input.value)
+        //     }
+        //   });
+        // },
         submit: (e: Event) => {
           e.preventDefault();
-          const errors = Object.entries(this.refs).reduce((res: any, [name, item]) => {
+          const nextSate = Object.entries(this.refs).reduce((res: any, [name, item]) => {
             const input = item.querySelector('input') as HTMLInputElement;
 
             if (input) {
-              res[name] = checkValidation(name, input.value);
+              res[name] = {
+                value: input.value,
+                error: checkValidation(name, input.value)
+              };
             }
 
             return res;
           }, {});
 
-          this.setState({
-            errors: {
-              ...errors
-            }
-          });
+          this.setState(nextSate);
 
-          console.log(this.state.fields);
+          const { login, password } = this.state;
+
+          console.log({
+            login: login.value,
+            password: password.value
+          });
         }
       }
     });
@@ -57,19 +57,19 @@ export class LoginPage extends Block {
   protected getStateFromProps() {
     this.state = {
       title: 'Вход',
-      fields: {
-        login: '',
-        password: ''
+      login: {
+        value: '',
+        error: ''
       },
-      errors: {
-        login: '',
-        password: ''
+      password: {
+        value: '',
+        error: ''
       }
     }
   }
 
   render() {
-    const { fields, errors } = this.state;
+    const { login, password } = this.state;
 
     // language=hbs
     return `
@@ -77,8 +77,8 @@ export class LoginPage extends Block {
         <div class="login__content">
           <h2 class="title login__title">{{title}}</h2>
           <form class="login__form">
-            {{{FormField className="login__input" ref="login" label="Логин" type="text" name="login" value="${fields.login}" error="${errors.login}"}}}
-            {{{FormField className="login__input" ref="password" label="Пароль" type="password" name="password" value="${fields.password}" error="${errors.password}"}}}
+            {{{FormField className="login__input" ref="login" label="Логин" type="text" name="login" value="${login.value}" error="${login.error}" autofocus="${login.autofocus}"}}}
+            {{{FormField className="login__input" ref="password" label="Пароль" type="password" name="password" value="${password.value}" error="${password.error}" autofocus="${password.autofocus}"}}}
             {{{Button type="submit" text="Авторизоваться" className="login__button"}}}
           </form>
           <a class="login__link" href="./signin.html">Нет аккаунта?</a>

@@ -7,8 +7,8 @@ interface FormFieldProps {
   label: string;
   value: string;
   name?: string;
-  className?: string;
   error?: string;
+  className?: string;
 }
 
 export class FormField extends Block {
@@ -16,12 +16,9 @@ export class FormField extends Block {
     super({...props});
   }
 
-  componentDidMount() {
-    console.log('componentDidMount')
-  }
-
   render() {
     // language=hbs
+
     return `
       <label class="form-field {{className}} {{#if error}}form-field_error{{/if}}">
         <span class="form-field__label">{{label}}</span>

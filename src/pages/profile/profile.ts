@@ -4,12 +4,32 @@ import './profile.css';
 export class ProfilePage extends Block {
   protected getStateFromProps() {
     this.state = {
-      email: 'pochta@yandex.ru',
-      login: 'ivanivanov',
-      firstName: 'Иван',
-      secondName: 'Иванов',
-      displayName: 'Иван',
-      phone: '+79099673030'
+      data: {
+        email: {
+          name: 'Почта',
+          value: 'pochta@yandex.ru'
+        },
+        login: {
+          name: 'Логин',
+          value: 'ivanivanov'
+        },
+        firstName: {
+          name: 'Имя',
+          value: 'Иван'
+        },
+        secondName: {
+          name: 'Фамилия',
+          value: 'Иванов'
+        },
+        displayName: {
+          name: 'Имя в чате',
+          value: 'Иван'
+        },
+        phone: {
+          name: 'Телефон',
+          value: '+79099673030'
+        }
+      }
     }
   }
 
@@ -28,30 +48,12 @@ export class ProfilePage extends Block {
             </div>
             <span class="profile__user-name">{{displayName}}</span>
             <ul class="profile-data profile__user-data">
-              <li class="profile-data__item">
-                <span class="profile-data__name">Почта</span>
-                <span class="profile-data__value">{{email}}</span>
-              </li>
-              <li class="profile-data__item">
-                <span class="profile-data__name">Логин</span>
-                <span class="profile-data__value">{{login}}</span>
-              </li>
-              <li class="profile-data__item">
-                <span class="profile-data__name">Имя</span>
-                <span class="profile-data__value">{{firstName}}</span>
-              </li>
-              <li class="profile-data__item">
-                <span class="profile-data__name">Фамилия</span>
-                <span class="profile-data__value">{{secondName}}</span>
-              </li>
-              <li class="profile-data__item">
-                <span class="profile-data__name">Имя в чате</span>
-                <span class="profile-data__value">{{displayName}}</span>
-              </li>
-              <li class="profile-data__item">
-                <span class="profile-data__name">Телефон</span>
-                <span class="profile-data__value">{{phone}}</span>
-              </li>
+              {{#each data}}
+                <li class="profile-data__item">
+                  <span class="profile-data__name">{{name}}</span>
+                  <span class="profile-data__value">{{value}}</span>
+                </li>
+              {{/each}}
             </ul>
             <ul class="profile-data">
               <li class="profile-data__item">
