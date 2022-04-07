@@ -49,6 +49,13 @@ const rules: { [key: string]: (value: string) => boolean } = {
 
 type ValidationMessages = Array<{ isShow: boolean, text: string }>;
 
+const passwordValidation = (value: string): ValidationMessages => [
+  { isShow: rules.isLengthLess8(value), text: 'Миниму 8 символов' },
+  { isShow: rules.isLengthMore40(value), text: 'Максимум 40 символов' },
+  { isShow: rules.isHasNotOneCapitalLetter(value), text: 'Хотя бы одна заглавная буква' },
+  { isShow: rules.isHasNotOneNumber(value), text: 'Хотя бы одна цифра' }
+];
+
 const validationMessages: { [key: string]: (value: string) => ValidationMessages } = {
   login: value => [
     { isShow: rules.isLengthLess3(value), text: 'Минимум 3 символа' },
@@ -56,12 +63,10 @@ const validationMessages: { [key: string]: (value: string) => ValidationMessages
     { isShow: rules.isNumbersOnly(value), text: 'Не может состоять только из чисел' },
     { isShow: rules.isInvalidLogin(value), text: 'Неверный формал логина' }
   ],
-  password: value => [
-    { isShow: rules.isLengthLess8(value), text: 'Миниму 8 символов' },
-    { isShow: rules.isLengthMore40(value), text: 'Максимум 40 символов' },
-    { isShow: rules.isHasNotOneCapitalLetter(value), text: 'Хотя бы одна заглавная буква' },
-    { isShow: rules.isHasNotOneNumber(value), text: 'Хотя бы одна цифра' }
-  ],
+  password: passwordValidation,
+  oldPassword: passwordValidation,
+  newPassword: passwordValidation,
+  repeatPassword: passwordValidation,
   firstName: value => [
     { isShow: rules.isFirstNotCapitalLetter(value), text: 'Первая заглавная буква' },
     { isShow: rules.isInvalidName(value), text: 'Неверный формат имени' },
