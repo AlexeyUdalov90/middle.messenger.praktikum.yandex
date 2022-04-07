@@ -15,7 +15,9 @@ export class ChatForm extends Block {
           if (input && input.value) {
             console.log({
               message: input.value
-            })
+            });
+
+            input.value = '';
           }
         }
       }
