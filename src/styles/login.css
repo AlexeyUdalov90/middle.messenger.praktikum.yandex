@@ -22,21 +22,8 @@
   }
 
   &__form {
-    display: flex;
-    flex-direction: column;
     flex-grow: 1;
     margin-bottom: 14px;
-  }
-
-  &__input {
-    margin-bottom: 16px;
-    &:last-of-type {
-      margin-bottom: 47px;
-    }
-  }
-
-  &__button {
-    margin-top: auto;
   }
 
   &__link {

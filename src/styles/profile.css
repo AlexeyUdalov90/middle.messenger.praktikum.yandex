@@ -18,14 +18,8 @@
     }
   }
 
-  &__input {
-    padding: 0;
-    font: inherit;
-    text-align: right;
+  &__value {
     color: var(--other-text-color);
-    background-color: transparent;
-    border: none;
-    border-radius: 0;
   }
 
   &__logout-button {
@@ -70,6 +64,7 @@
 
   &__avatar {
     margin-bottom: 20px;
+
     &_without-name {
       margin-bottom: 86px;
     }
@@ -83,9 +78,6 @@
   }
 
   &__form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
     width: 100%;
   }
 

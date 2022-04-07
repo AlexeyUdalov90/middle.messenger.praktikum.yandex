@@ -1,5 +1,5 @@
 import { Block } from '../../core';
-import './profile.css';
+import '../../styles/profile.css';
 
 export class ProfilePage extends Block {
   static componentName = 'ProfilePage';
@@ -48,7 +48,7 @@ export class ProfilePage extends Block {
             <div class="profile__avatar">
               {{{Avatar}}}
             </div>
-            <span class="profile__user-name">{{displayName}}</span>
+            <span class="profile__user-name">{{data.displayName.value}}</span>
             <ul class="profile-data profile__user-data">
               {{#each data}}
                 <li class="profile-data__item">

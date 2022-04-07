@@ -1,20 +1,18 @@
 import { Block } from '../../core';
-import { checkValidation } from '../../services';
-import '../../styles/login.css';
+import '../../styles/profile.css';
 
-export class SignInPage extends Block {
-  static componentName = 'SignInPage';
+export class ChangeProfilePage extends Block {
+  static componentName = 'ProfilePage';
 
   protected getStateFromProps() {
     this.state = {
-      title: 'Регистрация',
       inputs: {
         email: {
           label: 'Почта',
           ref: 'email',
           name: 'email',
           type: 'email',
-          value: '',
+          value: 'pochta@yandex.ru',
           error: ''
         },
         login: {
@@ -22,7 +20,7 @@ export class SignInPage extends Block {
           ref: 'login',
           name: 'login',
           type: 'text',
-          value: '',
+          value: 'ivanivanov',
           error: ''
         },
         firstName: {
@@ -30,7 +28,7 @@ export class SignInPage extends Block {
           ref: 'firstName',
           name: 'firstName',
           type: 'text',
-          value: '',
+          value: 'Иван',
           error: ''
         },
         secondName: {
@@ -38,7 +36,15 @@ export class SignInPage extends Block {
           ref: 'secondName',
           name: 'secondName',
           type: 'text',
-          value: '',
+          value: 'Иванов',
+          error: ''
+        },
+        displayName: {
+          label: 'Имя в чате',
+          ref: 'displayName',
+          name: 'displayName',
+          type: 'text',
+          value: 'Иван',
           error: ''
         },
         phone: {
@@ -46,30 +52,29 @@ export class SignInPage extends Block {
           ref: 'phone',
           name: 'phone',
           type: 'tel',
-          value: '',
-          error: ''
-        },
-        password: {
-          label: 'Пароль',
-          ref: 'password',
-          name: 'password',
-          type: 'password',
-          value: '',
+          value: '+79099673030',
           error: ''
         }
       }
     }
   }
 
-  render() {
+  render () {
     // language=hbs
+
     return `
-      <section class="section login">
-        <div class="login__content">
-          <h2 class="title login__title">{{title}}</h2>
-            {{{Form className="login__form" data=inputs buttonText="Зарегистрироваться"}}}
-            <a class="login__link" href="./login.html">Войти</a>
+      <section class="section profile">
+        <div class="left-bar profile__left">
+          <a class="profile__back" href="./profile.html"></a>
+        </div>
+        <div class="profile__right">
+          <div class="profile__content">
+            <div class="profile__avatar profile__avatar_without-name">
+              {{{Avatar}}}
+            </div>
+            {{{Form className="profile__form" data=inputs buttonText="Сохранить"}}}
           </div>
+        </div>
       </section>
     `;
   }
