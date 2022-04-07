@@ -1,17 +1,11 @@
 import { Block } from '../../core';
+import { MessageI } from '../../interfaces';
 import './message.css';
-
-interface MessageProps {
-  className?: string;
-  text: string;
-  time: string;
-  isMy: boolean;
-}
 
 export class Message extends Block {
   static componentName = 'Message';
 
-  constructor(props: MessageProps) {
+  constructor(props: MessageI) {
     super({ ...props });
   }
 

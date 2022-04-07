@@ -1,9 +1,10 @@
-import {Block} from '../../core';
+import { Block } from '../../core';
+import { FormFieldErrorI } from '../../interfaces';
 
 export class FormFieldError extends Block {
   static componentName = 'FormFieldError';
 
-  protected getStateFromProps(props: any) {
+  protected getStateFromProps(props: FormFieldErrorI) {
     this.state = { ...props };
   }
 

@@ -1,33 +1,12 @@
 import { Block } from '../../core';
 import { checkValidation } from '../../services';
+import { FormI, SubmitFormI, FormFieldI } from '../../interfaces';
 import './form.css';
-
-interface FormProps {
-  className: string;
-  buttonText: string;
-  data: {
-    [key: string]: InputData;
-  }
-}
-
-interface InputData {
-  type?: 'text' | 'password' | 'email' | 'tel';
-  placeholder?: string;
-  label: string;
-  value: string;
-  name?: string;
-  error?: string;
-  ref?: string;
-}
-
-interface SubmitData {
-  [key: string]: string;
-}
 
 export class Form extends Block {
   static componentName = 'Form';
 
-  constructor(props: FormProps) {
+  constructor(props: FormI) {
     super({
       ...props,
       events: {
@@ -51,8 +30,8 @@ export class Form extends Block {
             inputs: { ...newInputsState }
           });
 
-          const result: SubmitData = Object.entries(this.state.inputs).reduce((submitRes: any, [key, data ]) => {
-            submitRes[key] = (data as InputData).value;
+          const result: SubmitFormI = Object.entries(this.state.inputs).reduce((submitRes: any, [key, data ]) => {
+            submitRes[key] = (data as FormFieldI).value;
 
             return submitRes;
           }, {});
@@ -63,7 +42,7 @@ export class Form extends Block {
     });
   }
 
-  protected getStateFromProps(props: FormProps) {
+  protected getStateFromProps(props: FormI) {
     this.state = {
       inputs: { ...props.data }
     }

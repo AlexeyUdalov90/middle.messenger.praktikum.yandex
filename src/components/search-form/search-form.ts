@@ -1,15 +1,11 @@
 import { Block } from '../../core';
+import { SearchFormI } from '../../interfaces';
 import './search-form.css';
-
-interface SearchFormProps {
-  value?: string;
-  onSubmit: () => {};
-}
 
 export class SearchForm extends Block {
   static componentName = 'SearchForm';
 
-  constructor({ onSubmit, ...props }: SearchFormProps) {
+  constructor({ onSubmit, ...props }: SearchFormI) {
     super({
       ...props,
       events: {

@@ -1,22 +1,11 @@
 import { Block } from '../../core';
+import { ConversationI } from '../../interfaces';
 import './conversation.css';
-
-interface ConversationProps {
-  className?: string;
-  isActive: boolean;
-  userName: string;
-  message: {
-    text: string;
-    isPersonal: boolean;
-  },
-  date: string;
-  newMessages?: number;
-}
 
 export class Conversation extends Block {
   static componentName = 'Conversation';
 
-  constructor(props: ConversationProps) {
+  constructor(props: ConversationI) {
     super({...props});
   }
 

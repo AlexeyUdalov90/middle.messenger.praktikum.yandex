@@ -1,17 +1,11 @@
-import {Block} from '../../core';
+import { Block } from '../../core';
+import { ButtonI } from '../../interfaces';
 import './button.css';
-
-interface ButtonProps {
-  text: string,
-  className?: string
-  type?: 'button' | 'submit' | 'reset',
-  disabled?: boolean
-}
 
 export class Button extends Block {
   static componentName = 'Button';
 
-  constructor({ type = 'button', ...props }: ButtonProps) {
+  constructor({ type = 'button', ...props }: ButtonI) {
     super({
       ...props,
       type

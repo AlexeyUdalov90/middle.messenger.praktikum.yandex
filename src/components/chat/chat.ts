@@ -1,24 +1,11 @@
 import { Block } from '../../core';
+import { ChatI } from '../../interfaces';
 import './chat.css'
-
-interface ChatProps {
-  data: Nullable<{
-    userName: string;
-    messages: Array<MessageProps>;
-  }>
-}
-
-interface MessageProps {
-  className?: string;
-  text: string;
-  time: string;
-  isMy: boolean;
-}
 
 export class Chat extends Block {
   static componentName = 'Chat';
 
-  constructor(props: ChatProps) {
+  constructor(props: ChatI) {
     super({...props});
   }
 

@@ -1,4 +1,4 @@
-import {Block} from '../../core';
+import { Block } from '../../core';
 import './avatar.css';
 
 export class Avatar extends Block {
