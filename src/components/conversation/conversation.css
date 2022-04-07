@@ -1,0 +1,81 @@
+.conversation {
+  position: relative;
+  padding: 12px 0;
+  cursor: pointer;
+
+  &.active::after {
+    content: "";
+    position: absolute;
+    top: 2px;
+    right: -10px;
+    bottom: 2px;
+    left: -10px;
+    background-color: var(--main-message-color);
+  }
+
+  &__content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+  }
+
+  &__avatar {
+    flex-shrink: 0;
+    margin-right: 10px;
+    width: 47px;
+    height: 47px;
+    background-color: var(--interface-color);
+    border-radius: 50%;
+  }
+
+  &__wrapper {
+    position: relative;
+    flex-grow: 1;
+    padding-right: 40px;
+  }
+
+  &__name {
+    display: block;
+    margin-bottom: 4px;
+    padding-right: 25px;
+    font-size: 13px;
+    line-height: 13px;
+    font-weight: 600;
+  }
+
+  &__last-message {
+    max-height: 30px;
+    font-size: 12px;
+    line-height: 15px;
+    color: var(--other-text-color);
+    overflow: hidden;
+  }
+
+  &__you {
+    color: #000000;
+  }
+
+  &__time {
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-size: 9px;
+    line-height: 13px;
+    color: var(--other-text-color);
+  }
+
+  &__badge {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    padding: 4px;
+    min-width: 20px;
+    height: 20px;
+    font-size: 11px;
+    line-height: 12px;
+    color: #ffffff;
+    text-align: center;
+    background-color: var(--app-color);
+    border-radius: 50%;
+  }
+}

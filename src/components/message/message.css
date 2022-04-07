@@ -1,0 +1,47 @@
+.message {
+  padding: 10px;
+  max-width: 402px;
+  background-color: var(--interface-color);
+  border-radius: 6px 6px 0;
+
+  &.my {
+    background-color: var(--main-message-color);
+    border-radius: 6px 6px 0 6px;
+  }
+
+  &__text {
+    margin: 0;
+    font-size: 12px;
+    line-height: 15px;
+
+    & + & {
+      margin-top: 15px;
+    }
+  }
+
+  &__info {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    margin-top: 5px;
+  }
+
+  &__status {
+    margin-right: 4px;
+    width: 10px;
+    height: 4px;
+    background-image: url("../../../static/images/status-icon.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+
+  &__time {
+    font-size: 9px;
+    line-height: 9px;
+    color: var(--other-text-color);
+
+    .message.my & {
+      color: var(--app-color);
+    }
+  }
+}
