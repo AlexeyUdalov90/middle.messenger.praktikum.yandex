@@ -9,6 +9,8 @@ interface ButtonProps {
 }
 
 export class Button extends Block {
+  static componentName = 'Button';
+
   constructor({ type = 'button', ...props }: ButtonProps) {
     super({
       ...props,

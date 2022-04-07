@@ -1,7 +1,9 @@
-import {Block} from '../../core';
+import { Block } from '../../core';
 import './error.css';
 
 export class ErrorPage extends Block {
+  static componentName = 'ErrorPage';
+
   render() {
     // language=hbs
     return `

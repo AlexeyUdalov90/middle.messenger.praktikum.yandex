@@ -2,6 +2,8 @@ import { Block } from '../../core';
 import './profile.css';
 
 export class ProfilePage extends Block {
+  static componentName = 'ProfilePage';
+
   protected getStateFromProps() {
     this.state = {
       data: {

@@ -3,26 +3,19 @@ import { checkValidation } from '../../services';
 import '../../styles/login.css';
 
 export class SignInPage extends Block {
+  static componentName = 'SignInPage';
+
   constructor() {
     super({
       events: {
-        focusout: (e: Event) => {
-          const input = e.target as HTMLInputElement;
-
-          this.setState({
-            [input.name]: {
-              value: input.value,
-              error: checkValidation(input.name, input.value)
-            }
-          });
-        },
         submit: (e: Event) => {
           e.preventDefault();
-          const nextSate = Object.entries(this.refs).reduce((res: any, [name, item]) => {
+          const newInputsState = Object.entries(this.refs).reduce((res: any, [name, item]) => {
             const input = item.querySelector('input') as HTMLInputElement;
 
             if (input) {
               res[name] = {
+                ...this.state.inputs[name],
                 value: input.value,
                 error: checkValidation(name, input.value)
               };
@@ -31,9 +24,11 @@ export class SignInPage extends Block {
             return res;
           }, {});
 
-          this.setState(nextSate);
+          this.setState({
+            inputs: { ...newInputsState }
+          });
 
-          const { email, login, firstName, secondName, phone, password } = this.state;
+          const { email, login, firstName, secondName, phone, password } = this.state.inputs;
 
           console.log({
             email: email.value,
@@ -51,48 +46,70 @@ export class SignInPage extends Block {
   protected getStateFromProps() {
     this.state = {
       title: 'Регистрация',
-      email: {
-        value: '',
-        error: ''
-      },
-      login: {
-        value: '',
-        error: ''
-      },
-      firstName: {
-        value: '',
-        error: ''
-      },
-      secondName: {
-        value: '',
-        error: ''
-      },
-      phone: {
-        value: '',
-        error: ''
-      },
-      password: {
-        value: '',
-        error: ''
+      inputs: {
+        email: {
+          label: 'Почта',
+          ref: 'email',
+          name: 'email',
+          type: 'email',
+          value: '',
+          error: ''
+        },
+        login: {
+          label: 'Логин',
+          ref: 'login',
+          name: 'login',
+          type: 'text',
+          value: '',
+          error: ''
+        },
+        firstName: {
+          label: 'Имя',
+          ref: 'firstName',
+          name: 'firstName',
+          type: 'text',
+          value: '',
+          error: ''
+        },
+        secondName: {
+          label: 'Фамилия',
+          ref: 'secondName',
+          name: 'secondName',
+          type: 'text',
+          value: '',
+          error: ''
+        },
+        phone: {
+          label: 'Телефон',
+          ref: 'phone',
+          name: 'phone',
+          type: 'tel',
+          value: '',
+          error: ''
+        },
+        password: {
+          label: 'Пароль',
+          ref: 'password',
+          name: 'password',
+          type: 'password',
+          value: '',
+          error: ''
+        }
       }
+
     }
   }
 
   render() {
-    const { email, login, firstName, secondName, phone, password } = this.state;
-
     // language=hbs
     return `
       <section class="section login">
         <div class="login__content">
           <h2 class="title login__title">{{title}}</h2>
             <form class="login__form">
-              {{{FormField className="login__input" ref="email" label="Почта" type="email" name="email" value="${email.value}" error="${email.error}"}}}
-              {{{FormField className="login__input" ref="login" label="Логин" type="text" name="login" value="${login.value}" error="${login.error}"}}}
-              {{{FormField className="login__input" ref="firstName" label="Имя" type="text" name="firstName" value="${firstName.value}" error="${firstName.error}"}}}
-              {{{FormField className="login__input" ref="secondName" label="Фамилия" type="text" name="secondName" value="${secondName.value}" error="${secondName.error}"}}}
-              {{{FormField className="login__input" ref="phone" label="Телефон" type="tel" name="phone" value="${phone.value}" error="${phone.error}"}}}
-              {{{FormField className="login__input" ref="password" label="Пароль" type="password" name="password" value="${password.value}" error="${password.error}"}}}
+              {{#each inputs}}
+                {{{FormField className="login__input" ref=ref label=label type=type name=name value=value error=error}}}
+              {{/each}}
               {{{Button type="submit" text="Зарегистрироваться" className="login__button"}}}
             </form>
             <a class="login__link" href="./login.html">Войти</a>

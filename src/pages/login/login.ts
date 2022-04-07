@@ -3,48 +3,12 @@ import { checkValidation } from '../../services';
 import '../../styles/login.css'
 
 export class LoginPage extends Block {
+  static componentName = 'LoginPage';
+
   constructor() {
     super({
       events: {
-        focusout: (e: Event) => {
-          const input = e.target as HTMLInputElement;
-
-          if (input.value !== this.state.inputs[input.name].value) {
-            this.setState({
-              inputs: {
-                ...this.state.inputs,
-                [input.name]: {
-                  ...this.state.inputs[input.name],
-                  value: input.value,
-                  error: checkValidation(input.name, input.value),
-                  isFocus: false
-                }
-              }
-            });
-          }
-
-          console.log(`Blur ${input.name}`, { ...this.state.inputs });
-        },
-        focusin: (e: Event) => {
-          const input = e.target as HTMLInputElement;
-
-          if (!this.state.inputs[input.name].isFocus) {
-            this.setState({
-              inputs: {
-                ...this.state.inputs,
-                [input.name]: {
-                  ...this.state.inputs[input.name],
-                  value: input.value,
-                  error: checkValidation(input.name, input.value),
-                  isFocus: true
-                }
-              }
-            });
-          }
-
-          console.log(`Focus ${input.name}`, { ...this.state.inputs });
-        },
-        submit: (e: Event) => {
+        submit: (e: Event): void => {
           e.preventDefault();
           const newInputsState = Object.entries(this.refs).reduce((res: any, [name, item]) => {
             const input = item.querySelector('input') as HTMLInputElement;
@@ -85,8 +49,7 @@ export class LoginPage extends Block {
           name: 'login',
           type: 'text',
           value: '',
-          error: '',
-          isFocus: false
+          error: ''
         },
         password: {
           label: 'Пароль',
@@ -94,8 +57,7 @@ export class LoginPage extends Block {
           name: 'password',
           type: 'password',
           value: '',
-          error: '',
-          isFocus: false
+          error: ''
         }
       }
     }
@@ -110,7 +72,7 @@ export class LoginPage extends Block {
           <h2 class="title login__title">{{title}}</h2>
           <form class="login__form">
             {{#each inputs}}
-              {{{FormField className="login__input" ref=ref label=label type=type name=name value=value error=error isFocus=isFocus}}}
+              {{{FormField className="login__input" ref=ref label=label type=type name=name value=value error=error}}}
             {{/each}}
             {{{Button type="submit" text="Авторизоваться" className="login__button"}}}
           </form>

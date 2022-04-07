@@ -1,38 +1,62 @@
 import { Block } from '../../core';
+import { checkValidation } from '../../services';
 import './form-field.css';
 
 interface FormFieldProps {
-  type?: 'text' | 'password' | 'email';
+  type?: 'text' | 'password' | 'email' | 'tel';
   placeholder?: string;
   label: string;
   value: string;
   name?: string;
   error?: string;
   className?: string;
-  isFocus?: boolean
 }
 
 export class FormField extends Block {
+  static componentName = 'FormField';
+
   constructor(props: FormFieldProps) {
-    super({...props});
+    super({
+      ...props,
+      events: {
+        focusout: (e: Event) => {
+          const input = e.target as HTMLInputElement;
+
+          if (input.value !== this.state.value) {
+            this.setState({
+              value: input.value,
+              error: checkValidation(input.name, input.value)
+            });
+          }
+        },
+        focusin: (e: Event) => {
+          const input = e.target as HTMLInputElement;
+          const idErrorComp: string = this.refs.error.dataset.id ?? '';
+
+          this.setChildState(idErrorComp, {
+            error: checkValidation(input.name, input.value)
+          });
+        }
+      }
+    });
   }
 
-  componentDidMount() {
-    if (this.props.isFocus) {
-      const input = this.element?.querySelector('input') as HTMLInputElement;
-
-      input.focus();
-    }
+  protected getStateFromProps({ value, error }: any) {
+    this.state = {
+      value,
+      error
+    };
   }
 
   render() {
+    const { value, error } = this.state;
     // language=hbs
 
     return `
-      <label class="form-field {{className}} {{#if error}}form-field_error{{/if}}">
+      <label class="form-field {{className}} form-field_error">
         <span class="form-field__label">{{label}}</span>
-        <input class="form-field__input" type="{{type}}" value="{{value}}" name="{{name}}" placeholder="{{placeholder}}">
-        <p class="form-field__error">{{error}}</p>
+        <input class="form-field__input" type="{{type}}" value="${value}" name="{{name}}" placeholder="{{placeholder}}">
+        {{{FormFieldError ref="error" error="${error}"}}}
       </label>
     `;
   }

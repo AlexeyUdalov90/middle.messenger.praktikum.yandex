@@ -2,6 +2,8 @@ import {Block} from '../../core';
 import './avatar.css';
 
 export class Avatar extends Block {
+  static componentName = 'Avatar';
+
   render() {
     // language=hbs
     return `

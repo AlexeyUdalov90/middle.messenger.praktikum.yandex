@@ -20,14 +20,9 @@
   }
 
   &__error {
-    display: none;
     margin: 7px 0 0;
     font-size: 0.5rem;
     line-height: 1;
     color: var(--error-color);
-
-    .form-field_error & {
-      display: block;
-    }
   }
 }
