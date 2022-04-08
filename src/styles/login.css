@@ -9,9 +9,9 @@
     padding: 50px 30px 30px;
     width: 340px;
     min-height: 450px;
-    background-color: #fff;
+    background-color: #ffffff;
     border-radius: 12px;
-    box-shadow: 0 0 6px rgba(0, 0, 0, 0.14);
+    box-shadow: 0 0 6px rgb(0 0 0 / 14%);
   }
 
   &__title {
@@ -22,21 +22,8 @@
   }
 
   &__form {
-    display: flex;
-    flex-direction: column;
     flex-grow: 1;
     margin-bottom: 14px;
-  }
-
-  &__input {
-    margin-bottom: 16px;
-    &:last-of-type {
-      margin-bottom: 47px;
-    }
-  }
-
-  &__button {
-    margin-top: auto;
   }
 
   &__link {

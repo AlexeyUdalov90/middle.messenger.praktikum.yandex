@@ -8,3 +8,38 @@
     flex-grow: 1;
   }
 }
+
+.messenger-panel {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+
+  &__top {
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    padding: 20px 10px 14px;
+  }
+
+  &__profile {
+    align-self: flex-end;
+    margin-bottom: 23px;
+    font-size: 12px;
+    line-height: 12px;
+    color: var(--other-text-color);
+  }
+
+  &__conversations {
+    flex-grow: 1;
+    padding: 0 10px;
+    overflow-y: auto;
+  }
+
+  &__conversations-item {
+    border-top: 1px solid var(--decor-color);
+
+    &:last-child {
+      border-bottom: 1px solid var(--decor-color);
+    }
+  }
+}

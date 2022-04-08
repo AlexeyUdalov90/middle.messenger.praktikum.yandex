@@ -1,0 +1,19 @@
+{
+  "extends": "stylelint-config-standard",
+  "plugins": [
+    "stylelint-order"
+  ],
+  "rules": {
+    "order/order": [
+      "custom-properties",
+      "declarations"
+    ],
+    "color-hex-length": "long",
+    "custom-property-empty-line-before": "never",
+    "declaration-block-no-duplicate-properties": true
+  },
+  "ignoreFiles": [
+    "dist/*",
+    "node_modules/*"
+  ]
+}

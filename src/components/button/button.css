@@ -1,0 +1,30 @@
+.button {
+  padding: 12px;
+  min-width: 280px;
+  font-size: 0.8125rem;
+  line-height: 1;
+  color: #ffffff;
+  text-align: center;
+  background-color: var(--app-color);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+
+  &_text {
+    padding: 0;
+    min-width: auto;
+    color: var(--main-text-color);
+    background-color: transparent;
+    border-radius: 0;
+  }
+
+  &_icon {
+    padding: 0;
+    width: 28px;
+    min-width: auto;
+    height: 28px;
+    background-repeat: no-repeat;
+    background-position: center;
+    border-radius: 50%;
+  }
+}
