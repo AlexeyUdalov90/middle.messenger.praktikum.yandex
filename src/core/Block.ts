@@ -84,21 +84,21 @@ export default class Block<P = any> {
     return true;
   }
 
-  setProps = (nextProps: P) => {
+  setProps (nextProps: P) {
     if (!nextProps) {
       return;
     }
 
     Object.assign(this.props, nextProps);
-  };
+  }
 
-  setState = (nextState: any) => {
+  setState (nextState: any) {
     if (!nextState) {
       return;
     }
 
     Object.assign(this.state, nextState);
-  };
+  }
 
   setChildState (childId: string, nextState: any) {
     const isHasChild = Object.keys(this.children).includes(childId);
@@ -229,7 +229,6 @@ export default class Block<P = any> {
 
     return fragment.content;
   }
-
 
   show() {
     this.getContent().style.display = 'block';
