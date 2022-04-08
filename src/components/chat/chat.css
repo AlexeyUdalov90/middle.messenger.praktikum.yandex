@@ -79,13 +79,13 @@
       width: 3px;
       height: 3px;
       border-radius: 50%;
-      background-color: currentColor;
+      background-color: currentcolor;
       transform: translateX(-50%);
     }
 
     &::before {
       top: 5px;
-      box-shadow: 0 6px 0 currentColor;
+      box-shadow: 0 6px 0 currentcolor;
     }
 
     &::after {
@@ -98,7 +98,7 @@
     flex-direction: column-reverse;
     flex-grow: 1;
     padding: 30px 20px;
-    overflow-y: auto
+    overflow-y: auto;
   }
 
   &__date {
