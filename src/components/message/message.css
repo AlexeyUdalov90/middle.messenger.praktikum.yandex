@@ -6,7 +6,7 @@
 
   &.my {
     background-color: var(--main-message-color);
-    border-radius: 6px 6px 0 6px;
+    border-radius: 6px 6px 0;
   }
 
   &__text {
