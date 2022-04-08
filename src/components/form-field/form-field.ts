@@ -1,12 +1,12 @@
 import { Block } from '../../core';
 import { checkValidation } from '../../services';
-import { FormFieldI } from '../../interfaces';
+import { IFormField } from '../../interfaces';
 import './form-field.css';
 
 export class FormField extends Block {
   static componentName = 'FormField';
 
-  constructor(props: FormFieldI) {
+  constructor(props: IFormField) {
     super({
       ...props,
       events: {

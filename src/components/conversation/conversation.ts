@@ -1,11 +1,11 @@
 import { Block } from '../../core';
-import { ConversationI } from '../../interfaces';
+import { IConversation } from '../../interfaces';
 import './conversation.css';
 
 export class Conversation extends Block {
   static componentName = 'Conversation';
 
-  constructor(props: ConversationI) {
+  constructor(props: IConversation) {
     super({...props});
   }
 

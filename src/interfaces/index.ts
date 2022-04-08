@@ -1,18 +1,18 @@
-export interface MessageI {
+export interface IMessage {
   className?: string;
   text: string;
   time: string;
   isMy: boolean;
 }
 
-export interface ChatI {
+export interface IChat {
   data: Nullable<{
     userName: string;
-    messages: Array<MessageI>;
+    messages: Array<IMessage>;
   }>
 }
 
-export interface FormFieldI {
+export interface IFormField {
   type?: 'text' | 'password' | 'email' | 'tel';
   placeholder?: string;
   label: string;
@@ -22,30 +22,28 @@ export interface FormFieldI {
   className?: string;
 }
 
-export interface FormFieldErrorI {
+export interface IFormFieldError {
   error: string;
 }
 
-export interface FormI {
+export interface IForm {
   className: string;
   buttonText: string;
-  data: {
-    [key: string]: FormFieldI;
-  }
+  data: Record<string, IFormField>
 }
 
-export interface SubmitFormI {
+export interface ISubmitForm {
   [key: string]: string;
 }
 
-export interface ButtonI {
+export interface IButton {
   text: string,
   className?: string
   type?: 'button' | 'submit' | 'reset',
   disabled?: boolean
 }
 
-export interface ConversationI {
+export interface IConversation {
   className?: string;
   isActive: boolean;
   userName: string;
@@ -57,7 +55,7 @@ export interface ConversationI {
   newMessages?: number;
 }
 
-export interface SearchFormI {
+export interface ISearchForm {
   value?: string;
   onSubmit: () => {};
 }

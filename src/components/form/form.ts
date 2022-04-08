@@ -1,19 +1,19 @@
 import { Block } from '../../core';
 import { checkValidation } from '../../services';
-import { FormI, SubmitFormI, FormFieldI } from '../../interfaces';
+import { IForm, ISubmitForm, IFormField } from '../../interfaces';
 import './form.css';
 
 export class Form extends Block {
   static componentName = 'Form';
 
-  constructor(props: FormI) {
+  constructor(props: IForm) {
     super({
       ...props,
       events: {
         submit: (e: Event) => {
           e.preventDefault();
           const newInputsState = Object.entries(this.refs).reduce((res: any, [name, item]) => {
-            const input = item.querySelector('input') as HTMLInputElement;
+            const input = item.querySelector<HTMLInputElement>('input');
 
             if (input) {
               res[name] = {
@@ -30,8 +30,8 @@ export class Form extends Block {
             inputs: { ...newInputsState }
           });
 
-          const result: SubmitFormI = Object.entries(this.state.inputs).reduce((submitRes: any, [key, data ]) => {
-            submitRes[key] = (data as FormFieldI).value;
+          const result: ISubmitForm = Object.entries(this.state.inputs).reduce((submitRes: any, [key, data ]) => {
+            submitRes[key] = (data as IFormField).value;
 
             return submitRes;
           }, {});
@@ -42,7 +42,7 @@ export class Form extends Block {
     });
   }
 
-  protected getStateFromProps(props: FormI) {
+  protected getStateFromProps(props: IForm) {
     this.state = {
       inputs: { ...props.data }
     }

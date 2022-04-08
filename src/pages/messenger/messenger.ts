@@ -56,7 +56,7 @@ export class MessengerPage extends Block {
       onSearchHandler: (e: Event): void => {
         e.preventDefault();
 
-        const searchInput = this.refs.search.querySelector('input') as HTMLInputElement;
+        const searchInput = this.refs.search.querySelector<HTMLInputElement>('input');
 
         if (searchInput) {
           console.log({

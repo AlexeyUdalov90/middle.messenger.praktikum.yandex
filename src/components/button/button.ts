@@ -1,11 +1,11 @@
 import { Block } from '../../core';
-import { ButtonI } from '../../interfaces';
+import { IButton } from '../../interfaces';
 import './button.css';
 
 export class Button extends Block {
   static componentName = 'Button';
 
-  constructor({ type = 'button', ...props }: ButtonI) {
+  constructor({ type = 'button', ...props }: IButton) {
     super({
       ...props,
       type

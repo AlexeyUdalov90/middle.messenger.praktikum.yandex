@@ -10,7 +10,7 @@ export class ChatForm extends Block {
         submit: (e: Event) => {
           e.preventDefault();
 
-          const input = this.element?.querySelector('input') as HTMLInputElement;
+          const input = this.element?.querySelector<HTMLInputElement>('input');
 
           if (input && input.value) {
             console.log({

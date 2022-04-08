@@ -1,14 +1,15 @@
-const METHODS = {
-  GET: 'GET',
-  PUT: 'PUT',
-  POST: 'POST',
-  DELETE: 'DELETE'
-};
+enum METHOD {
+  GET = 'GET',
+  POST = 'POST',
+  PUT = 'PUT',
+  PATCH = 'PATCH',
+  DELETE = 'DELETE'
+}
 
 type RequestData = Record<string, any>;
 type RequestOptions = {
   data?: RequestData;
-  method?: string;
+  method?: METHOD;
   headers?: Record<string, string>;
   timeout?: number;
 };
@@ -25,19 +26,19 @@ function queryStringify(data: RequestData): string {
 
 export default class HTTPTransport {
   get = (url: string, options: RequestOptions = {}): Promise<XMLHttpRequest> => {
-    return this.request(url, {...options, method: METHODS.GET}, options.timeout);
+    return this.request(url, {...options, method: METHOD.GET}, options.timeout);
   };
 
   put = (url: string, options: RequestOptions = {}): Promise<XMLHttpRequest> => {
-    return this.request(url, {...options, method: METHODS.PUT}, options.timeout);
+    return this.request(url, {...options, method: METHOD.PUT}, options.timeout);
   };
 
   post = (url: string, options: RequestOptions = {}): Promise<XMLHttpRequest> => {
-    return this.request(url, {...options, method: METHODS.POST}, options.timeout);
+    return this.request(url, {...options, method: METHOD.POST}, options.timeout);
   };
 
   delete = (url: string, options: RequestOptions = {}): Promise<XMLHttpRequest> => {
-    return this.request(url, {...options, method: METHODS.DELETE}, options.timeout);
+    return this.request(url, {...options, method: METHOD.DELETE}, options.timeout);
   };
 
   fetch = (url: string, options: RequestOptions = {}): Promise<XMLHttpRequest> => {
@@ -45,7 +46,7 @@ export default class HTTPTransport {
   };
 
   request = (url: string, options: RequestOptions, timeout: number = 5000): Promise<XMLHttpRequest> => {
-    const {method = METHODS.GET, data, headers = {}} = options;
+    const {method = METHOD.GET, data, headers = {}} = options;
 
     return new Promise((resolve, reject) => {
       if (!method) {
@@ -54,7 +55,7 @@ export default class HTTPTransport {
         return;
       }
       const xhr = new XMLHttpRequest();
-      const isGet = method === METHODS.GET;
+      const isGet = method === METHOD.GET;
 
       xhr.open(method, isGet && !!data ? `${url}${queryStringify(data)}` : url)
 

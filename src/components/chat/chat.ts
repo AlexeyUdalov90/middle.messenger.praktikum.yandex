@@ -1,11 +1,11 @@
 import { Block } from '../../core';
-import { ChatI } from '../../interfaces';
+import { IChat } from '../../interfaces';
 import './chat.css'
 
 export class Chat extends Block {
   static componentName = 'Chat';
 
-  constructor(props: ChatI) {
+  constructor(props: IChat) {
     super({...props});
   }
 

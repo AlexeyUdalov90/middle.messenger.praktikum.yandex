@@ -23,7 +23,7 @@
   }
 
   &__logout-button {
-    color: #ff0000;
+    color: var(--logout-color);
   }
 }
 
