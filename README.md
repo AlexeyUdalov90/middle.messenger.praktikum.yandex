@@ -16,6 +16,6 @@
 `` npm run build `` - сборка проекта
 
 [figma]: https://www.figma.com/file/jGQ5nai3MKe0qjefYOhhoY/YP-Messenger-prototype
-[netlify]: https://confident-khorana-16071d.netlify.app
+[netlify]: https://bright-sprinkles-ee9918.netlify.app/
 [typescript]: https://www.typescriptlang.org
 [handlebars]: https://handlebarsjs.com
