@@ -2,6 +2,8 @@
 
 Это учебный проект курса Middle frontend-developer от Яндекс Практикума
 
+Проект использует [TypeScript][typescript], все страницы собираются на клиненте с помощью шаблонизатора [Handlebars][handlebars].
+
 Ссылка на прототип проекта в [Figma][figma]
 Ссылка на настроенный [Netlify][netlify]
 
@@ -15,3 +17,5 @@
 
 [figma]: https://www.figma.com/file/jGQ5nai3MKe0qjefYOhhoY/YP-Messenger-prototype
 [netlify]: https://confident-khorana-16071d.netlify.app
+[typescript]: https://www.typescriptlang.org
+[handlebars]: https://handlebarsjs.com
