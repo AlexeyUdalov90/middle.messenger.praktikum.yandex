@@ -11,5 +11,9 @@
     "color-hex-length": "long",
     "custom-property-empty-line-before": "never",
     "declaration-block-no-duplicate-properties": true
-  }
+  },
+  "ignoreFiles": [
+    "dist/*",
+    "node_modules/*"
+  ]
 }
