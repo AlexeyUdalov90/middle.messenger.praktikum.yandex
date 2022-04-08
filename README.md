@@ -1,7 +1,5 @@
 #Чат
 
-Sprint 2 https://github.com/AlexeyUdalov90/middle.messenger.praktikum.yandex/pull/2
-
 Это учебный проект курса Middle frontend-developer от Яндекс Практикума
 
 Ссылка на прототип проекта в [Figma][figma]
