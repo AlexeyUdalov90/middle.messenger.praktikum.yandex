@@ -36,7 +36,7 @@ export class LoginPage extends Block {
         <div class="login__content">
           <h2 class="title login__title">{{title}}</h2>
           {{{Form className="login__form" data=inputs buttonText="Авторизоваться"}}}
-          <a class="login__link" href="./signin.html">Нет аккаунта?</a>
+          {{{Link className="login__link" to="/signin" text="Нет аккаунта?"}}}
         </div>
       </section>
     `;

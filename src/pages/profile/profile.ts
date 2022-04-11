@@ -41,7 +41,7 @@ export class ProfilePage extends Block {
     return `
       <section class="section profile">
         <div class="left-bar profile__left">
-          <a class="profile__back" href="./messenger.html"></a>
+          {{{Link className="profile__back" to="/chats"}}}
         </div>
         <div class="profile__right">
           <div class="profile__content">
@@ -59,10 +59,10 @@ export class ProfilePage extends Block {
             </ul>
             <ul class="profile-data">
               <li class="profile-data__item">
-                <a href="./change-profile.html">Изменить данные</a>
+                {{{Link to="/change-profile" text="Изменить данные"}}}
               </li>
               <li class="profile-data__item">
-                <a href="./change-password.html">Изменить пароль</a>
+                {{{Link to="/change-password" text="Изменить пароль"}}}
               </li>
               <li class="profile-data__item">
                 {{{Button className="button_text profile-data__logout-button" text="Выйти"}}}

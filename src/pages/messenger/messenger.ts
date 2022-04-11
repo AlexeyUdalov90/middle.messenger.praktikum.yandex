@@ -75,7 +75,7 @@ export class MessengerPage extends Block {
         <div class="left-bar messenger__left">
           <div class="messenger__panel messenger-panel">
             <div class="messenger-panel__top">
-              <a class="messenger-panel__profile" href="./profile.html">Профиль ></a>
+              {{{Link className="messenger-panel__profile" to="/profile" text="Профиль >"}}}
               {{{SearchForm
                   ref="search"
                   value=searchValue

@@ -1,5 +1,4 @@
 import { Block } from '../../core';
-import { checkValidation } from '../../services';
 import '../../styles/login.css';
 
 export class SignInPage extends Block {
@@ -68,7 +67,7 @@ export class SignInPage extends Block {
         <div class="login__content">
           <h2 class="title login__title">{{title}}</h2>
             {{{Form className="login__form" data=inputs buttonText="Зарегистрироваться"}}}
-            <a class="login__link" href="./login.html">Войти</a>
+            {{{Link className="login__link" to="/" text="Войти"}}}
           </div>
       </section>
     `;

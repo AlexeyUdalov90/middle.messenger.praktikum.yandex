@@ -1,6 +1,6 @@
-import { Block, renderDOM, registerComponent } from './core';
-import './styles/style.css';
-import ProfilePage from './pages/profile';
+import { Block, renderDOM, registerComponent } from '../core';
+import '../styles/style.css';
+import ErrorPage from '../pages/error';
 
 const components = require('./components/**/index.ts') as {[key: string]: { default: typeof Block }};
 
@@ -9,5 +9,5 @@ Object.values(components).forEach(component => {
 });
 
 document.addEventListener('DOMContentLoaded', () => {
-  renderDOM(ProfilePage);
+  renderDOM(ErrorPage);
 });

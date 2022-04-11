@@ -41,7 +41,7 @@ export class ChangePasswordPage extends Block {
     return `
       <section class="section profile">
         <div class="left-bar profile__left">
-          <a class="profile__back" href="./profile.html"></a>
+          {{{Link className="profile__back" to="/profile"}}}
         </div>
         <div class="profile__right">
           <div class="profile__content">
