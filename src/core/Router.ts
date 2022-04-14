@@ -46,8 +46,7 @@ export default class Router {
       }
 
       this._currentRoute = route;
-      // Зачем в route.render передавать сам route и pathname
-      route.render(route, pathname);
+      route.render();
     }
   }
 
@@ -65,6 +64,8 @@ export default class Router {
   }
 
   getRoute(pathname: string): Route | undefined {
-    return this.routes.find(route => route.match(pathname));
+    const route = this.routes.find(route => route.match(pathname));
+
+    return route || this.routes.find(route => route.match('*'));
   }
 }

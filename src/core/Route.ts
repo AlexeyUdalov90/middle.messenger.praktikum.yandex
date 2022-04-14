@@ -1,17 +1,7 @@
-import Block from './Block';
+import { renderDOM, Block } from './index';
 
 function isEqual(lhs: any, rhs: any) {
   return lhs === rhs;
-}
-
-function render(query: string, block: Block<P>) {
-  const root = document.querySelector(query);
-
-  // root!.textContent = block.getContent();
-  root!.innerHTML = '';
-  root!.appendChild(block.getContent());
-
-  return root;
 }
 
 interface RouteProps {
@@ -49,15 +39,13 @@ export default class Route {
   }
 
   render(): void {
-
     if (!this._block) {
       this._block = new this._blockClass();
-      // render(this._props.rootQuery, this._block);
+      renderDOM(this._props.rootQuery, this._block);
 
-      // return;
+      return;
     }
 
-    render(this._props.rootQuery, this._block);
     this._block.show();
   }
 }

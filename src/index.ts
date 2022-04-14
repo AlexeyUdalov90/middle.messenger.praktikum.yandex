@@ -17,6 +17,7 @@ Object.values(components).forEach(component => {
 document.addEventListener('DOMContentLoaded', () => {
   const router = new Router('#app');
 
+  // TODO: Нужно добавить путь / и это будет MessengerPage и если пользователь не авториован то редиректить на /login
   router
     .use('/', LoginPage)
     .use('/signin', SignInPage)
@@ -25,5 +26,6 @@ document.addEventListener('DOMContentLoaded', () => {
     .use('/change-profile', ChangeProfilePage)
     .use('/change-password', ChangePasswordPage)
     .use('/error', ErrorPage)
+    .use('*', ErrorPage)
     .start();
 });
