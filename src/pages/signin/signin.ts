@@ -1,5 +1,6 @@
 import { Block } from '../../core';
 import '../../styles/login.css';
+import { createUser } from '../../services/auth';
 
 export class SignInPage extends Block {
   static componentName = 'SignInPage';
@@ -56,6 +57,9 @@ export class SignInPage extends Block {
           value: '',
           error: ''
         }
+      },
+      onSubmit: async (data: CreateUserData) => {
+        await createUser(data);
       }
     }
   }
@@ -66,7 +70,7 @@ export class SignInPage extends Block {
       <section class="section login">
         <div class="login__content">
           <h2 class="title login__title">{{title}}</h2>
-            {{{Form className="login__form" data=inputs buttonText="Зарегистрироваться"}}}
+            {{{Form className="login__form" data=inputs buttonText="Зарегистрироваться" onSubmit=onSubmit}}}
             {{{Link className="login__link" to="/" text="Войти"}}}
           </div>
       </section>

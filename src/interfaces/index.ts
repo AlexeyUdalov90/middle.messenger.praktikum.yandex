@@ -29,7 +29,8 @@ export interface IFormFieldError {
 export interface IForm {
   className: string;
   buttonText: string;
-  data: Record<string, IFormField>
+  data: Record<string, IFormField>;
+  onSubmit: (data: unknown) => {};
 }
 
 export interface ISubmitForm {

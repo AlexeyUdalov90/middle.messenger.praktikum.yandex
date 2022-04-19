@@ -1,5 +1,7 @@
 import { Block } from '../../core';
 import '../../styles/login.css'
+import { LoginRequestData } from '../../api/types';
+import { login } from '../../services/auth';
 
 export class LoginPage extends Block {
   static componentName = 'LoginPage';
@@ -24,6 +26,9 @@ export class LoginPage extends Block {
           value: '',
           error: ''
         }
+      },
+      onSubmit: async (data: LoginRequestData) => {
+        await login(data)
       }
     }
   }
@@ -35,7 +40,7 @@ export class LoginPage extends Block {
       <section class="section login">
         <div class="login__content">
           <h2 class="title login__title">{{title}}</h2>
-          {{{Form className="login__form" data=inputs buttonText="Авторизоваться"}}}
+          {{{Form className="login__form" data=inputs buttonText="Авторизоваться" onSubmit=onSubmit}}}
           {{{Link className="login__link" to="/signin" text="Нет аккаунта?"}}}
         </div>
       </section>

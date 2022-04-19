@@ -6,13 +6,13 @@ import './form.css';
 export class Form extends Block {
   static componentName = 'Form';
 
-  constructor(props: IForm) {
+  constructor({ onSubmit, ...props }: IForm) {
     super({
       ...props,
       events: {
         submit: (e: Event) => {
           e.preventDefault();
-          const newInputsState = Object.entries(this.refs).reduce((res: any, [name, item]) => {
+          const newInputsState = Object.entries(this.refs).reduce((res: Record<string, unknown>, [name, item]) => {
             const input = item.querySelector<HTMLInputElement>('input');
 
             if (input) {
@@ -30,13 +30,17 @@ export class Form extends Block {
             inputs: { ...newInputsState }
           });
 
-          const result: ISubmitForm = Object.entries(this.state.inputs).reduce((submitRes: any, [key, data ]) => {
-            submitRes[key] = (data as IFormField).value;
+          const isInvalid = Object.values(this.state.inputs).some(input => Boolean((input as IFormField).error));
 
-            return submitRes;
-          }, {});
+          if (!isInvalid) {
+            const result: ISubmitForm = Object.entries(this.state.inputs).reduce((submitRes: Record<string, string>, [key, data ]) => {
+              submitRes[key] = (data as IFormField).value;
 
-          console.log(result);
+              return submitRes;
+            }, {});
+
+            onSubmit(result);
+          }
         }
       }
     });

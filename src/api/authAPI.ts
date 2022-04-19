@@ -1,33 +1,23 @@
 import { HTTPTransport } from '../core';
-import { UserDTO, APIError } from './types';
-
-type LoginRequestData = {
-  login: string;
-  password: string;
-};
-
-type CreateUserRequestData = {
-  first_name: string;
-  second_name: string;
-  login: string;
-  email: string;
-  password: string;
-  phone: string;
-};
-
-type LoginResponseData = object | APIError;
+import {
+  UserDTO,
+  APIError,
+  LoginRequestData,
+  EmptyResponseData,
+  CreateUserDTO,
+} from './types';
 
 const http = new HTTPTransport('https://ya-praktikum.tech/api/v2');
 
 const authAPI = {
-  login: (data: LoginRequestData) => http.post<LoginResponseData>('/auth/signin', {
+  login: (data: LoginRequestData) => http.post<EmptyResponseData>('/auth/signin', {
     data,
     headers: {
       'content-type': 'application/json'
     }
   }),
-  logout: () => http.post<LoginResponseData>('/auth/logout'),
-  createUser: (data: CreateUserRequestData) => http.post<LoginResponseData>('/auth/signup', {
+  logout: () => http.post<EmptyResponseData>('/auth/logout'),
+  createUser: (data: CreateUserDTO) => http.post<CreateUserDTO | APIError>('/auth/signup', {
     data,
     headers: {
       'content-type': 'application/json'

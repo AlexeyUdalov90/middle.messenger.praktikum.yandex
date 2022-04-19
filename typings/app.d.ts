@@ -20,6 +20,14 @@ declare global {
     phone: string;
     avatar: string;
   }
+  export type CreateUserData = {
+    firstName: string;
+    secondName: string;
+    login: string;
+    email: string;
+    phone: string;
+    password: string;
+  }
 }
 
 export {}
