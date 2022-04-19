@@ -5,6 +5,14 @@ import { createUser } from '../../services/auth';
 export class SignInPage extends Block {
   static componentName = 'SignInPage';
 
+  constructor() {
+    super({
+      onSubmit: async (data: CreateUserData) => {
+        await createUser(data);
+      }
+    });
+  }
+
   protected getStateFromProps() {
     this.state = {
       title: 'Регистрация',
@@ -57,15 +65,13 @@ export class SignInPage extends Block {
           value: '',
           error: ''
         }
-      },
-      onSubmit: async (data: CreateUserData) => {
-        await createUser(data);
       }
     }
   }
 
   render() {
     // language=hbs
+
     return `
       <section class="section login">
         <div class="login__content">

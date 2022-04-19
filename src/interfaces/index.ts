@@ -30,7 +30,7 @@ export interface IForm {
   className: string;
   buttonText: string;
   data: Record<string, IFormField>;
-  onSubmit: (data: unknown) => {};
+  onSubmit: (data: unknown) => void;
 }
 
 export interface ISubmitForm {
@@ -38,10 +38,11 @@ export interface ISubmitForm {
 }
 
 export interface IButton {
-  text: string,
-  className?: string
-  type?: 'button' | 'submit' | 'reset',
-  disabled?: boolean
+  text: string;
+  className?: string;
+  type?: 'button' | 'submit' | 'reset';
+  disabled?: boolean;
+  onCLick?: () => void;
 }
 
 export interface IConversation {
@@ -58,5 +59,5 @@ export interface IConversation {
 
 export interface ISearchForm {
   value?: string;
-  onSubmit: () => {};
+  onSubmit: () => void;
 }

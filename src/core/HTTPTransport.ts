@@ -69,7 +69,15 @@ export default class HTTPTransport {
       })
 
       xhr.onload = function() {
-        resolve(JSON.parse(xhr.response));
+        const isJson = xhr.getResponseHeader('content-type')?.includes('application/json');
+
+        if (isJson) {
+          resolve(JSON.parse(xhr.response));
+        } else {
+          resolve(xhr.response)
+        }
+
+
       };
 
       xhr.onabort = reject;

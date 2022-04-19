@@ -6,6 +6,14 @@ import { login } from '../../services/auth';
 export class LoginPage extends Block {
   static componentName = 'LoginPage';
 
+  constructor() {
+    super({
+      onSubmit: async (data: LoginRequestData) => {
+        await login(data);
+      }
+    });
+  }
+
   protected getStateFromProps() {
     this.state = {
       title: 'Вход',
@@ -26,9 +34,6 @@ export class LoginPage extends Block {
           value: '',
           error: ''
         }
-      },
-      onSubmit: async (data: LoginRequestData) => {
-        await login(data)
       }
     }
   }

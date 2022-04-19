@@ -1,8 +1,15 @@
 import { Block } from '../../core';
 import '../../styles/profile.css';
+import { logout } from '../../services/auth';
 
 export class ProfilePage extends Block {
   static componentName = 'ProfilePage';
+
+  constructor() {
+    super({
+      onLogout: async () => await logout()
+    });
+  }
 
   protected getStateFromProps() {
     this.state = {
@@ -65,7 +72,7 @@ export class ProfilePage extends Block {
                 {{{Link to="/change-password" text="Изменить пароль"}}}
               </li>
               <li class="profile-data__item">
-                {{{Button className="button_text profile-data__logout-button" text="Выйти"}}}
+                {{{Button className="button_text profile-data__logout-button" text="Выйти" onCLick=onLogout}}}
               </li>
             </ul>
           </div>

@@ -5,10 +5,17 @@ import './button.css';
 export class Button extends Block {
   static componentName = 'Button';
 
-  constructor({ type = 'button', ...props }: IButton) {
+  constructor({ type = 'button', onCLick, ...props }: IButton) {
     super({
       ...props,
-      type
+      type,
+      events: {
+        click: () => {
+          if (typeof onCLick === 'function') {
+            onCLick()
+          }
+        }
+      }
     });
   }
 
