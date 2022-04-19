@@ -1,5 +1,6 @@
-import { Block, registerComponent, Router } from './core';
+import { Block, registerComponent, Router, Store } from './core';
 import './styles/style.css';
+import { initApp } from './services';
 import LoginPage from './pages/login';
 import SignInPage from './pages/signin';
 import MessengerPage from './pages/messenger';
@@ -14,10 +15,25 @@ Object.values(components).forEach(component => {
   registerComponent(component.default);
 });
 
+declare global {
+  interface Window {
+    store: Store;
+    router: Router;
+  }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   const router = new Router('#app');
+  const store = new Store();
 
-  // TODO: Нужно добавить путь / и это будет MessengerPage и если пользователь не авториован то редиректить на /login
+  /**
+   * Помещаем роутер и стор в глобальную область для доступа в хоках with*
+   */
+  window.router = router;
+  window.store = store;
+
+  console.log(process.env.API_BASE_URL)
+
   router
     .use('/', LoginPage)
     .use('/signin', SignInPage)
@@ -28,4 +44,11 @@ document.addEventListener('DOMContentLoaded', () => {
     .use('/error', ErrorPage)
     .use('*', ErrorPage)
     .start();
+
+  /**
+   * Загружаем данные для приложения
+   */
+  setTimeout(() => {
+    initApp();
+  }, 100);
 });

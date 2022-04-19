@@ -1,4 +1,4 @@
-import { Block, Router } from '../../core';
+import { Block } from '../../core';
 
 interface ILink {
   to: string;
@@ -16,9 +16,7 @@ export class Link extends Block {
         click: (e: Event) => {
           e.preventDefault();
 
-          const router = new Router('#app');
-
-          router.go(this.props.to);
+          window.router.go(this.props.to);
         }
       }
     });

@@ -6,6 +6,20 @@ declare global {
   export type PlainObject<T = unknown> = {
     [k in string]: T;
   };
+  export type AppState = {
+    isLoading: boolean;
+    user: User | null;
+  };
+  export type User = {
+    id: number;
+    firstName: string;
+    secondName: string;
+    displayName: string;
+    login: string;
+    email: string;
+    phone: string;
+    avatar: string;
+  }
 }
 
 export {}

@@ -1,3 +1,5 @@
+import { queryStringify } from '../utils'
+
 enum METHOD {
   GET = 'GET',
   POST = 'POST',
@@ -6,7 +8,7 @@ enum METHOD {
   DELETE = 'DELETE'
 }
 
-type RequestData = Record<string, any>;
+type RequestData = Record<string, unknown>;
 type RequestOptions = {
   data?: RequestData;
   method?: METHOD;
@@ -14,38 +16,34 @@ type RequestOptions = {
   timeout?: number;
 };
 
-function queryStringify(data: RequestData): string {
-  return Object.entries(data).reduce((res, [key, value], index) => {
-    if (value.toString) {
-      value = value.toString()
-    }
-
-    return index > 0 ?`${res}&${key}=${value}` : `${res}${key}=${value}`
-  }, '?')
-}
-
 export default class HTTPTransport {
-  get = (url: string, options: RequestOptions = {}): Promise<XMLHttpRequest> => {
-    return this.request(url, {...options, method: METHOD.GET}, options.timeout);
+  protected apiBaseUrl: string | undefined;
+
+  constructor(baseUrl?: string) {
+    this.apiBaseUrl = baseUrl
+  }
+
+  get = <T>(url: string, options: RequestOptions = {}): Promise<T> => {
+    return this.request<T>(url, {...options, method: METHOD.GET}, options.timeout);
   };
 
-  put = (url: string, options: RequestOptions = {}): Promise<XMLHttpRequest> => {
-    return this.request(url, {...options, method: METHOD.PUT}, options.timeout);
+  put = <T>(url: string, options: RequestOptions = {}): Promise<T> => {
+    return this.request<T>(url, {...options, method: METHOD.PUT}, options.timeout);
   };
 
-  post = (url: string, options: RequestOptions = {}): Promise<XMLHttpRequest> => {
-    return this.request(url, {...options, method: METHOD.POST}, options.timeout);
+  post = <T>(url: string, options: RequestOptions = {}): Promise<T> => {
+    return this.request<T>(url, {...options, method: METHOD.POST}, options.timeout);
   };
 
-  delete = (url: string, options: RequestOptions = {}): Promise<XMLHttpRequest> => {
-    return this.request(url, {...options, method: METHOD.DELETE}, options.timeout);
+  delete = <T>(url: string, options: RequestOptions = {}): Promise<T> => {
+    return this.request<T>(url, {...options, method: METHOD.DELETE}, options.timeout);
   };
 
-  fetch = (url: string, options: RequestOptions = {}): Promise<XMLHttpRequest> => {
-    return this.request(url, options, options.timeout);
+  fetch = <T>(url: string, options: RequestOptions = {}): Promise<T> => {
+    return this.request<T>(url, options, options.timeout);
   };
 
-  request = (url: string, options: RequestOptions, timeout: number = 5000): Promise<XMLHttpRequest> => {
+  request = <T>(url: string, options: RequestOptions, timeout = 5000): Promise<T> => {
     const {method = METHOD.GET, data, headers = {}} = options;
 
     return new Promise((resolve, reject) => {
@@ -55,16 +53,23 @@ export default class HTTPTransport {
         return;
       }
       const xhr = new XMLHttpRequest();
+      let requestUrl = url;
       const isGet = method === METHOD.GET;
 
-      xhr.open(method, isGet && !!data ? `${url}${queryStringify(data)}` : url)
+      if (this.apiBaseUrl) {
+        requestUrl = `${this.apiBaseUrl}${requestUrl}`
+      }
+
+      xhr.open(method, isGet && !!data ? `${requestUrl}${queryStringify(data)}` : requestUrl)
+
+      xhr.withCredentials = true
 
       Object.keys(headers).forEach(name => {
         xhr.setRequestHeader(name, headers[name]);
       })
 
       xhr.onload = function() {
-        resolve(xhr);
+        resolve(JSON.parse(xhr.response));
       };
 
       xhr.onabort = reject;
