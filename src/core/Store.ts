@@ -5,7 +5,7 @@ export enum StoreEvents {
   Updated = 'updated',
 }
 
-export class Store extends EventBus {
+class Store extends EventBus {
   private state: AppState = {
     isLoading: false,
     user: null
@@ -21,3 +21,5 @@ export class Store extends EventBus {
     this.emit(StoreEvents.Updated);
   }
 }
+
+export const store = new Store();

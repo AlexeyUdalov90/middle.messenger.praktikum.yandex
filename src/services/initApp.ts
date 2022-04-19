@@ -1,23 +1,22 @@
-import authAPI from '../api/auth';
+import authAPI from '../api/authAPI';
 import { UserDTO } from '../api/types';
 import { apiHasError, transformUser } from '../utils';
+import { store } from '../core';
 
 export async function initApp() {
-  window.store.set('isLoading', true);
+  store.set('isLoading', true);
 
   try {
     const response = await authAPI.getUser();
-
-    debugger
 
     if (apiHasError(response)) {
       return;
     }
 
-    window.store.set('user', transformUser(response as UserDTO));
+    store.set('user', transformUser.fromDTO(response as UserDTO));
   } catch (err) {
     console.error(err);
   } finally {
-    window.store.set('isLoading', false);
+    store.set('isLoading', false);
   }
 }

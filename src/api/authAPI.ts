@@ -27,7 +27,7 @@ const authAPI = {
     }
   }),
   logout: () => http.post<LoginResponseData>('/auth/logout'),
-  createUser: (data: CreateUserRequestData) => http.post<LoginResponseData>('/auth/logout', {
+  createUser: (data: CreateUserRequestData) => http.post<LoginResponseData>('/auth/signup', {
     data,
     headers: {
       'content-type': 'application/json'

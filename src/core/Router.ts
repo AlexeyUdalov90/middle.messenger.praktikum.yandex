@@ -1,7 +1,7 @@
 import Route from './Route';
 import Block from './Block';
 
-export default class Router {
+export class Router {
   protected routes: Array<Route> = [];
   protected history: Record<string, any> = window.history;
   private _currentRoute: Nullable<Route> = null;
@@ -69,3 +69,5 @@ export default class Router {
     return route || this.routes.find(route => route.match('*'));
   }
 }
+
+export const router = new Router('#app');

@@ -1,4 +1,4 @@
-import { Block } from '../../core';
+import { Block, router } from '../../core';
 
 interface ILink {
   to: string;
@@ -16,7 +16,7 @@ export class Link extends Block {
         click: (e: Event) => {
           e.preventDefault();
 
-          window.router.go(this.props.to);
+          router.go(this.props.to);
         }
       }
     });

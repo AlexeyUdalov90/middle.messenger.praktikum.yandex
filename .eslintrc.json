@@ -20,10 +20,6 @@
       { "blankLine": "any", "prev": ["const", "let", "var"], "next": ["const", "let", "var"] },
       { "blankLine": "always", "prev": "*", "next": "if" }
     ],
-    "camelcase": [
-      "error",
-      { "ignoreImports": true }
-    ],
     "indent": ["error", 2]
   }
 }
