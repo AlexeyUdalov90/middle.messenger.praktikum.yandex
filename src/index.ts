@@ -38,13 +38,14 @@ document.addEventListener('DOMContentLoaded', () => {
     .use('/change-profile', ChangeProfilePage)
     .use('/change-password', ChangePasswordPage)
     .use('/error', ErrorPage)
-    .use('*', ErrorPage)
-    .start();
+    .use('*', ErrorPage);
+  // .start();
 
   /**
    * Загружаем данные для приложения
    */
-  setTimeout(() => {
-    initApp();
+  setTimeout(async () => {
+    await initApp();
+    router.start();
   }, 100);
 });
