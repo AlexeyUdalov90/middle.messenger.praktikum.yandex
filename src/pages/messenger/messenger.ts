@@ -95,7 +95,7 @@ class MessengerPage extends Block<MessengerPageProps> {
                 <div class="left-bar messenger__left">
                     <div class="messenger__panel messenger-panel">
                         <div class="messenger-panel__top">
-                            {{{Link className="messenger-panel__profile" to="/profile" router=router text="Профиль >"}}}
+                            {{{Link className="messenger-panel__profile" to="/profile" text="Профиль >"}}}
                             {{{SearchForm
                                 ref="search"
                                 value=searchValue
@@ -128,7 +128,5 @@ class MessengerPage extends Block<MessengerPageProps> {
 const mapStateToProps = (state: AppState) => ({
   isLoading: state.isLoading
 });
-//
-// export default withStore(MessengerPage, mapStateToProps)
 
 export default withRouter(withStore(MessengerPage, mapStateToProps));

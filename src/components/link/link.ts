@@ -1,6 +1,7 @@
 import { Block, Router } from '../../core';
+import { withRouter } from '../../utils';
 
-interface ILink {
+type LinkProps = {
   to: string;
   router: Router;
   className?: string;
@@ -8,10 +9,10 @@ interface ILink {
   events: Record<string, (e: Event) => void>
 }
 
-export class Link extends Block<ILink> {
+class Link extends Block<LinkProps> {
   static componentName = 'Link';
 
-  constructor(props: ILink) {
+  constructor(props: LinkProps) {
     super({
       ...props,
       events: {
@@ -31,3 +32,5 @@ export class Link extends Block<ILink> {
     `
   }
 }
+
+export default withRouter(Link);

@@ -59,7 +59,7 @@ class ProfilePage extends Block<ProfilePageProps> {
         {{#Layout name="ProfilePage" isLoading=isLoading}}
             <section class="section profile">
                 <div class="left-bar profile__left">
-                    {{{Link className="profile__back" router=router to="/chats"}}}
+                    {{{Link className="profile__back" to="/chats"}}}
                 </div>
                 <div class="profile__right">
                     <div class="profile__content">
@@ -77,10 +77,10 @@ class ProfilePage extends Block<ProfilePageProps> {
                         </ul>
                         <ul class="profile-data">
                             <li class="profile-data__item">
-                                {{{Link to="/change-profile" router=router text="Изменить данные"}}}
+                                {{{Link to="/change-profile" text="Изменить данные"}}}
                             </li>
                             <li class="profile-data__item">
-                                {{{Link to="/change-password" router=router text="Изменить пароль"}}}
+                                {{{Link to="/change-password" text="Изменить пароль"}}}
                             </li>
                             <li class="profile-data__item">
                                 {{{Button className="button_text profile-data__logout-button" text="Выйти" onCLick=onLogout}}}
@@ -97,7 +97,5 @@ class ProfilePage extends Block<ProfilePageProps> {
 const mapStateToProps = (state: AppState) => ({
   isLoading: state.isLoading
 });
-//
-// export default withStore(ProfilePage, mapStateToProps)
 
 export default withRouter(withStore(ProfilePage, mapStateToProps));

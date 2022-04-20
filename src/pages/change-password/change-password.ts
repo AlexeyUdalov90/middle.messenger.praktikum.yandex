@@ -48,7 +48,7 @@ class ChangePasswordPage extends Block<ChangePasswordPageProps> {
         {{#Layout name="ChangePasswordPage" isLoading=isLoading}}
             <section class="section profile">
                 <div class="left-bar profile__left">
-                    {{{Link className="profile__back" router=router to="/profile"}}}
+                    {{{Link className="profile__back" to="/profile"}}}
                 </div>
                 <div class="profile__right">
                     <div class="profile__content">

@@ -63,7 +63,7 @@ class LoginPage extends Block<LoginPageProps> {
                 <div class="login__content">
                     <h2 class="title login__title">{{title}}</h2>
                     {{{Form className="login__form" data=inputs buttonText="Авторизоваться" onSubmit=onSubmit}}}
-                    {{{Link className="login__link" router=router to="/signin" text="Нет аккаунта?"}}}
+                    {{{Link className="login__link" to="/signin" text="Нет аккаунта?"}}}
                 </div>
             </section>
         {{/Layout}}

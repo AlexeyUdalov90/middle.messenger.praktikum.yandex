@@ -94,7 +94,7 @@ class SignInPage extends Block<SignInPageProps> {
                 <div class="login__content">
                     <h2 class="title login__title">{{title}}</h2>
                     {{{Form className="login__form" data=inputs buttonText="Зарегистрироваться" onSubmit=onSubmit}}}
-                    {{{Link className="login__link" router=router to="/" text="Войти"}}}
+                    {{{Link className="login__link" to="/" text="Войти"}}}
                 </div>
             </section>
         {{/Layout}}
@@ -105,7 +105,5 @@ class SignInPage extends Block<SignInPageProps> {
 const mapStateToProps = (state: AppState) => ({
   isLoading: state.isLoading
 });
-//
-// export default withStore(SignInPage, mapStateToProps)
 
 export default withRouter(withStore(SignInPage, mapStateToProps));
