@@ -1,5 +1,5 @@
 import Route from './Route';
-import Block from './Block';
+import { BlockClass } from './Block';
 
 export default class Router {
   protected routes: Array<Route> = [];
@@ -21,7 +21,7 @@ export default class Router {
     Router.__instance = this;
   }
 
-  use(pathname: string, block: typeof Block): Router {
+  use(pathname: string, block: BlockClass<any>): Router {
     const route = new Route(pathname, block, {rootQuery: this._rootQuery});
 
     this.routes.push(route);

@@ -6,6 +6,7 @@ import { withStore, withRouter } from '../../utils';
 type ProfilePageProps = {
   router: Router;
   isLoading: boolean;
+  user: User;
   onLogout?: () => void;
 };
 
@@ -21,12 +22,13 @@ class ProfilePage extends Block<ProfilePageProps> {
     });
   }
 
-  protected getStateFromProps() {
+  protected getStateFromProps(props: ProfilePageProps) {
+    console.log(props)
     this.state = {
       data: {
         email: {
           name: 'Почта',
-          value: 'pochta@yandex.ru'
+          value: props.user.email
         },
         login: {
           name: 'Логин',
@@ -95,7 +97,8 @@ class ProfilePage extends Block<ProfilePageProps> {
 }
 
 const mapStateToProps = (state: AppState) => ({
-  isLoading: state.isLoading
+  isLoading: state.isLoading,
+  user: state.user
 });
 
 export default withRouter(withStore(ProfilePage, mapStateToProps));
