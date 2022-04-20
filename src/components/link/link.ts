@@ -1,12 +1,14 @@
-import { Block, router } from '../../core';
+import { Block, Router } from '../../core';
 
 interface ILink {
   to: string;
+  router: Router;
   className?: string;
   text?: string;
+  events: Record<string, (e: Event) => void>
 }
 
-export class Link extends Block {
+export class Link extends Block<ILink> {
   static componentName = 'Link';
 
   constructor(props: ILink) {
@@ -16,7 +18,7 @@ export class Link extends Block {
         click: (e: Event) => {
           e.preventDefault();
 
-          router.go(this.props.to);
+          this.props.router.go(this.props.to);
         }
       }
     });

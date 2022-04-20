@@ -5,11 +5,14 @@ export enum StoreEvents {
   Updated = 'updated',
 }
 
-class Store extends EventBus {
-  private state: AppState = {
-    isLoading: false,
-    user: null
-  };
+export class Store<State extends Record<string, unknown>> extends EventBus {
+  private readonly state: State = {} as State;
+
+  constructor(defaultState: State) {
+    super();
+
+    this.state = defaultState;
+  }
 
   public getState() {
     return this.state;
@@ -21,5 +24,3 @@ class Store extends EventBus {
     this.emit(StoreEvents.Updated);
   }
 }
-
-export const store = new Store();

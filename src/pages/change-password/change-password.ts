@@ -1,7 +1,13 @@
-import { Block } from '../../core';
+import { Block, Router } from '../../core';
 import '../../styles/profile.css';
+import { withStore, withRouter } from '../../utils';
 
-export class ChangePasswordPage extends Block {
+type ChangePasswordPageProps = {
+  router: Router;
+  isLoading: boolean;
+}
+
+class ChangePasswordPage extends Block<ChangePasswordPageProps> {
   static componentName = 'ChangePasswordPage';
 
   protected getStateFromProps() {
@@ -39,19 +45,27 @@ export class ChangePasswordPage extends Block {
     // language=hbs
 
     return `
-      <section class="section profile">
-        <div class="left-bar profile__left">
-          {{{Link className="profile__back" to="/profile"}}}
-        </div>
-        <div class="profile__right">
-          <div class="profile__content">
-            <div class="profile__avatar profile__avatar_without-name">
-              {{{Avatar}}}
-            </div>
-            {{{Form className="profile__form" data=inputs buttonText="Сохранить"}}}
-          </div>
-        </div>
-      </section>
+        {{#Layout name="ChangePasswordPage" isLoading=isLoading}}
+            <section class="section profile">
+                <div class="left-bar profile__left">
+                    {{{Link className="profile__back" router=router to="/profile"}}}
+                </div>
+                <div class="profile__right">
+                    <div class="profile__content">
+                        <div class="profile__avatar profile__avatar_without-name">
+                            {{{Avatar}}}
+                        </div>
+                        {{{Form className="profile__form" data=inputs buttonText="Сохранить"}}}
+                    </div>
+                </div>
+            </section>
+        {{/Layout}}
     `;
   }
 }
+
+const mapStateToProps = (state: AppState) => ({
+  isLoading: state.isLoading
+});
+
+export default withRouter(withStore(ChangePasswordPage, mapStateToProps));

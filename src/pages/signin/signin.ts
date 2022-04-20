@@ -1,23 +1,30 @@
-import { Block, store, router } from '../../core';
+import {Block, Router} from '../../core';
 import '../../styles/login.css';
 import { createUser } from '../../services/auth';
-import { withStore } from '../../utils';
+import { withStore, withRouter } from '../../utils';
 
-class SignInPage extends Block {
+type SignInPageProps = {
+  router: Router;
+  isLoading: boolean;
+  onSubmit?: (data: CreateUserData) => void;
+};
+
+class SignInPage extends Block<SignInPageProps> {
   static componentName = 'SignInPage';
 
-  constructor() {
+  constructor(props: SignInPageProps) {
     super({
-      onSubmit: async (data: CreateUserData) => {
-        await createUser(data);
+      ...props,
+      onSubmit: (data: CreateUserData) => {
+        createUser(data);
       }
     });
   }
 
   componentDidUpdate(oldProps: any, newProps: any): boolean {
-    if (store.getState().user) {
-      router.go('/chats')
-    }
+    // if (this.props.store.getState().user) {
+    //   this.props.router.go('/chats')
+    // }
 
     return super.componentDidUpdate(oldProps, newProps);
   }
@@ -87,7 +94,7 @@ class SignInPage extends Block {
                 <div class="login__content">
                     <h2 class="title login__title">{{title}}</h2>
                     {{{Form className="login__form" data=inputs buttonText="Зарегистрироваться" onSubmit=onSubmit}}}
-                    {{{Link className="login__link" to="/" text="Войти"}}}
+                    {{{Link className="login__link" router=router to="/" text="Войти"}}}
                 </div>
             </section>
         {{/Layout}}
@@ -98,5 +105,7 @@ class SignInPage extends Block {
 const mapStateToProps = (state: AppState) => ({
   isLoading: state.isLoading
 });
+//
+// export default withStore(SignInPage, mapStateToProps)
 
-export default withStore(SignInPage, mapStateToProps)
+export default withRouter(withStore(SignInPage, mapStateToProps));

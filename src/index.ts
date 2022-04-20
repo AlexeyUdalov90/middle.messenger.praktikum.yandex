@@ -1,5 +1,6 @@
-import { Block, registerComponent, router } from './core';
+import { Block, registerComponent, Router, Store } from './core';
 import './styles/style.css';
+import { defaultState } from './store';
 import { initApp } from './services';
 import LoginPage from './pages/login';
 import SignInPage from './pages/signin';
@@ -15,7 +16,20 @@ Object.values(components).forEach(component => {
   registerComponent(component.default);
 });
 
+declare global {
+  interface Window {
+    store: Store<AppState>;
+    router: Router;
+  }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
+  const store = new Store<AppState>(defaultState);
+  const router = new Router('#app');
+
+  window.router = router;
+  window.store = store;
+
   router
     .use('/', LoginPage)
     .use('/signin', SignInPage)

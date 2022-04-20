@@ -1,8 +1,27 @@
-import { Block } from '../../core';
+import {Block, Router} from '../../core';
 import '../../styles/messenger.css';
+import { withRouter, withStore } from '../../utils';
 
-export class MessengerPage extends Block {
+type MessengerPageProps = {
+  router: Router;
+  isLoading:  boolean;
+};
+
+class MessengerPage extends Block<MessengerPageProps> {
   static componentName = 'MessengerPage';
+
+  // constructor(props: MessengerPageProps) {
+  //   super({
+  //     ...props,
+  //     isLoading: () => props.store.getState().isLoading
+  //   });
+  // }
+
+  // componentDidUpdate(oldProps: MessengerPageProps, newProps: MessengerPageProps): boolean {
+  //   console.log(this.props.store.getState())
+  //
+  //   return super.componentDidUpdate(oldProps, newProps);
+  // }
 
   protected getStateFromProps() {
     this.state = {
@@ -71,35 +90,45 @@ export class MessengerPage extends Block {
     // language=hbs
 
     return `
-      <section class="section messenger">
-        <div class="left-bar messenger__left">
-          <div class="messenger__panel messenger-panel">
-            <div class="messenger-panel__top">
-              {{{Link className="messenger-panel__profile" to="/profile" text="Профиль >"}}}
-              {{{SearchForm
-                  ref="search"
-                  value=searchValue
-                  onSubmit=onSearchHandler
-              }}}
-            </div>
-            <div class="messenger-panel__conversations">
-              {{#each conversations}}
-                  {{{Conversation
-                      className="messenger-panel__conversations-item"
-                      isActive=isActive
-                      userName=userName
-                      message=message
-                      date=date
-                      newMessages=newMessages
-                  }}}
-              {{/each}}
-            </div>
-          </div>
-        </div>
-        <div class="messenger__right">
-          {{{Chat data=chatData}}}
-        </div>
-      </section>
+        {{#Layout name="MessengerPage" isLoading=isLoading}}
+            <section class="section messenger">
+                <div class="left-bar messenger__left">
+                    <div class="messenger__panel messenger-panel">
+                        <div class="messenger-panel__top">
+                            {{{Link className="messenger-panel__profile" to="/profile" router=router text="Профиль >"}}}
+                            {{{SearchForm
+                                ref="search"
+                                value=searchValue
+                                onSubmit=onSearchHandler
+                            }}}
+                        </div>
+                        <div class="messenger-panel__conversations">
+                            {{#each conversations}}
+                                {{{Conversation
+                                    className="messenger-panel__conversations-item"
+                                    isActive=isActive
+                                    userName=userName
+                                    message=message
+                                    date=date
+                                    newMessages=newMessages
+                                }}}
+                            {{/each}}
+                        </div>
+                    </div>
+                </div>
+                <div class="messenger__right">
+                    {{{Chat data=chatData}}}
+                </div>
+            </section>
+        {{/Layout}}
     `;
   }
 }
+
+const mapStateToProps = (state: AppState) => ({
+  isLoading: state.isLoading
+});
+//
+// export default withStore(MessengerPage, mapStateToProps)
+
+export default withRouter(withStore(MessengerPage, mapStateToProps));

@@ -1,7 +1,11 @@
 import { Block } from '../../core';
 import './layout.css';
 
-export class Layout extends Block {
+interface LayoutProps {
+  isLoading: boolean;
+}
+
+export class Layout extends Block<LayoutProps> {
   static componentName = 'Layout';
 
   render() {
