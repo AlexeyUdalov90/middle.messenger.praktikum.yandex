@@ -1,6 +1,7 @@
 import EventBus from './EventBus';
 import { nanoid } from 'nanoid';
 import Handlebars from 'handlebars';
+import {isEqual} from '../utils';
 
 interface BlockMeta<P = any> {
   props: P;
@@ -81,7 +82,7 @@ export default class Block<P = any> {
   }
 
   componentDidUpdate(oldProps: P, newProps: P) {
-    return true;
+    return !isEqual(oldProps, newProps);
   }
 
   setProps (nextProps: P) {
@@ -113,6 +114,7 @@ export default class Block<P = any> {
   }
 
   _render() {
+    // debugger
     const fragment = this._compile();
     const newElement = fragment.firstElementChild!;
 
@@ -221,10 +223,23 @@ export default class Block<P = any> {
         return;
       }
 
+      const stubChilds = stub.childNodes.length ? stub.childNodes : [];
+
       /**
        * Заменяем заглушку на component._element
        */
-      stub.replaceWith(component.getContent());
+      const content = component.getContent();
+
+      stub.replaceWith(content);
+
+      /**
+       * Ищем элемент layout-а, куда вставлять детей
+       */
+      const layoutContent = content.querySelector('[data-layout="1"]');
+
+      if (layoutContent && stubChilds.length) {
+        layoutContent.append(...stubChilds);
+      }
     });
 
     return fragment.content;

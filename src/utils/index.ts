@@ -8,3 +8,4 @@ export { default as isArray } from './isArray';
 export { default as isPlainObject } from './isPlainObject';
 export { default as apiHasError } from './apiHasError';
 export { transformUser } from './apiTransformers';
+export { withStore } from './withStore';

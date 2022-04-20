@@ -43,8 +43,8 @@ export async function logout() {
     return;
   }
 
-  store.set('user', null);
   store.set('isLoading', false);
+  store.set('user', null);
 
   router.go('/');
 }
