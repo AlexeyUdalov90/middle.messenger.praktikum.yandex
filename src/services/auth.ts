@@ -6,13 +6,14 @@ async function getUser() {
   const responseUser = await authAPI.getUser();
 
   if (apiHasError(responseUser)) {
+    window.store.set('isLoading', false);
+
     return;
   }
 
-  window.store.set('user', transformUser.fromDTO(responseUser as UserDTO));
   window.store.set('isLoading', false);
-
-  window.router.go('/chats');
+  window.store.set('user', transformUser.fromDTO(responseUser as UserDTO));
+  window.store.set('isAuth', true);
 }
 
 export async function login(data: LoginRequestData) {
@@ -28,7 +29,7 @@ export async function login(data: LoginRequestData) {
 
   await getUser();
 
-  window.store.set('isLoading', false);
+  window.router.go('/chats');
 }
 
 export async function logout() {
@@ -43,6 +44,7 @@ export async function logout() {
   }
 
   window.store.set('isLoading', false);
+  window.store.set('isAuth', false);
   window.store.set('user', null);
 
   window.router.go('/');
@@ -61,5 +63,5 @@ export async function createUser(data: CreateUserData) {
 
   await getUser();
 
-  window.store.set('isLoading', false);
+  window.router.go('/chats');
 }

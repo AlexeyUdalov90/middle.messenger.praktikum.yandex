@@ -7,6 +7,7 @@ import { withStore, withRouter } from '../../utils';
 type LoginPageProps = {
   router: Router;
   isLoading: boolean;
+  isAuth: boolean;
   onSubmit?: (data: LoginRequestData) => void;
 };
 
@@ -23,9 +24,9 @@ class LoginPage extends Block<LoginPageProps> {
   }
 
   componentDidUpdate(oldProps: any, newProps: any): boolean {
-    // if (this.props.store.getState().user) {
-    //   this.props.router.go('/chats')
-    // }
+    if (this.props.isAuth) {
+      this.props.router.go('/chats')
+    }
 
     return super.componentDidUpdate(oldProps, newProps);
   }
@@ -72,7 +73,8 @@ class LoginPage extends Block<LoginPageProps> {
 }
 
 const mapStateToProps = (state: AppState) => ({
-  isLoading: state.isLoading
+  isLoading: state.isLoading,
+  isAuth: state.isAuth
 });
 
 export default withRouter(withStore(LoginPage, mapStateToProps));

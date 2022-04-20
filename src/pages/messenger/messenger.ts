@@ -4,24 +4,15 @@ import { withRouter, withStore } from '../../utils';
 
 type MessengerPageProps = {
   router: Router;
-  isLoading:  boolean;
+  isLoading: boolean;
 };
 
 class MessengerPage extends Block<MessengerPageProps> {
   static componentName = 'MessengerPage';
 
-  // constructor(props: MessengerPageProps) {
-  //   super({
-  //     ...props,
-  //     isLoading: () => props.store.getState().isLoading
-  //   });
-  // }
-
-  // componentDidUpdate(oldProps: MessengerPageProps, newProps: MessengerPageProps): boolean {
-  //   console.log(this.props.store.getState())
-  //
-  //   return super.componentDidUpdate(oldProps, newProps);
-  // }
+  constructor(props: MessengerPageProps) {
+    super(props);
+  }
 
   protected getStateFromProps() {
     this.state = {

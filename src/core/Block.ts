@@ -96,7 +96,9 @@ export default class Block<P = any> {
   }
 
   componentDidUpdate(oldProps: P, newProps: P) {
-    return !isEqual(oldProps, newProps);
+    // TODO: разобраться почему вот такой return не всегда работает
+    // return !isEqual(oldProps, newProps);
+    return true;
   }
 
   setProps (nextProps: P) {

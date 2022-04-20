@@ -13,6 +13,7 @@ export async function initApp() {
     }
 
     window.store.set('user', transformUser.fromDTO(response as UserDTO));
+    window.store.set('isAuth', true);
   } catch (err) {
     console.error(err);
   } finally {
