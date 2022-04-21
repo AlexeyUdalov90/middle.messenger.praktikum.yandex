@@ -6,6 +6,7 @@ import { withStore, withRouter } from '../../utils';
 type ProfilePageProps = {
   router: Router;
   isLoading: boolean;
+  isAuth: boolean;
   user: User;
   onLogout?: () => void;
 };
@@ -20,10 +21,17 @@ class ProfilePage extends Block<ProfilePageProps> {
         logout()
       }
     });
+
+    this.getStateFromProps(props);
+  }
+
+  componentDidMount() {
+    if (!this.props.isAuth) {
+      this.props.router.go('/')
+    }
   }
 
   protected getStateFromProps(props: ProfilePageProps) {
-    console.log(props)
     this.state = {
       data: {
         email: {
@@ -32,23 +40,23 @@ class ProfilePage extends Block<ProfilePageProps> {
         },
         login: {
           name: 'Логин',
-          value: 'ivanivanov'
+          value: props.user.login
         },
         firstName: {
           name: 'Имя',
-          value: 'Иван'
+          value: props.user.firstName
         },
         secondName: {
           name: 'Фамилия',
-          value: 'Иванов'
+          value: props.user.secondName
         },
         displayName: {
           name: 'Имя в чате',
-          value: 'Иван'
+          value: props.user.displayName
         },
         phone: {
           name: 'Телефон',
-          value: '+79099673030'
+          value: props.user.phone
         }
       }
     }
@@ -98,6 +106,7 @@ class ProfilePage extends Block<ProfilePageProps> {
 
 const mapStateToProps = (state: AppState) => ({
   isLoading: state.isLoading,
+  isAuth: state.isAuth,
   user: state.user
 });
 

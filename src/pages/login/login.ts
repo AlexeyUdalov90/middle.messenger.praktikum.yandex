@@ -23,12 +23,10 @@ class LoginPage extends Block<LoginPageProps> {
     });
   }
 
-  componentDidUpdate(oldProps: any, newProps: any): boolean {
+  componentDidMount() {
     if (this.props.isAuth) {
       this.props.router.go('/chats')
     }
-
-    return super.componentDidUpdate(oldProps, newProps);
   }
 
   protected getStateFromProps() {

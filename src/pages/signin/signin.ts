@@ -6,6 +6,7 @@ import { withStore, withRouter } from '../../utils';
 type SignInPageProps = {
   router: Router;
   isLoading: boolean;
+  isAuth: boolean;
   onSubmit?: (data: CreateUserData) => void;
 };
 
@@ -21,12 +22,10 @@ class SignInPage extends Block<SignInPageProps> {
     });
   }
 
-  componentDidUpdate(oldProps: any, newProps: any): boolean {
-    // if (this.props.store.getState().user) {
-    //   this.props.router.go('/chats')
-    // }
-
-    return super.componentDidUpdate(oldProps, newProps);
+  componentDidMount() {
+    if (this.props.isAuth) {
+      this.props.router.go('/chats')
+    }
   }
 
   protected getStateFromProps() {
@@ -103,7 +102,8 @@ class SignInPage extends Block<SignInPageProps> {
 }
 
 const mapStateToProps = (state: AppState) => ({
-  isLoading: state.isLoading
+  isLoading: state.isLoading,
+  isAuth: state.isAuth
 });
 
 export default withRouter(withStore(SignInPage, mapStateToProps));

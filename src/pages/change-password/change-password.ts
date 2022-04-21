@@ -5,10 +5,21 @@ import { withStore, withRouter } from '../../utils';
 type ChangePasswordPageProps = {
   router: Router;
   isLoading: boolean;
+  isAuth: boolean;
 }
 
 class ChangePasswordPage extends Block<ChangePasswordPageProps> {
   static componentName = 'ChangePasswordPage';
+
+  constructor(props: ChangePasswordPageProps) {
+    super(props);
+  }
+
+  componentDidMount() {
+    if (!this.props.isAuth) {
+      this.props.router.go('/')
+    }
+  }
 
   protected getStateFromProps() {
     this.state = {
@@ -65,7 +76,8 @@ class ChangePasswordPage extends Block<ChangePasswordPageProps> {
 }
 
 const mapStateToProps = (state: AppState) => ({
-  isLoading: state.isLoading
+  isLoading: state.isLoading,
+  isAuth: state.isAuth
 });
 
 export default withRouter(withStore(ChangePasswordPage, mapStateToProps));

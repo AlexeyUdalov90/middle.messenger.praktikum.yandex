@@ -5,12 +5,24 @@ import { withStore, withRouter } from '../../utils';
 type ChangeProfilePageProps = {
   router: Router;
   isLoading: boolean;
+  isAuth: boolean;
+  user: User;
 }
 
 class ChangeProfilePage extends Block<ChangeProfilePageProps> {
   static componentName = 'ChangeProfilePage';
 
-  protected getStateFromProps() {
+  constructor(props: ChangeProfilePageProps) {
+    super(props);
+  }
+
+  componentDidMount() {
+    if (!this.props.isAuth) {
+      this.props.router.go('/')
+    }
+  }
+
+  protected getStateFromProps(props: ChangeProfilePageProps) {
     this.state = {
       inputs: {
         email: {
@@ -18,7 +30,7 @@ class ChangeProfilePage extends Block<ChangeProfilePageProps> {
           ref: 'email',
           name: 'email',
           type: 'email',
-          value: 'pochta@yandex.ru',
+          value: props.user.email,
           error: ''
         },
         login: {
@@ -26,7 +38,7 @@ class ChangeProfilePage extends Block<ChangeProfilePageProps> {
           ref: 'login',
           name: 'login',
           type: 'text',
-          value: 'ivanivanov',
+          value: props.user.login,
           error: ''
         },
         firstName: {
@@ -34,7 +46,7 @@ class ChangeProfilePage extends Block<ChangeProfilePageProps> {
           ref: 'firstName',
           name: 'firstName',
           type: 'text',
-          value: 'Иван',
+          value: props.user.firstName,
           error: ''
         },
         secondName: {
@@ -42,7 +54,7 @@ class ChangeProfilePage extends Block<ChangeProfilePageProps> {
           ref: 'secondName',
           name: 'secondName',
           type: 'text',
-          value: 'Иванов',
+          value: props.user.secondName,
           error: ''
         },
         displayName: {
@@ -50,7 +62,7 @@ class ChangeProfilePage extends Block<ChangeProfilePageProps> {
           ref: 'displayName',
           name: 'displayName',
           type: 'text',
-          value: 'Иван',
+          value: props.user.displayName ? props.user.displayName : '',
           error: ''
         },
         phone: {
@@ -58,7 +70,7 @@ class ChangeProfilePage extends Block<ChangeProfilePageProps> {
           ref: 'phone',
           name: 'phone',
           type: 'tel',
-          value: '+79099673030',
+          value: props.user.phone,
           error: ''
         }
       }
@@ -89,7 +101,9 @@ class ChangeProfilePage extends Block<ChangeProfilePageProps> {
 }
 
 const mapStateToProps = (state: AppState) => ({
-  isLoading: state.isLoading
+  isLoading: state.isLoading,
+  isAuth: state.isAuth,
+  user: state.user
 });
 
 export default withRouter(withStore(ChangeProfilePage, mapStateToProps));

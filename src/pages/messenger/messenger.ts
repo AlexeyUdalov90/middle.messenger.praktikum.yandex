@@ -5,6 +5,7 @@ import { withRouter, withStore } from '../../utils';
 type MessengerPageProps = {
   router: Router;
   isLoading: boolean;
+  isAuth: boolean;
 };
 
 class MessengerPage extends Block<MessengerPageProps> {
@@ -12,6 +13,12 @@ class MessengerPage extends Block<MessengerPageProps> {
 
   constructor(props: MessengerPageProps) {
     super(props);
+  }
+
+  componentDidMount() {
+    if (!this.props.isAuth) {
+      this.props.router.go('/')
+    }
   }
 
   protected getStateFromProps() {
@@ -117,7 +124,8 @@ class MessengerPage extends Block<MessengerPageProps> {
 }
 
 const mapStateToProps = (state: AppState) => ({
-  isLoading: state.isLoading
+  isLoading: state.isLoading,
+  isAuth: state.isAuth
 });
 
 export default withRouter(withStore(MessengerPage, mapStateToProps));
