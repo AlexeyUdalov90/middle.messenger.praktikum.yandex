@@ -1,4 +1,4 @@
-import { UserDTO, CreateUserRequestData } from '../api/types';
+import {UserDTO, CreateUserRequestData, CreateUserDTO, ChangeProfileRequestData, ChangeProfileDTO} from '../api/types';
 
 export const transformUser = {
   fromDTO (data: UserDTO): User {
@@ -13,7 +13,7 @@ export const transformUser = {
       avatar: data.avatar
     };
   },
-  toDTO (data: CreateUserData): CreateUserRequestData {
+  toDTO (data: CreateUserRequestData): CreateUserDTO {
     return {
       first_name: data.firstName,
       second_name: data.secondName,
@@ -24,3 +24,16 @@ export const transformUser = {
     }
   }
 };
+
+export const transformUserProfile = {
+  toDTO (data: ChangeProfileRequestData): ChangeProfileDTO {
+    return {
+      first_name: data.firstName,
+      second_name: data.secondName,
+      display_name: data.displayName,
+      login: data.login,
+      email: data.email,
+      phone: data.phone,
+    }
+  }
+}

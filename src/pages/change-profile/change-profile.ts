@@ -1,19 +1,27 @@
 import { Block, Router } from '../../core';
 import '../../styles/profile.css';
 import { withStore, withRouter } from '../../utils';
+import { changeProfile } from '../../services/user';
+import {ChangeProfileRequestData} from '../../api/types';
 
 type ChangeProfilePageProps = {
   router: Router;
   isLoading: boolean;
   isAuth: boolean;
   user: User;
+  onSubmit: (data: ChangeProfileRequestData) => void;
 }
 
 class ChangeProfilePage extends Block<ChangeProfilePageProps> {
   static componentName = 'ChangeProfilePage';
 
   constructor(props: ChangeProfilePageProps) {
-    super(props);
+    super({
+      ...props,
+      onSubmit: (data: ChangeProfileRequestData) => {
+        changeProfile(data);
+      }
+    });
   }
 
   componentDidMount() {
@@ -91,7 +99,7 @@ class ChangeProfilePage extends Block<ChangeProfilePageProps> {
                         <div class="profile__avatar profile__avatar_without-name">
                             {{{Avatar}}}
                         </div>
-                        {{{Form className="profile__form" data=inputs buttonText="Сохранить"}}}
+                        {{{Form className="profile__form" data=inputs buttonText="Сохранить" onSubmit=onSubmit}}}
                     </div>
                 </div>
             </section>

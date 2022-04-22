@@ -27,4 +27,31 @@ export type CreateUserDTO = {
   phone: string;
 };
 
+export type CreateUserRequestData = {
+  firstName: string;
+  secondName: string;
+  login: string;
+  email: string;
+  phone: string;
+  password: string;
+};
+
+export type ChangeProfileDTO = {
+  first_name: string;
+  second_name: string;
+  display_name: string;
+  login: string;
+  email: string;
+  phone: string;
+};
+
+export type ChangeProfileRequestData = {
+  firstName: string;
+  secondName: string;
+  displayName: string;
+  login: string;
+  email: string;
+  phone: string;
+};
+
 export type EmptyResponseData = object | APIError;

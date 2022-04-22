@@ -1,5 +1,5 @@
 import authAPI from '../api/authAPI';
-import { LoginRequestData, UserDTO } from '../api/types';
+import {CreateUserRequestData, LoginRequestData, UserDTO} from '../api/types';
 import { apiHasError, transformUser } from '../utils';
 
 async function getUser() {
@@ -50,7 +50,7 @@ export async function logout() {
   window.router.go('/');
 }
 
-export async function createUser(data: CreateUserData) {
+export async function createUser(data: CreateUserRequestData) {
   window.store.set('isLoading', true);
 
   const responseCreate = await authAPI.createUser(transformUser.toDTO(data));

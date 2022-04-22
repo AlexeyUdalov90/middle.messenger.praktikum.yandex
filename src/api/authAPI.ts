@@ -26,4 +26,4 @@ const authAPI = {
   getUser: () => http.get<UserDTO | APIError>('/auth/user')
 };
 
-export default authAPI
+export default authAPI;

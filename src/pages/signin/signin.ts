@@ -2,12 +2,13 @@ import {Block, Router} from '../../core';
 import '../../styles/login.css';
 import { createUser } from '../../services/auth';
 import { withStore, withRouter } from '../../utils';
+import { CreateUserRequestData } from '../../api/types';
 
 type SignInPageProps = {
   router: Router;
   isLoading: boolean;
   isAuth: boolean;
-  onSubmit?: (data: CreateUserData) => void;
+  onSubmit?: (data: CreateUserRequestData) => void;
 };
 
 class SignInPage extends Block<SignInPageProps> {
@@ -16,7 +17,7 @@ class SignInPage extends Block<SignInPageProps> {
   constructor(props: SignInPageProps) {
     super({
       ...props,
-      onSubmit: (data: CreateUserData) => {
+      onSubmit: (data: CreateUserRequestData) => {
         createUser(data);
       }
     });

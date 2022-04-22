@@ -1,4 +1,4 @@
-import { BlockClass, Store, StoreEvents } from '../core';
+import { BlockClass, StoreEvents } from '../core';
 // import { isEqual } from './index';
 
 // type WithStateProps = { store: Store<AppState> };
