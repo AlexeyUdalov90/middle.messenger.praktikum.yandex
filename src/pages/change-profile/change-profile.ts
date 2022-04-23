@@ -1,15 +1,16 @@
 import { Block, Router } from '../../core';
 import '../../styles/profile.css';
 import { withStore, withRouter } from '../../utils';
-import { changeProfile } from '../../services/user';
-import {ChangeProfileRequestData} from '../../api/types';
+import { ChangeProfileRequestData } from '../../api/types';
+import { checkValidation, changeProfile } from '../../services';
+import { IFormField } from '../../interfaces';
 
 type ChangeProfilePageProps = {
   router: Router;
   isLoading: boolean;
   isAuth: boolean;
   user: User;
-  onSubmit: (data: ChangeProfileRequestData) => void;
+  events: Record<string, (e: Event) => void>;
 }
 
 class ChangeProfilePage extends Block<ChangeProfilePageProps> {
@@ -18,8 +19,54 @@ class ChangeProfilePage extends Block<ChangeProfilePageProps> {
   constructor(props: ChangeProfilePageProps) {
     super({
       ...props,
-      onSubmit: (data: ChangeProfileRequestData) => {
-        changeProfile(data);
+      events: {
+        focusout: (e) => {
+          const input = e.target as HTMLInputElement;
+          const errorBlock = input.nextElementSibling as HTMLElement;
+          const inputName = input.name;
+          const inputValue = input.value;
+          const inputError = checkValidation(inputName, inputValue);
+
+          if (inputValue !== this.state.inputs[inputName].value) {
+            this.setState({
+              inputs: {
+                ...this.state.inputs,
+                [inputName]: {
+                  ...this.state.inputs[inputName],
+                  value: inputValue,
+                  error: inputError
+                }
+              }
+            });
+          }
+
+          if (errorBlock && errorBlock.classList.contains('form-field__error') && inputError) {
+            errorBlock.style.display = 'block';
+          }
+        },
+        focusin: (e) => {
+          const input = e.target as HTMLInputElement;
+          const errorBlock = input.nextElementSibling as HTMLElement;
+
+          if (errorBlock && errorBlock.classList.contains('form-field__error')) {
+            errorBlock.style.display = 'none';
+          }
+        },
+        submit: (e) => {
+          e.preventDefault();
+
+          const isInvalid = Object.values(this.state.inputs).some(input => Boolean((input as IFormField).error));
+
+          if (!isInvalid) {
+            const result = Object.entries(this.state.inputs).reduce((submitRes, [key, data ]) => {
+              submitRes[key] = (data as IFormField).value;
+
+              return submitRes;
+            }, {} as ChangeProfileRequestData);
+
+            changeProfile(result);
+          }
+        }
       }
     });
   }
@@ -99,7 +146,12 @@ class ChangeProfilePage extends Block<ChangeProfilePageProps> {
                         <div class="profile__avatar profile__avatar_without-name">
                             {{{Avatar}}}
                         </div>
-                        {{{Form className="profile__form" data=inputs buttonText="Сохранить" onSubmit=onSubmit}}}
+                        <form class="form profile__form">
+                            {{#each inputs}}
+                                {{{FormField className="form__input" ref=ref label=label type=type name=name value=value error=error}}}
+                            {{/each}}
+                            {{{Button type="submit" text="Сохранить" className="form__button"}}}
+                        </form>
                     </div>
                 </div>
             </section>

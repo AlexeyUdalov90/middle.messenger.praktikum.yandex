@@ -17,7 +17,7 @@ export class Form extends Block {
 
             if (input) {
               res[name] = {
-                ...this.state.inputs[name],
+                ...this.props.inputs[name],
                 value: input.value,
                 error: checkValidation(name, input.value)
               };
@@ -26,14 +26,15 @@ export class Form extends Block {
             return res;
           }, {});
 
-          this.setState({
+          this.setProps({
+            ...this.props,
             inputs: { ...newInputsState }
           });
 
-          const isInvalid = Object.values(this.state.inputs).some(input => Boolean((input as IFormField).error));
+          const isInvalid = Object.values(this.props.inputs).some(input => Boolean((input as IFormField).error));
 
           if (!isInvalid) {
-            const result: ISubmitForm = Object.entries(this.state.inputs).reduce((submitRes: Record<string, string>, [key, data ]) => {
+            const result: ISubmitForm = Object.entries(this.props.inputs).reduce((submitRes: Record<string, string>, [key, data ]) => {
               submitRes[key] = (data as IFormField).value;
 
               return submitRes;
@@ -46,11 +47,11 @@ export class Form extends Block {
     });
   }
 
-  protected getStateFromProps(props: IForm) {
-    this.state = {
-      inputs: { ...props.data }
-    }
-  }
+  // protected getStateFromProps(props: IForm) {
+  //   this.state = {
+  //     inputs: { ...props.data }
+  //   }
+  // }
 
   render () {
     // language=hbs

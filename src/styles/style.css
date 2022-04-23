@@ -56,3 +56,20 @@ h6 {
   background-color: var(--left-bar-color);
   border-right: 1px solid var(--decor-color);
 }
+
+.form {
+  display: flex;
+  flex-direction: column;
+
+  &__input {
+    margin-bottom: 16px;
+
+    &:last-of-type {
+      margin-bottom: 47px;
+    }
+  }
+
+  &__button {
+    margin-top: auto;
+  }
+}
