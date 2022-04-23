@@ -8,7 +8,7 @@ enum METHOD {
   DELETE = 'DELETE'
 }
 
-type RequestData = Record<string, unknown>;
+type RequestData = string | FormData;
 type RequestOptions = {
   data?: RequestData;
   method?: METHOD;
@@ -89,7 +89,7 @@ export default class HTTPTransport {
       if (isGet || !data) {
         xhr.send();
       } else {
-        xhr.send(JSON.stringify(data));
+        xhr.send(data);
       }
     });
   };

@@ -74,7 +74,7 @@ class ProfilePage extends Block<ProfilePageProps> {
                 <div class="profile__right">
                     <div class="profile__content">
                         <div class="profile__avatar">
-                            {{{Avatar}}}
+                            {{{Avatar avatar=user.avatar}}}
                         </div>
                         <span class="profile__user-name">{{data.displayName.value}}</span>
                         <ul class="profile-data profile__user-data">

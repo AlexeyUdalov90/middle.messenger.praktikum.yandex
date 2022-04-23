@@ -129,7 +129,7 @@ class ChangeProfilePage extends Block<ChangeProfilePageProps> {
                 <div class="profile__right">
                     <div class="profile__content">
                         <div class="profile__avatar profile__avatar_without-name">
-                            {{{Avatar}}}
+                            {{{Avatar avatar=user.avatar}}}
                         </div>
                         <form class="form profile__form">
                             {{#each inputs}}

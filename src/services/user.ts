@@ -1,5 +1,5 @@
 import userAPI from '../api/userAPI';
-import {ChangePasswordDTO, ChangeProfileRequestData, UserDTO} from '../api/types';
+import { ChangePasswordDTO, ChangeProfileRequestData } from '../api/types';
 import { apiHasError, transformUser, transformUserProfile } from '../utils';
 
 export async function changeProfile (data: ChangeProfileRequestData) {
@@ -14,7 +14,7 @@ export async function changeProfile (data: ChangeProfileRequestData) {
   }
 
   window.store.set('isLoading', false);
-  window.store.set('user', transformUser.fromDTO(responseChangeProfile as UserDTO));
+  window.store.set('user', transformUser.fromDTO(responseChangeProfile));
 }
 
 export async function changePassword (data: ChangePasswordDTO) {
@@ -29,4 +29,19 @@ export async function changePassword (data: ChangePasswordDTO) {
   }
 
   window.store.set('isLoading', false);
+}
+
+export async function setAvatar (data: FormData) {
+  window.store.set('isLoading', true);
+
+  const responseSetAvatar = await userAPI.setAvatar(data);
+
+  if (apiHasError(responseSetAvatar)) {
+    window.store.set('isLoading', false);
+
+    return;
+  }
+
+  window.store.set('isLoading', false);
+  window.store.set('user', transformUser.fromDTO(responseSetAvatar));
 }

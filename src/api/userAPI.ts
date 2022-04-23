@@ -7,7 +7,7 @@ const userAPI = {
   changeProfile: (data: ChangeProfileDTO) => http.put<UserDTO | APIError>(
     '/user/profile',
     {
-      data,
+      data: JSON.stringify(data),
       headers: {
         'content-type': 'application/json'
       }
@@ -15,10 +15,15 @@ const userAPI = {
   changePassword: (data: ChangePasswordDTO) => http.put<EmptyResponseData>(
     '/user/password',
     {
-      data,
+      data: JSON.stringify(data),
       headers: {
         'content-type': 'application/json'
       }
+    }),
+  setAvatar: (data: FormData) => http.put<UserDTO | APIError>(
+    '/user/profile/avatar',
+    {
+      data
     }
   )
 }
