@@ -54,4 +54,9 @@ export type ChangeProfileRequestData = {
   phone: string;
 };
 
+export type ChangePasswordDTO = {
+  oldPassword: string;
+  newPassword: string;
+}
+
 export type EmptyResponseData = object | APIError;
