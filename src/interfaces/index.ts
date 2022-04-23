@@ -20,6 +20,7 @@ export interface IFormField {
   name?: string;
   error?: string;
   className?: string;
+  events?: Record<string, (e: Event) => void>
 }
 
 export interface IFormFieldError {
@@ -29,7 +30,7 @@ export interface IFormFieldError {
 export interface IForm {
   className: string;
   buttonText: string;
-  data: Record<string, IFormField>;
+  inputs: Record<string, IFormField>;
   onSubmit: (data: unknown) => void;
 }
 

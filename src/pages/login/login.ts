@@ -1,13 +1,15 @@
 import { Block, Router } from '../../core';
 import '../../styles/login.css'
 import { LoginRequestData } from '../../api/types';
-import { login } from '../../services/auth';
 import { withStore, withRouter } from '../../utils';
+import { checkValidation, login } from '../../services';
+import {IFormField} from '../../interfaces';
 
 type LoginPageProps = {
   router: Router;
   isLoading: boolean;
   isAuth: boolean;
+  events: Record<string, (e: Event) => void>;
   onSubmit?: (data: LoginRequestData) => void;
 };
 
@@ -17,8 +19,40 @@ class LoginPage extends Block<LoginPageProps> {
   constructor(props: LoginPageProps) {
     super({
       ...props,
-      onSubmit: (data): void => {
-        login(data);
+      events: {
+        submit: (e) => {
+          e.preventDefault();
+
+          const newInputsState = Object.entries(this.refs).reduce((res: any, [name, item]) => {
+            const input = item.querySelector<HTMLInputElement>('input');
+
+            if (input) {
+              res[name] = {
+                ...this.state.inputs[name],
+                value: input.value,
+                error: checkValidation(name, input.value)
+              };
+            }
+
+            return res;
+          }, {});
+
+          this.setState({
+            inputs: { ...newInputsState }
+          });
+
+          const isInvalid = Object.values(this.state.inputs).some(input => Boolean((input as IFormField).error));
+
+          if (!isInvalid) {
+            const result = Object.entries(this.state.inputs).reduce((submitRes: any, [key, data ]) => {
+              submitRes[key] = (data as IFormField).value;
+
+              return submitRes;
+            }, {});
+
+            login(result);
+          }
+        }
       }
     });
   }
@@ -31,7 +65,6 @@ class LoginPage extends Block<LoginPageProps> {
 
   protected getStateFromProps() {
     this.state = {
-      title: 'Вход',
       inputs: {
         login: {
           label: 'Логин',
@@ -60,8 +93,13 @@ class LoginPage extends Block<LoginPageProps> {
         {{#Layout name="LoginPage" isLoading=isLoading}}
             <section class="section login">
                 <div class="login__content">
-                    <h2 class="title login__title">{{title}}</h2>
-                    {{{Form className="login__form" data=inputs buttonText="Авторизоваться" onSubmit=onSubmit}}}
+                    <h2 class="title login__title">Вход</h2>
+                    <form class="form login__form">
+                        {{#each inputs}}
+                            {{{FormField className="form__input" ref=ref label=label type=type name=name value=value error=error}}}
+                        {{/each}}
+                        {{{Button type="submit" text="Авторизоваться" className="form__button"}}}
+                    </form>
                     {{{Link className="login__link" to="/signin" text="Нет аккаунта?"}}}
                 </div>
             </section>

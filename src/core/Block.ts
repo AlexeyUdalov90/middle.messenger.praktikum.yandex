@@ -64,7 +64,7 @@ export default class Block<P = any> {
     eventBus.on(Block.EVENTS.FLOW_RENDER, this._render.bind(this));
   }
 
-  protected getStateFromProps(props: any): void {
+  protected getStateFromProps(props: P): void {
     this.state = {};
   }
 

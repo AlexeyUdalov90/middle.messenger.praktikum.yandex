@@ -1,7 +1,6 @@
 import { Block, Router } from '../../core';
 import '../../styles/profile.css';
 import { withStore, withRouter } from '../../utils';
-import { ChangeProfileRequestData } from '../../api/types';
 import { checkValidation, changeProfile } from '../../services';
 import { IFormField } from '../../interfaces';
 
@@ -20,49 +19,35 @@ class ChangeProfilePage extends Block<ChangeProfilePageProps> {
     super({
       ...props,
       events: {
-        focusout: (e) => {
-          const input = e.target as HTMLInputElement;
-          const errorBlock = input.nextElementSibling as HTMLElement;
-          const inputName = input.name;
-          const inputValue = input.value;
-          const inputError = checkValidation(inputName, inputValue);
-
-          if (inputValue !== this.state.inputs[inputName].value) {
-            this.setState({
-              inputs: {
-                ...this.state.inputs,
-                [inputName]: {
-                  ...this.state.inputs[inputName],
-                  value: inputValue,
-                  error: inputError
-                }
-              }
-            });
-          }
-
-          if (errorBlock && errorBlock.classList.contains('form-field__error') && inputError) {
-            errorBlock.style.display = 'block';
-          }
-        },
-        focusin: (e) => {
-          const input = e.target as HTMLInputElement;
-          const errorBlock = input.nextElementSibling as HTMLElement;
-
-          if (errorBlock && errorBlock.classList.contains('form-field__error')) {
-            errorBlock.style.display = 'none';
-          }
-        },
         submit: (e) => {
           e.preventDefault();
+
+          const newInputsState = Object.entries(this.refs).reduce((res: any, [name, item]) => {
+            const input = item.querySelector<HTMLInputElement>('input');
+
+            if (input) {
+              res[name] = {
+                ...this.state.inputs[name],
+                value: input.value,
+                error: checkValidation(name, input.value)
+              };
+            }
+
+            return res;
+          }, {});
+
+          this.setState({
+            inputs: { ...newInputsState }
+          });
 
           const isInvalid = Object.values(this.state.inputs).some(input => Boolean((input as IFormField).error));
 
           if (!isInvalid) {
-            const result = Object.entries(this.state.inputs).reduce((submitRes, [key, data ]) => {
+            const result = Object.entries(this.state.inputs).reduce((submitRes: any, [key, data ]) => {
               submitRes[key] = (data as IFormField).value;
 
               return submitRes;
-            }, {} as ChangeProfileRequestData);
+            }, {});
 
             changeProfile(result);
           }

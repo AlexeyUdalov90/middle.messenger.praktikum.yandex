@@ -1,14 +1,14 @@
-import {Block, Router} from '../../core';
+import { Block, Router } from '../../core';
 import '../../styles/login.css';
-import { createUser } from '../../services/auth';
+import { checkValidation, createUser } from '../../services';
 import { withStore, withRouter } from '../../utils';
-import { CreateUserRequestData } from '../../api/types';
+import {IFormField} from '../../interfaces';
 
 type SignInPageProps = {
   router: Router;
   isLoading: boolean;
   isAuth: boolean;
-  onSubmit?: (data: CreateUserRequestData) => void;
+  events: Record<string, (e: Event) => void>;
 };
 
 class SignInPage extends Block<SignInPageProps> {
@@ -17,8 +17,40 @@ class SignInPage extends Block<SignInPageProps> {
   constructor(props: SignInPageProps) {
     super({
       ...props,
-      onSubmit: (data: CreateUserRequestData) => {
-        createUser(data);
+      events: {
+        submit: (e) => {
+          e.preventDefault();
+
+          const newInputsState = Object.entries(this.refs).reduce((res: any, [name, item]) => {
+            const input = item.querySelector<HTMLInputElement>('input');
+
+            if (input) {
+              res[name] = {
+                ...this.state.inputs[name],
+                value: input.value,
+                error: checkValidation(name, input.value)
+              };
+            }
+
+            return res;
+          }, {});
+
+          this.setState({
+            inputs: { ...newInputsState }
+          });
+
+          const isInvalid = Object.values(this.state.inputs).some(input => Boolean((input as IFormField).error));
+
+          if (!isInvalid) {
+            const result = Object.entries(this.state.inputs).reduce((submitRes: any, [key, data]) => {
+              submitRes[key] = (data as IFormField).value;
+
+              return submitRes;
+            }, {});
+
+            createUser(result);
+          }
+        }
       }
     });
   }
@@ -31,7 +63,6 @@ class SignInPage extends Block<SignInPageProps> {
 
   protected getStateFromProps() {
     this.state = {
-      title: 'Регистрация',
       inputs: {
         email: {
           label: 'Почта',
@@ -92,8 +123,13 @@ class SignInPage extends Block<SignInPageProps> {
         {{#Layout name="SignInPage" isLoading=isLoading}}
             <section class="section login">
                 <div class="login__content">
-                    <h2 class="title login__title">{{title}}</h2>
-                    {{{Form className="login__form" data=inputs buttonText="Зарегистрироваться" onSubmit=onSubmit}}}
+                    <h2 class="title login__title">Регистрация</h2>
+                    <form class="form login__form">
+                        {{#each inputs}}
+                            {{{FormField className="form__input" ref=ref label=label type=type name=name value=value error=error}}}
+                        {{/each}}
+                        {{{Button type="submit" text="Зарегистрироваться" className="form__button"}}}
+                    </form>
                     {{{Link className="login__link" to="/" text="Войти"}}}
                 </div>
             </section>

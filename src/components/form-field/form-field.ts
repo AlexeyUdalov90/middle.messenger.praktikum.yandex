@@ -1,9 +1,48 @@
 import { Block } from '../../core';
 import { IFormField } from '../../interfaces';
 import './form-field.css';
+import {checkValidation} from '../../services';
 
 export class FormField extends Block<IFormField> {
   static componentName = 'FormField';
+
+  constructor(props: IFormField) {
+    super({
+      ...props,
+      events: {
+        focusout: (e) => {
+          const input = e.target as HTMLInputElement;
+
+          if (input.tagName === 'INPUT') {
+            const { name, value } = input;
+            const error = checkValidation(name, value);
+            const errorBlock = input.nextElementSibling as HTMLElement;
+
+            if (value !== this.props.value) {
+              this.setProps({
+                ...this.props,
+                value,
+                error
+              });
+            }
+
+            if (errorBlock && errorBlock.classList.contains('form-field__error') && error) {
+              errorBlock.style.display = 'block';
+            }
+          }
+
+        },
+        focusin: (e) => {
+          const input = e.target as HTMLInputElement;
+          const errorBlock = input.nextElementSibling as HTMLElement;
+
+          if (errorBlock && errorBlock.classList.contains('form-field__error')) {
+            errorBlock.style.display = 'none';
+          }
+        }
+      }
+    });
+  }
 
   render() {
     // language=hbs
