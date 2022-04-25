@@ -11,6 +11,7 @@ declare global {
     isAuth: boolean;
     user: Nullable<User>;
     chats: Nullable<Chats>;
+    activeChatId: Nullable<number>;
   };
   export type User = {
     id?: number;
@@ -22,17 +23,19 @@ declare global {
     phone: string;
     avatar?: string;
   };
-  export type Chats = Array<{
+  export type Chat = {
     id: number;
     title: string;
-    avatar: string;
-    unreadCount: string;
-    lastMessage: {
-      user: User;
-      time: string;
-      content: string;
-    }
-  }> | []
+    avatar: Nullable<string>;
+    unreadCount: number;
+    lastMessage: Nullable<LastMessage>;
+  };
+  export type LastMessage = {
+    user: User;
+    time: string;
+    content: string;
+  };
+  export type Chats = Array<Chat> | [];
 }
 
 export {};

@@ -70,12 +70,14 @@ export type ChatsDTO = Array<{
   title: string;
   avatar: string;
   unread_count: string;
-  last_message: {
-    user: UserDTO;
-    time: string;
-    content: string;
-  }
+  last_message: Nullable<LastMessageDTO>
 }> | [];
+
+export type LastMessageDTO = {
+  user: UserDTO;
+  time: string;
+  content: string;
+};
 
 export type CreateChatRequestData = {
   title: string;

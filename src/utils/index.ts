@@ -10,3 +10,4 @@ export { default as apiHasError } from './apiHasError';
 export { transformUser, transformUserProfile, transformChats } from './apiTransformers';
 export { withStore } from './withStore';
 export { withRouter } from './withRouter';
+export { dateFormat } from './dateFormat';

@@ -6,14 +6,29 @@ type MessengerPageProps = {
   router: Router;
   isLoading: boolean;
   isAuth: boolean;
-  chats: Nullable<Chats>
+  chats: Nullable<Chats>;
+  activeChatId: Nullable<number>;
+  onSearchHandler: (e: Event) => void;
 };
 
 class MessengerPage extends Block<MessengerPageProps> {
   static componentName = 'MessengerPage';
 
   constructor(props: MessengerPageProps) {
-    super(props);
+    super({
+      ...props,
+      onSearchHandler: (e) => {
+        e.preventDefault();
+
+        const searchInput = this.refs.search.querySelector<HTMLInputElement>('input');
+
+        if (searchInput) {
+          console.log({
+            search: searchInput.value
+          })
+        }
+      }
+    });
   }
 
   componentDidMount() {
@@ -25,38 +40,6 @@ class MessengerPage extends Block<MessengerPageProps> {
   protected getStateFromProps() {
     this.state = {
       searchValue: '',
-      conversations: [
-        {
-          isActive: false,
-          userName: 'Андрей',
-          message: {
-            text: 'Изображение',
-            isPersonal: false
-          },
-          date: '10:49',
-          newMessages: 2
-        },
-        {
-          isActive: true,
-          userName: 'Киноклуб',
-          message: {
-            text: 'стикер',
-            isPersonal: true
-          },
-          date: '12:00',
-          newMessages: 0
-        },
-        {
-          isActive: false,
-          userName: 'Илья',
-          message: {
-            text: 'Друзья, у меня для вас особенный выпуск новостей!...',
-            isPersonal: false
-          },
-          date: '24 Апр. 2020',
-          newMessages: 4
-        }
-      ],
       chatData: {
         userName: 'Вадим',
         messages: [
@@ -70,17 +53,6 @@ class MessengerPage extends Block<MessengerPageProps> {
             isMy: false
           }
         ]
-      },
-      onSearchHandler: (e: Event): void => {
-        e.preventDefault();
-
-        const searchInput = this.refs.search.querySelector<HTMLInputElement>('input');
-
-        if (searchInput) {
-          console.log({
-            search: searchInput.value
-          })
-        }
       }
     };
   }
@@ -107,21 +79,24 @@ class MessengerPage extends Block<MessengerPageProps> {
                             </div>
                         </div>
                         <div class="messenger-panel__conversations">
-                            {{#each conversations}}
-                                {{{Conversation
-                                    className="messenger-panel__conversations-item"
-                                    isActive=isActive
-                                    userName=userName
-                                    message=message
-                                    date=date
-                                    newMessages=newMessages
-                                }}}
-                            {{/each}}
+                            {{#if chats}}
+                                {{#each chats}}
+                                    {{{Conversation
+                                        className="messenger-panel__conversations-item"
+                                        id=id
+                                        title=title
+                                        avatar=avatar
+                                        unreadCount=unreadCount
+                                        lastMessage=lastMessage
+                                        activeChatId=@root.activeChatId
+                                    }}}
+                                {{/each}}
+                            {{/if}}
                         </div>
                     </div>
                 </div>
                 <div class="messenger__right">
-                    {{{Chat data=chatData}}}
+                    {{{Chat activeChatId=activeChatId data=chatData}}}
                 </div>
             </section>
         {{/Layout}}
@@ -132,7 +107,8 @@ class MessengerPage extends Block<MessengerPageProps> {
 const mapStateToProps = (state: AppState) => ({
   isLoading: state.isLoading,
   isAuth: state.isAuth,
-  chats: state.chats
+  chats: state.chats,
+  activeChatId: state.activeChatId
 });
 
 export default withRouter(withStore(MessengerPage, mapStateToProps));
