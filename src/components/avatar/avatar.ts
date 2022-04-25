@@ -88,7 +88,7 @@ export class Avatar extends Block<AvatarProps> {
           <div class="modal {{#if isOpenModal}}modal_open{{/if}} avatar__modal">
             <div class="modal__content js-modal-content">
                 <span class="modal__title">Загрузить аватар</span>
-                <form class="form modal__form" name="avatar">
+                <form class="form modal__form">
                     <label class="file-input modal__input">
                         <input type="file" name="avatar" accept="image/png, image/jpeg" hidden>
                         {{#if file}}

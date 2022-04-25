@@ -52,15 +52,21 @@ export const transformChats = {
     }
 
     return data.map(chat => {
+      let lastMessage = null;
+
+      if (chat.last_message) {
+        lastMessage = {
+          ...chat.last_message,
+          user: this._user(chat.last_message.user)
+        }
+      }
+
       return {
         id: chat.id,
         title: chat.title,
         avatar: chat.avatar,
         unreadCount: chat.unread_count,
-        lastMessage: {
-          ...chat.last_message,
-          user: this._user(chat.last_message.user)
-        }
+        lastMessage
       }
     });
   },

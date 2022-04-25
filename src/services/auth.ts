@@ -29,7 +29,7 @@ export async function login(data: LoginRequestData) {
 
   await getUser();
 
-  window.router.go('/chats');
+  window.router.go('/messenger');
 }
 
 export async function logout() {
@@ -63,5 +63,5 @@ export async function createUser(data: CreateUserRequestData) {
 
   await getUser();
 
-  window.router.go('/chats');
+  window.router.go('/messenger');
 }

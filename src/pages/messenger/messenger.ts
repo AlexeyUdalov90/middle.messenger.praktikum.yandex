@@ -95,11 +95,16 @@ class MessengerPage extends Block<MessengerPageProps> {
                     <div class="messenger__panel messenger-panel">
                         <div class="messenger-panel__top">
                             {{{Link className="messenger-panel__profile" to="/settings" text="Профиль >"}}}
-                            {{{SearchForm
-                                ref="search"
-                                value=searchValue
-                                onSubmit=onSearchHandler
-                            }}}
+                            <div class="messenger-panel__wrapper">
+                                <div class="messenger-panel__search">
+                                    {{{SearchForm
+                                          ref="search"
+                                          value=searchValue
+                                          onSubmit=onSearchHandler
+                                    }}}
+                                </div>
+                                {{{AddChat}}}
+                            </div>
                         </div>
                         <div class="messenger-panel__conversations">
                             {{#each conversations}}

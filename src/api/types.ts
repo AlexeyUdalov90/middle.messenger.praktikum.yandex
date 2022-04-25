@@ -75,6 +75,10 @@ export type ChatsDTO = Array<{
     time: string;
     content: string;
   }
-}> | []
+}> | [];
+
+export type CreateChatRequestData = {
+  title: string;
+};
 
 export type EmptyResponseData = object | APIError;

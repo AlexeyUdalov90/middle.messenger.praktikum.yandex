@@ -21,6 +21,16 @@
     padding: 20px 10px 14px;
   }
 
+  &__wrapper {
+    display: flex;
+    align-items: center;
+  }
+
+  &__search {
+    flex-grow: 1;
+    margin-right: 10px;
+  }
+
   &__profile {
     align-self: flex-end;
     margin-bottom: 23px;
