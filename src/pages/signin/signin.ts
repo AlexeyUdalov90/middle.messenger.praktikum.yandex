@@ -57,7 +57,7 @@ class SignInPage extends Block<SignInPageProps> {
 
   componentDidMount() {
     if (this.props.isAuth) {
-      this.props.router.go('/chats')
+      this.props.router.go('/messenger')
     }
   }
 

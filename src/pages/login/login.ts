@@ -59,7 +59,7 @@ class LoginPage extends Block<LoginPageProps> {
 
   componentDidMount() {
     if (this.props.isAuth) {
-      this.props.router.go('/chats')
+      this.props.router.go('/messenger')
     }
   }
 
@@ -100,7 +100,7 @@ class LoginPage extends Block<LoginPageProps> {
                         {{/each}}
                         {{{Button type="submit" text="Авторизоваться" className="form__button"}}}
                     </form>
-                    {{{Link className="login__link" to="/signin" text="Нет аккаунта?"}}}
+                    {{{Link className="login__link" to="/sign-up" text="Нет аккаунта?"}}}
                 </div>
             </section>
         {{/Layout}}

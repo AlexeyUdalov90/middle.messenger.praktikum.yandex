@@ -124,7 +124,7 @@ class ChangeProfilePage extends Block<ChangeProfilePageProps> {
         {{#Layout name="ChangeProfilePage" isLoading=isLoading}}
             <section class="section profile">
                 <div class="left-bar profile__left">
-                    {{{Link className="profile__back" to="/profile"}}}
+                    {{{Link className="profile__back" to="/settings"}}}
                 </div>
                 <div class="profile__right">
                     <div class="profile__content">

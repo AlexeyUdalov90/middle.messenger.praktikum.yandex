@@ -32,14 +32,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
   router
     .use('/', LoginPage)
-    .use('/signin', SignInPage)
-    .use('/chats', MessengerPage)
-    .use('/profile', ProfilePage)
-    .use('/change-profile', ChangeProfilePage)
-    .use('/change-password', ChangePasswordPage)
+    .use('/sign-up', SignInPage)
+    .use('/messenger', MessengerPage)
+    .use('/settings', ProfilePage)
+    .use('/settings/profile', ChangeProfilePage)
+    .use('/settings/password', ChangePasswordPage)
     .use('/error', ErrorPage)
     .use('*', ErrorPage);
-  // .start();
 
   /**
    * Загружаем данные для приложения

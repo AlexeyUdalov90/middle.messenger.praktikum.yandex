@@ -94,7 +94,7 @@ class MessengerPage extends Block<MessengerPageProps> {
                 <div class="left-bar messenger__left">
                     <div class="messenger__panel messenger-panel">
                         <div class="messenger-panel__top">
-                            {{{Link className="messenger-panel__profile" to="/profile" text="Профиль >"}}}
+                            {{{Link className="messenger-panel__profile" to="/settings" text="Профиль >"}}}
                             {{{SearchForm
                                 ref="search"
                                 value=searchValue

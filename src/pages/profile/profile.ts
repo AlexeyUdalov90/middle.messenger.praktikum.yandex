@@ -69,7 +69,7 @@ class ProfilePage extends Block<ProfilePageProps> {
         {{#Layout name="ProfilePage" isLoading=isLoading}}
             <section class="section profile">
                 <div class="left-bar profile__left">
-                    {{{Link className="profile__back" to="/chats"}}}
+                    {{{Link className="profile__back" to="/messenger"}}}
                 </div>
                 <div class="profile__right">
                     <div class="profile__content">
@@ -87,10 +87,10 @@ class ProfilePage extends Block<ProfilePageProps> {
                         </ul>
                         <ul class="profile-data">
                             <li class="profile-data__item">
-                                {{{Link to="/change-profile" text="Изменить данные"}}}
+                                {{{Link to="/settings/profile" text="Изменить данные"}}}
                             </li>
                             <li class="profile-data__item">
-                                {{{Link to="/change-password" text="Изменить пароль"}}}
+                                {{{Link to="/settings/password" text="Изменить пароль"}}}
                             </li>
                             <li class="profile-data__item">
                                 {{{Button className="button_text profile-data__logout-button" text="Выйти" onCLick=onLogout}}}
