@@ -7,6 +7,6 @@ export { default as queryStringify } from './queryStringify';
 export { default as isArray } from './isArray';
 export { default as isPlainObject } from './isPlainObject';
 export { default as apiHasError } from './apiHasError';
-export { transformUser, transformUserProfile } from './apiTransformers';
+export { transformUser, transformUserProfile, transformChats } from './apiTransformers';
 export { withStore } from './withStore';
 export { withRouter } from './withRouter';

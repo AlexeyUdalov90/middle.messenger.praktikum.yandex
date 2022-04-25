@@ -3,14 +3,14 @@ export type APIError = {
 };
 
 export type UserDTO = {
-  id: number;
+  id?: number;
   first_name: string;
   second_name: string;
-  display_name: string;
+  display_name?: string;
   login: string;
   email: string;
   phone: string;
-  avatar: string;
+  avatar?: string;
 };
 
 export type LoginRequestData = {
@@ -58,5 +58,23 @@ export type ChangePasswordDTO = {
   oldPassword: string;
   newPassword: string;
 }
+
+export type GetChatsRequestData = {
+  offset?: number;
+  limit?: number;
+  title?: string;
+}
+
+export type ChatsDTO = Array<{
+  id: number;
+  title: string;
+  avatar: string;
+  unread_count: string;
+  last_message: {
+    user: UserDTO;
+    time: string;
+    content: string;
+  }
+}> | []
 
 export type EmptyResponseData = object | APIError;

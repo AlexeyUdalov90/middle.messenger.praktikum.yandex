@@ -9,18 +9,30 @@ declare global {
   export type AppState = {
     isLoading: boolean;
     isAuth: boolean;
-    user: User | null;
+    user: Nullable<User>;
+    chats: Nullable<Chats>;
   };
   export type User = {
-    id: number;
+    id?: number;
     firstName: string;
     secondName: string;
-    displayName: string;
+    displayName?: string;
     login: string;
     email: string;
     phone: string;
+    avatar?: string;
+  };
+  export type Chats = Array<{
+    id: number;
+    title: string;
     avatar: string;
-  }
+    unreadCount: string;
+    lastMessage: {
+      user: User;
+      time: string;
+      content: string;
+    }
+  }> | []
 }
 
 export {};

@@ -8,7 +8,7 @@ enum METHOD {
   DELETE = 'DELETE'
 }
 
-type RequestData = string | FormData;
+type RequestData = object | string | FormData;
 type RequestOptions = {
   data?: RequestData;
   method?: METHOD;

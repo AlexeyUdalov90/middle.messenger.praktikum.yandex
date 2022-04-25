@@ -6,6 +6,7 @@ type MessengerPageProps = {
   router: Router;
   isLoading: boolean;
   isAuth: boolean;
+  chats: Nullable<Chats>
 };
 
 class MessengerPage extends Block<MessengerPageProps> {
@@ -125,7 +126,8 @@ class MessengerPage extends Block<MessengerPageProps> {
 
 const mapStateToProps = (state: AppState) => ({
   isLoading: state.isLoading,
-  isAuth: state.isAuth
+  isAuth: state.isAuth,
+  chats: state.chats
 });
 
 export default withRouter(withStore(MessengerPage, mapStateToProps));

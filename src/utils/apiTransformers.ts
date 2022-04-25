@@ -1,4 +1,11 @@
-import {UserDTO, CreateUserRequestData, CreateUserDTO, ChangeProfileRequestData, ChangeProfileDTO} from '../api/types';
+import {
+  UserDTO,
+  CreateUserRequestData,
+  CreateUserDTO,
+  ChangeProfileRequestData,
+  ChangeProfileDTO,
+  ChatsDTO,
+} from '../api/types';
 
 export const transformUser = {
   fromDTO (data: UserDTO): User {
@@ -35,5 +42,35 @@ export const transformUserProfile = {
       email: data.email,
       phone: data.phone,
     }
+  }
+}
+
+export const transformChats = {
+  fromDTO (data: ChatsDTO) {
+    if (!data.length) {
+      return null;
+    }
+
+    return data.map(chat => {
+      return {
+        id: chat.id,
+        title: chat.title,
+        avatar: chat.avatar,
+        unreadCount: chat.unread_count,
+        lastMessage: {
+          ...chat.last_message,
+          user: this._user(chat.last_message.user)
+        }
+      }
+    });
+  },
+  _user (data: UserDTO) {
+    return {
+      firstName: data.first_name,
+      secondName: data.second_name,
+      login: data.login,
+      email: data.email,
+      phone: data.phone
+    };
   }
 }
