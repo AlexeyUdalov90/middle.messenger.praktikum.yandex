@@ -20,7 +20,6 @@ export class Store<State extends Record<string, unknown>> extends EventBus {
 
   public set(path: string, value: unknown) {
     set(this.state, path, value);
-    console.log(path, value)
     this.emit(StoreEvents.Updated);
   }
 }

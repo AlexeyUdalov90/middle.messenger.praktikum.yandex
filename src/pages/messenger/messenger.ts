@@ -7,7 +7,7 @@ type MessengerPageProps = {
   isLoading: boolean;
   isAuth: boolean;
   chats: Nullable<Chats>;
-  activeChatId: Nullable<number>;
+  activeChat: Nullable<Chat>;
   onSearchHandler: (e: Event) => void;
 };
 
@@ -83,12 +83,8 @@ class MessengerPage extends Block<MessengerPageProps> {
                                 {{#each chats}}
                                     {{{Conversation
                                         className="messenger-panel__conversations-item"
-                                        id=id
-                                        title=title
-                                        avatar=avatar
-                                        unreadCount=unreadCount
-                                        lastMessage=lastMessage
-                                        activeChatId=@root.activeChatId
+                                        data=this
+                                        activeChatId=@root.activeChat.id
                                     }}}
                                 {{/each}}
                             {{/if}}
@@ -96,7 +92,7 @@ class MessengerPage extends Block<MessengerPageProps> {
                     </div>
                 </div>
                 <div class="messenger__right">
-                    {{{Chat activeChatId=activeChatId data=chatData}}}
+                    {{{Chat activeChat=activeChat data=chatData}}}
                 </div>
             </section>
         {{/Layout}}
@@ -108,7 +104,7 @@ const mapStateToProps = (state: AppState) => ({
   isLoading: state.isLoading,
   isAuth: state.isAuth,
   chats: state.chats,
-  activeChatId: state.activeChatId
+  activeChat: state.activeChat
 });
 
 export default withRouter(withStore(MessengerPage, mapStateToProps));

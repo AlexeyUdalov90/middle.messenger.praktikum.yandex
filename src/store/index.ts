@@ -3,5 +3,5 @@ export const defaultState: AppState = {
   isAuth: false,
   user: null,
   chats: null,
-  activeChatId: null
+  activeChat: null
 };

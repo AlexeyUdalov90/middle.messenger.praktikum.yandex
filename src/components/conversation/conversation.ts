@@ -3,11 +3,7 @@ import './conversation.css';
 import { dateFormat } from '../../utils';
 
 type ConversationProps = {
-  id: number;
-  title: string;
-  avatar: Nullable<string>;
-  unreadCount: number;
-  lastMessage: Nullable<LastMessage>;
+  data: Chat;
   activeChatId: Nullable<number>;
   events: Record<string, () => void>;
 };
@@ -21,7 +17,7 @@ export class Conversation extends Block<ConversationProps> {
       events: {
         click: () => {
           if (this.state.id !== props.activeChatId) {
-            window.store.set('activeChatId', this.state.id);
+            window.store.set('activeChat', props.data);
           }
         }
       }
@@ -30,19 +26,19 @@ export class Conversation extends Block<ConversationProps> {
 
   protected getStateFromProps(props: ConversationProps) {
     this.state = {
-      id: props.id,
-      title: props.title,
-      avatar: props.avatar,
-      unreadCount: props.unreadCount,
+      id: props.data.id,
+      title: props.data.title,
+      avatar: props.data.avatar,
+      unreadCount: props.data.unreadCount,
       lastMessage: null,
-      isActive: Boolean(props.id === props.activeChatId),
+      isActive: Boolean(props.data.id === props.activeChatId),
     }
 
-    if (props.lastMessage) {
+    if (props.data.lastMessage) {
       this.state.lastMessage = {
-        user: props.lastMessage.user,
-        content: props.lastMessage.content,
-        time: dateFormat(props.lastMessage.time)
+        user: props.data.lastMessage.user,
+        content: props.data.lastMessage.content,
+        time: dateFormat(props.data.lastMessage.time)
       }
     }
   }

@@ -11,7 +11,7 @@ declare global {
     isAuth: boolean;
     user: Nullable<User>;
     chats: Nullable<Chats>;
-    activeChatId: Nullable<number>;
+    activeChat: Nullable<Chat>;
   };
   export type User = {
     id?: number;
