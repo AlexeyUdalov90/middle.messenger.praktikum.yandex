@@ -92,7 +92,7 @@ class MessengerPage extends Block<MessengerPageProps> {
                     </div>
                 </div>
                 <div class="messenger__right">
-                    {{{Chat activeChat=activeChat data=chatData}}}
+                    {{{Chat chat=activeChat}}}
                 </div>
             </section>
         {{/Layout}}

@@ -81,7 +81,7 @@ export class AddChat extends Block<AddChatProps> {
             <div class="modal {{#if isOpenModal}}modal_open{{/if}} add-chat__modal">
                 <div class="modal__content js-modal-content">
                     <span class="modal__title">Создать чат</span>
-                    <form class="form modal__form" name="avatar">
+                    <form class="form modal__form">
                         {{{FormField className="form__input" ref="chatTitle" label="Название чата" type="text" name="title" value=chatTitle}}}
                         {{{Button type="submit" text="Создать" className="modal__button"}}}
                     </form>

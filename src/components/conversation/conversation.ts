@@ -17,7 +17,7 @@ export class Conversation extends Block<ConversationProps> {
       events: {
         click: () => {
           if (this.state.id !== props.activeChatId) {
-            window.store.set('activeChat', props.data);
+            window.store.set('activeChat', { ...props.data});
           }
         }
       }

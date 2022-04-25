@@ -53,9 +53,13 @@
     font-weight: 600;
   }
 
-  &__setting-btn {
+  &__setting {
     position: relative;
     margin-left: auto;
+  }
+
+  &__setting-btn {
+    position: relative;
     padding: 0;
     width: 25px;
     height: 25px;
@@ -63,10 +67,8 @@
     border-radius: 50%;
     border: none;
     background-color: transparent;
-    cursor: pointer;
 
-    &:hover,
-    &:active {
+    .chat__setting:hover & {
       color: var(--app-color);
       background-color: var(--main-message-color);
     }
@@ -91,6 +93,76 @@
     &::after {
       bottom: 5px;
     }
+  }
+
+  &__setting-menu {
+    display: none;
+    position: absolute;
+    right: -10px;
+    top: 100%;
+    z-index: 1;
+    padding-top: 25px;
+
+    .chat__setting:hover & {
+      display: block;
+    }
+  }
+
+  &__setting-wrapper {
+    padding: 15px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 0 6px rgb(0 0 0 / 14%);
+  }
+
+  &__add-user,
+  &__delete-user {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    padding: 0;
+    font-size: 12px;
+    line-height: 14px;
+    white-space: nowrap;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    span {
+      position: relative;
+      margin-right: 15px;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 2px solid var(--app-color);
+
+      &::before,
+      &::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 10px;
+        height: 2px;
+        background-color: var(--app-color);
+      }
+
+      &::before {
+        transform: translate(-50%, -50%);
+      }
+
+      &::after {
+        transform: translate(-50%, -50%) rotate(90deg);
+      }
+    }
+  }
+
+  &__delete-user span {
+    transform: rotate(45deg);
   }
 
   &__content {

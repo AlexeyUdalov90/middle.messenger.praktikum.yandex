@@ -16,7 +16,7 @@ export interface IFormField {
   type?: 'text' | 'password' | 'email' | 'tel';
   placeholder?: string;
   label: string;
-  value: string;
+  value?: string;
   name?: string;
   error?: string;
   className?: string;
