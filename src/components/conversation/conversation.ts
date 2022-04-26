@@ -1,14 +1,16 @@
 import { Block } from '../../core';
 import './conversation.css';
-import { dateFormat } from '../../utils';
+import {dateFormat, withStore} from '../../utils';
 
 type ConversationProps = {
   data: Chat;
   activeChatId: Nullable<number>;
+  userLogin: string;
+  onClick: (id: number) => void;
   events: Record<string, () => void>;
 };
 
-export class Conversation extends Block<ConversationProps> {
+class Conversation extends Block<ConversationProps> {
   static componentName = 'Conversation';
 
   constructor(props: ConversationProps) {
@@ -17,7 +19,7 @@ export class Conversation extends Block<ConversationProps> {
       events: {
         click: () => {
           if (this.state.id !== props.activeChatId) {
-            window.store.set('activeChat', { ...props.data});
+            props.onClick(this.state.id);
           }
         }
       }
@@ -32,6 +34,7 @@ export class Conversation extends Block<ConversationProps> {
       unreadCount: props.data.unreadCount,
       lastMessage: null,
       isActive: Boolean(props.data.id === props.activeChatId),
+      isPersonal: false
     }
 
     if (props.data.lastMessage) {
@@ -40,6 +43,8 @@ export class Conversation extends Block<ConversationProps> {
         content: props.data.lastMessage.content,
         time: dateFormat(props.data.lastMessage.time)
       }
+
+      this.state.isPersonal = props.data.lastMessage.user.login === props.userLogin
     }
   }
 
@@ -72,3 +77,9 @@ export class Conversation extends Block<ConversationProps> {
     `;
   }
 }
+
+const mapStateToProps = (state: AppState) => ({
+  userLogin: state.user?.login
+});
+
+export default withStore(Conversation, mapStateToProps);

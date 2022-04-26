@@ -80,3 +80,13 @@ export async function deleteUser ({ login, chatId }: actionChatUser) {
     window.store.set('isLoading', false);
   }
 }
+
+export async function getToken(id: number) {
+  const responseToken = await chatsAPI.getToken(id);
+
+  if (apiHasError(responseToken)) {
+    return;
+  }
+
+  return responseToken.token;
+}

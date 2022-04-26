@@ -1,18 +1,25 @@
 import { Block } from '../../core';
 import './chat.css'
-import { addUser, deleteUser } from '../../services';
+import { addUser, deleteUser, getToken } from '../../services';
 
 type ChatProps = {
-  chat: Nullable<Chat>;
+  chat: Chat;
+  userId: number;
   events: Record<string, (e: Event) => void>;
+  onSendMessage: (data: Record<string, any>) => void;
 }
 
 export class Chat extends Block<ChatProps> {
   static componentName = 'Chat';
 
+  private webSocket?: Nullable<WebSocket>;
+
   constructor(props: ChatProps) {
     super({
       ...props,
+      onSendMessage: (data) => {
+        this.webSocket?.send(JSON.stringify(data));
+      },
       events: {
         click: (e) => {
           const element = e.target as HTMLElement;
@@ -91,7 +98,47 @@ export class Chat extends Block<ChatProps> {
   protected getStateFromProps() {
     this.state = {
       isOpenAddUserModal: false,
-      isOpenDeleteUserModal: false
+      isOpenDeleteUserModal: false,
+      messages: null
+    }
+  }
+
+  componentDidMount() {
+    if (!this.webSocket) {
+      getToken(Number(this.props.chat.id))
+        .then(token => {
+          this.webSocket = new WebSocket(`wss://ya-praktikum.tech/ws/chats/${this.props.userId}/${Number(this.props.chat.id)}/${token}`);
+
+          this.webSocket.addEventListener('open', () => {
+            console.log('WS open');
+
+            this.webSocket?.send(JSON.stringify({
+              content: '0',
+              type: 'get old'
+            }));
+          })
+
+          this.webSocket.addEventListener('message', (e: MessageEvent) => {
+            console.log(e.data);
+            // обновляем стор с сообщениями
+          })
+
+          this.webSocket.addEventListener('error', (e) => {
+            console.log((e as ErrorEvent).message);
+          })
+
+          this.webSocket.addEventListener('close', (e: CloseEvent) => {
+            if (!e.wasClean) {
+              // Обработать - переоткрыть если нужно
+            }
+          })
+        })
+    }
+  }
+
+  componentWillUnmount() {
+    if (this.webSocket) {
+      this.webSocket.close();
     }
   }
 
@@ -99,8 +146,7 @@ export class Chat extends Block<ChatProps> {
     // language=hbs
 
     return `
-      <div class="chat {{#if chat}}not-empty{{/if}}">
-        {{#if chat}}
+      <div class="chat">
           <div class="chat__top">
             <div class="chat__avatar">
                 {{#if chat.avatar}}
@@ -119,8 +165,8 @@ export class Chat extends Block<ChatProps> {
             </div>
           </div>
           <div class="chat__content">
-              {{#if chat.messages}}
-                  {{#each data.messages}}
+              {{#if messages}}
+                  {{#each messages}}
                       {{{Message
                               className="chat__message"
                               text=text
@@ -132,7 +178,7 @@ export class Chat extends Block<ChatProps> {
               {{/if}}
           </div>
           <div class="chat__bottom">
-            {{{ChatForm}}}
+            {{{ChatForm onSubmit=onSendMessage}}}
           </div>
           <div class="modal {{#if isOpenAddUserModal}}modal_open{{/if}} chat__add-user-modal">
               <div class="modal__content js-modal-add-user">
@@ -152,9 +198,6 @@ export class Chat extends Block<ChatProps> {
                   </form>
               </div>
           </div>
-        {{else}}
-          <p class="chat__empty-message">Выберите чат чтобы отправить сообщение</p>
-        {{/if}}
       </div>
     `;
   }

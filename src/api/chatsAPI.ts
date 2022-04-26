@@ -6,6 +6,7 @@ import {
   CreateChatDTO,
   EmptyResponseData,
   GetChatsDTO,
+  TokenResponse
 } from './types';
 
 const http = new HTTPTransport('https://ya-praktikum.tech/api/v2');
@@ -31,7 +32,8 @@ const chatsAPI = {
     headers: {
       'content-type': 'application/json'
     }
-  })
+  }),
+  getToken: (id: number) => http.post<TokenResponse | APIError>(`/chats/token/${id}`)
 };
 
 export default chatsAPI;

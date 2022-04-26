@@ -92,4 +92,8 @@ export type ChatUserActionDTO = {
   chatId: number;
 };
 
+export type TokenResponse = {
+  token: string
+};
+
 export type EmptyResponseData = object | APIError;

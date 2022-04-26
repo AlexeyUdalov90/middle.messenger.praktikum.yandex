@@ -9,6 +9,7 @@ type MessengerPageProps = {
   chats: Nullable<Chats>;
   activeChat: Nullable<Chat>;
   onSearchHandler: (e: Event) => void;
+  onChooseChat: (id: number | string) => void;
 };
 
 class MessengerPage extends Block<MessengerPageProps> {
@@ -27,6 +28,16 @@ class MessengerPage extends Block<MessengerPageProps> {
             search: searchInput.value
           })
         }
+      },
+      onChooseChat: (id) => {
+        const activeChat = this.props.chats?.find(chat => chat.id === id);
+
+        if (activeChat) {
+          this.setState({
+            ...this.state,
+            activeChat
+          });
+        }
       }
     });
   }
@@ -40,6 +51,7 @@ class MessengerPage extends Block<MessengerPageProps> {
   protected getStateFromProps() {
     this.state = {
       searchValue: '',
+      activeChat: null,
       chatData: {
         userName: 'Вадим',
         messages: [
@@ -85,6 +97,7 @@ class MessengerPage extends Block<MessengerPageProps> {
                                         className="messenger-panel__conversations-item"
                                         data=this
                                         activeChatId=@root.activeChat.id
+                                        onClick=@root.onChooseChat
                                     }}}
                                 {{/each}}
                             {{/if}}
@@ -92,7 +105,11 @@ class MessengerPage extends Block<MessengerPageProps> {
                     </div>
                 </div>
                 <div class="messenger__right">
-                    {{{Chat chat=activeChat}}}
+                    {{#if activeChat}}
+                        {{{Chat userId=userId chat=activeChat}}}
+                    {{else}}
+                        <p class="chat__empty-message">Выберите чат чтобы отправить сообщение</p>
+                    {{/if}}
                 </div>
             </section>
         {{/Layout}}
@@ -103,8 +120,8 @@ class MessengerPage extends Block<MessengerPageProps> {
 const mapStateToProps = (state: AppState) => ({
   isLoading: state.isLoading,
   isAuth: state.isAuth,
-  chats: state.chats,
-  activeChat: state.activeChat
+  userId: state.user?.id,
+  chats: state.chats
 });
 
 export default withRouter(withStore(MessengerPage, mapStateToProps));

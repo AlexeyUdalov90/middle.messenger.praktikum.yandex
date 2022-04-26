@@ -56,6 +56,22 @@ export default class Block<P = any> {
     eventBus.emit(Block.EVENTS.INIT, this.props);
   }
 
+  /**
+   * Хелпер, который проверяет, находится ли элемент в DOM дереве
+   * И есть нет, триггерит событие COMPONENT_WILL_UNMOUNT
+   */
+  _checkInDom() {
+    const elementInDOM = document.body.contains(this._element);
+
+    if (elementInDOM) {
+      setTimeout(() => this._checkInDom(), 1000);
+
+      return;
+    }
+
+    this.eventBus().emit(Block.EVENTS.FLOW_CWU, this.props);
+  }
+
   _registerEvents(eventBus: EventBus<Events>) {
     eventBus.on(Block.EVENTS.INIT, this.init.bind(this));
     eventBus.on(Block.EVENTS.FLOW_CDM, this._componentDidMount.bind(this));
@@ -73,6 +89,7 @@ export default class Block<P = any> {
   }
 
   _componentDidMount(props: P) {
+    this._checkInDom();
     this.componentDidMount(props);
   }
 
