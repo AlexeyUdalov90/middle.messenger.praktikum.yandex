@@ -1,6 +1,6 @@
 import chatsAPI from '../api/chatsAPI';
-import userAPI from '../api/userAPI';
-import {CreateChatDTO, SearchUserDTO} from '../api/types';
+import { searchUser } from './user';
+import { CreateChatDTO } from '../api/types';
 import { apiHasError, transformChats } from '../utils';
 
 export async function createChat (data: CreateChatDTO) {
@@ -26,65 +26,57 @@ export async function createChat (data: CreateChatDTO) {
   window.store.set('chats', transformChats.fromDTO(responseGetChats));
 }
 
-type addUser = {
+type actionChatUser = {
   login: string;
   chatId: number;
 }
 
-export async function addUser ({ login, chatId }: addUser) {
+export async function addUser ({ login, chatId }: actionChatUser) {
   window.store.set('isLoading', true);
 
-  const responseSearchUser = await userAPI.searchUser({
+  const responseSearchUser = await searchUser({
     login
   });
 
-  if (apiHasError(responseSearchUser)) {
+  if (responseSearchUser) {
+    const users = responseSearchUser.map(user => user.id);
+
+    const responseAddUser = await chatsAPI.addUser({
+      users,
+      chatId
+    });
+
+    if (apiHasError(responseAddUser)) {
+      window.store.set('isLoading', false);
+
+      return;
+    }
+
     window.store.set('isLoading', false);
-
-    return;
   }
-
-  const users = responseSearchUser.map(user => user.id);
-
-  const responseAddUser = await chatsAPI.addUser({
-    users,
-    chatId
-  });
-
-  if (apiHasError(responseAddUser)) {
-    window.store.set('isLoading', false);
-
-    return;
-  }
-
-  window.store.set('isLoading', false);
 }
 
-export async function deleteUser ({ login, chatId }: addUser) {
+export async function deleteUser ({ login, chatId }: actionChatUser) {
   window.store.set('isLoading', true);
 
-  const responseSearchUser = await userAPI.searchUser({
+  const responseSearchUser = await searchUser({
     login
   });
 
-  if (apiHasError(responseSearchUser)) {
+  if (responseSearchUser) {
+    const users = responseSearchUser.map(user => user.id);
+
+    const responseDeleteUser = await chatsAPI.deleteUser({
+      users,
+      chatId
+    });
+
+    if (apiHasError(responseDeleteUser)) {
+      window.store.set('isLoading', false);
+
+      return;
+    }
+
     window.store.set('isLoading', false);
-
-    return;
   }
-
-  const users = responseSearchUser.map(user => user.id);
-
-  const responseDeleteUser = await chatsAPI.deleteUser({
-    users,
-    chatId
-  });
-
-  if (apiHasError(responseDeleteUser)) {
-    window.store.set('isLoading', false);
-
-    return;
-  }
-
-  window.store.set('isLoading', false);
 }

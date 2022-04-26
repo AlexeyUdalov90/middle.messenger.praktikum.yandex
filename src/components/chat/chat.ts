@@ -59,22 +59,28 @@ export class Chat extends Block<ChatProps> {
           if (this.state.isOpenAddUserModal && this.props.chat) {
             const input = this.refs?.addUserLogin.querySelector<HTMLInputElement>('input');
 
-            console.log('Add user login: ', input?.value);
-
             addUser({
-              login: input?.value,
-              chatId: this.props.chat.id
+              login: input?.value ?? '',
+              chatId: Number(this.props.chat.id)
+            }).finally(() => {
+              this.setState({
+                ...this.state,
+                isOpenAddUserModal: false
+              });
             })
           }
 
           if (this.state.isOpenDeleteUserModal && this.props.chat) {
             const input = this.refs?.deleteUserLogin.querySelector<HTMLInputElement>('input');
 
-            console.log('Delete user login: ', input?.value);
-
             deleteUser({
-              login: input?.value,
-              chatId: this.props.chat.id
+              login: input?.value ?? '',
+              chatId: Number(this.props.chat.id)
+            }).finally(() => {
+              this.setState({
+                ...this.state,
+                isOpenDeleteUserModal: false
+              });
             })
           }
         }
