@@ -8,7 +8,7 @@ type ChatProps = {
   userId: number;
   events: Record<string, (e: Event) => void>;
   onSendMessage: (data: Record<string, any>) => void;
-}
+};
 
 export class Chat extends Block<ChatProps> {
   static componentName = 'Chat';

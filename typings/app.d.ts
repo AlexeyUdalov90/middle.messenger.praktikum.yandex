@@ -11,7 +11,6 @@ declare global {
     isAuth: boolean;
     user: Nullable<User>;
     chats: Nullable<Chats>;
-    activeChat: Nullable<Chat>;
   };
   export type User = {
     id?: number;
@@ -52,6 +51,16 @@ declare global {
       contentSize: number;
       uploadDate: string;
     }
+  };
+  export type Input = {
+    type?: 'text' | 'password' | 'email' | 'tel';
+    placeholder?: string;
+    label?: string;
+    value: string;
+    name?: string;
+    error?: string;
+    className?: string;
+    events?: Record<string, (e: Event) => void>
   };
 }
 

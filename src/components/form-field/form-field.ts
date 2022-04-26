@@ -1,14 +1,14 @@
 import { Block } from '../../core';
-import { IFormField } from '../../interfaces';
 import './form-field.css';
-import {checkValidation} from '../../services';
+import { checkValidation } from '../../services';
 
-export class FormField extends Block<IFormField> {
+export class FormField extends Block<Input> {
   static componentName = 'FormField';
 
-  constructor(props: IFormField) {
+  constructor({type = 'text', ...props}: Input) {
     super({
       ...props,
+      type,
       events: {
         focusout: (e) => {
           const input = e.target as HTMLInputElement;

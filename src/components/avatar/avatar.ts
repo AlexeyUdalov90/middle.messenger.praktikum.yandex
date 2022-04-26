@@ -5,7 +5,7 @@ import { setAvatar } from '../../services';
 type AvatarProps = {
   avatar: string;
   events: Record<string, (e: Event) => void>;
-}
+};
 
 export class Avatar extends Block<AvatarProps> {
   static componentName = 'Avatar';

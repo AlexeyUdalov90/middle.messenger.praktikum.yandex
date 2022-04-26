@@ -2,7 +2,6 @@ import { Block, Router } from '../../core';
 import '../../styles/login.css';
 import { checkValidation, createUser } from '../../services';
 import { withStore, withRouter } from '../../utils';
-import {IFormField} from '../../interfaces';
 
 type SignInPageProps = {
   router: Router;
@@ -39,11 +38,11 @@ class SignInPage extends Block<SignInPageProps> {
             inputs: { ...newInputsState }
           });
 
-          const isInvalid = Object.values(this.state.inputs).some(input => Boolean((input as IFormField).error));
+          const isInvalid = Object.values(this.state.inputs).some(input => Boolean((input as Input).error));
 
           if (!isInvalid) {
             const result = Object.entries(this.state.inputs).reduce((submitRes: any, [key, data]) => {
-              submitRes[key] = (data as IFormField).value;
+              submitRes[key] = (data as Input).value;
 
               return submitRes;
             }, {});

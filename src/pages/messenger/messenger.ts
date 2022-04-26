@@ -1,4 +1,4 @@
-import {Block, Router} from '../../core';
+import { Block, Router } from '../../core';
 import '../../styles/messenger.css';
 import { withRouter, withStore } from '../../utils';
 
@@ -7,7 +7,6 @@ type MessengerPageProps = {
   isLoading: boolean;
   isAuth: boolean;
   chats: Nullable<Chats>;
-  activeChat: Nullable<Chat>;
   onSearchHandler: (e: Event) => void;
   onChooseChat: (id: number | string) => void;
 };
@@ -51,21 +50,7 @@ class MessengerPage extends Block<MessengerPageProps> {
   protected getStateFromProps() {
     this.state = {
       searchValue: '',
-      activeChat: null,
-      chatData: {
-        userName: 'Вадим',
-        messages: [
-          {
-            text: 'Круто!',
-            time: '12:00',
-            isMy: true
-          }, {
-            text: 'Привет! Смотри, тут всплыл интересный кусок лунной космической истории — НАСА в какой-то момент попросила Хассельблад адаптировать модель SWC для полетов на Луну. Сейчас мы все знаем что астронавты летали с моделью 500 EL — и к слову говоря, все тушки этих камер все еще находятся на поверхности Луны, так как астронавты с собой забрали только кассеты с пленкой.',
-            time: '11:56',
-            isMy: false
-          }
-        ]
-      }
+      activeChat: null
     };
   }
 

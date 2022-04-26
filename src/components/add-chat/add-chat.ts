@@ -4,7 +4,7 @@ import { createChat } from '../../services';
 
 type AddChatProps = {
   events: Record<string, (e: Event) => void>;
-}
+};
 
 export class AddChat extends Block<AddChatProps> {
   static componentName = 'AddChat';

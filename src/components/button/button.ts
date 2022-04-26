@@ -1,11 +1,19 @@
 import { Block } from '../../core';
-import { IButton } from '../../interfaces';
 import './button.css';
 
-export class Button extends Block {
+type ButtonProps = {
+  text: string;
+  className?: string;
+  type?: 'button' | 'submit' | 'reset';
+  disabled?: boolean;
+  onCLick?: () => void;
+  events: Record<string, any>;
+}
+
+export class Button extends Block<ButtonProps> {
   static componentName = 'Button';
 
-  constructor({ type = 'button', onCLick, ...props }: IButton) {
+  constructor({ type = 'button', onCLick, ...props }: ButtonProps) {
     super({
       ...props,
       type,

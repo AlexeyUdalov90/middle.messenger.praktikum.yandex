@@ -1,6 +1,6 @@
-import {Block, Router} from '../../core';
+import { Block, Router } from '../../core';
 import '../../styles/profile.css';
-import { logout } from '../../services/auth';
+import { logout } from '../../services';
 import { withStore, withRouter } from '../../utils';
 
 type ProfilePageProps = {

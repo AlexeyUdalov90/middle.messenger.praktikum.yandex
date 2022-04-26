@@ -2,7 +2,6 @@ import { Block, Router } from '../../core';
 import '../../styles/profile.css';
 import { withStore, withRouter } from '../../utils';
 import { checkValidation, changeProfile } from '../../services';
-import { IFormField } from '../../interfaces';
 
 type ChangeProfilePageProps = {
   router: Router;
@@ -40,11 +39,11 @@ class ChangeProfilePage extends Block<ChangeProfilePageProps> {
             inputs: { ...newInputsState }
           });
 
-          const isInvalid = Object.values(this.state.inputs).some(input => Boolean((input as IFormField).error));
+          const isInvalid = Object.values(this.state.inputs).some(input => Boolean((input as Input).error));
 
           if (!isInvalid) {
             const result = Object.entries(this.state.inputs).reduce((submitRes: any, [key, data ]) => {
-              submitRes[key] = (data as IFormField).value;
+              submitRes[key] = (data as Input).value;
 
               return submitRes;
             }, {});

@@ -4,7 +4,7 @@ import './chat-form.css';
 type ChatFormProps = {
   onSubmit: (data: Record<string, any>) => void;
   events: Record<string, (e: Event) => void>;
-}
+};
 
 export class ChatForm extends Block<ChatFormProps> {
   static componentName = 'ChatForm';
