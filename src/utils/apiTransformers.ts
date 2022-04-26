@@ -4,7 +4,7 @@ import {
   CreateUserDTO,
   ChangeProfileRequestData,
   ChangeProfileDTO,
-  ChatsDTO,
+  ChatsDTO, messageDTO,
 } from '../api/types';
 
 export const transformUser = {
@@ -78,5 +78,32 @@ export const transformChats = {
       email: data.email,
       phone: data.phone
     };
+  }
+}
+
+export const transformMessage = {
+  fromDTO (data: messageDTO) {
+    const result = {
+      chatId: data.chat_id,
+      time: data.time,
+      type: data.type,
+      userId: data.user_id,
+      content: data.content,
+      isRead: data.is_read
+    }
+
+    if (data.file) {
+      result.file = {
+        id: data.file.id,
+        userId: data.file.user_id,
+        path: data.file.path,
+        filename: data.file.filename,
+        contentType: data.file.content_type,
+        contentSize: data.file.content_size,
+        uploadDate: data.file.upload_date
+      }
+    }
+
+    return result;
   }
 }

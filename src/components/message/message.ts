@@ -1,12 +1,27 @@
 import { Block } from '../../core';
-import { IMessage } from '../../interfaces';
 import './message.css';
+import { dateFormat } from '../../utils';
 
-export class Message extends Block {
+type MessageProps = {
+  className: string;
+  data: ChatMessage;
+  userId: number;
+}
+
+export class Message extends Block<MessageProps> {
   static componentName = 'Message';
 
-  constructor(props: IMessage) {
+  constructor(props: MessageProps) {
     super({ ...props });
+  }
+
+  protected getStateFromProps(props: MessageProps) {
+    this.state = {
+      time: dateFormat(props.data.time),
+      text: props.data.content,
+      isRead: props.data.isRead,
+      isMy: props.userId === props.data.userId
+    }
   }
 
   render () {
@@ -16,7 +31,7 @@ export class Message extends Block {
       <div class="message {{#if isMy}}my{{/if}} {{className}}">
         <p class="message__text">{{text}}</p>
         <div class="message__info">
-          {{#if isMy}}
+          {{#if isRead}}
             <span class="message__status"></span>
           {{/if}}
           <span class="message__time">{{time}}</span>

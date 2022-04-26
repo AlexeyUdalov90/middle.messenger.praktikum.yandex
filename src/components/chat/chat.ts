@@ -1,6 +1,7 @@
 import { Block } from '../../core';
 import './chat.css'
 import { addUser, deleteUser, getToken } from '../../services';
+import { isArray, transformMessage } from '../../utils';
 
 type ChatProps = {
   chat: Chat;
@@ -99,7 +100,8 @@ export class Chat extends Block<ChatProps> {
     this.state = {
       isOpenAddUserModal: false,
       isOpenDeleteUserModal: false,
-      messages: null
+      messages: [],
+      intervalId: null
     }
   }
 
@@ -116,20 +118,52 @@ export class Chat extends Block<ChatProps> {
               content: '0',
               type: 'get old'
             }));
+
+            this.state.intervalId = setInterval(() => {
+              this.webSocket?.send(JSON.stringify({
+                type: 'ping'
+              }))
+            }, 1000);
           })
 
           this.webSocket.addEventListener('message', (e: MessageEvent) => {
-            console.log(e.data);
-            // обновляем стор с сообщениями
+            try {
+              const data = JSON.parse(e.data);
+
+              if (isArray(data)) {
+                this.setState({
+                  ...this.state,
+                  messages: data.map(message => transformMessage.fromDTO(message))
+                });
+              } else {
+                if (data.type === 'message') {
+                  this.setState({
+                    ...this.state,
+                    messages: [
+                      ...[transformMessage.fromDTO(data)],
+                      ...this.state.messages
+                    ]
+                  });
+                }
+              }
+            } catch (err) {
+              console.error(err);
+            }
           })
 
           this.webSocket.addEventListener('error', (e) => {
             console.log((e as ErrorEvent).message);
+            this.webSocket?.close();
           })
 
           this.webSocket.addEventListener('close', (e: CloseEvent) => {
+            console.log('Close WS');
+
+            clearInterval(this.state.intervalId);
+            this.state.timeoutId = null;
+
             if (!e.wasClean) {
-              // Обработать - переоткрыть если нужно
+              console.log(`Code: ${e.code} | Reason: ${e.reason}`);
             }
           })
         })
@@ -165,17 +199,13 @@ export class Chat extends Block<ChatProps> {
             </div>
           </div>
           <div class="chat__content">
-              {{#if messages}}
-                  {{#each messages}}
-                      {{{Message
-                              className="chat__message"
-                              text=text
-                              time=time
-                              isMy=isMy
-                      }}}
-                  {{/each}}
-                  <span class="chat__date">19 июня</span>
-              {{/if}}
+              {{#each messages}}
+                  {{{Message
+                      className="chat__message"
+                      data=this
+                      userId=@root.userId
+                  }}}
+              {{/each}}
           </div>
           <div class="chat__bottom">
             {{{ChatForm onSubmit=onSendMessage}}}

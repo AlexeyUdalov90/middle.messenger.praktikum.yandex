@@ -36,6 +36,23 @@ declare global {
     content: string;
   };
   export type Chats = Array<Chat> | [];
+  export type ChatMessage = {
+    chatId: number;
+    time: string;
+    type: string;
+    userId: number;
+    content: string;
+    isRead: boolean;
+    file?: {
+      id: number;
+      userId: number;
+      path: string;
+      filename: string;
+      contentType: string;
+      contentSize: number;
+      uploadDate: string;
+    }
+  };
 }
 
 export {};
