@@ -1,9 +1,10 @@
 import { Block } from '../../core';
 import './chat.css'
+import { addUser, deleteUser } from '../../services';
 
 type ChatProps = {
   chat: Nullable<Chat>;
-  events: Record<string, (e: Event) => void>
+  events: Record<string, (e: Event) => void>;
 }
 
 export class Chat extends Block<ChatProps> {
@@ -55,16 +56,26 @@ export class Chat extends Block<ChatProps> {
         submit: (e) => {
           e.preventDefault();
 
-          if (this.state.isOpenAddUserModal) {
+          if (this.state.isOpenAddUserModal && this.props.chat) {
             const input = this.refs?.addUserLogin.querySelector<HTMLInputElement>('input');
 
             console.log('Add user login: ', input?.value);
+
+            addUser({
+              login: input?.value,
+              chatId: this.props.chat.id
+            })
           }
 
-          if (this.state.isOpenDeleteUserModal) {
+          if (this.state.isOpenDeleteUserModal && this.props.chat) {
             const input = this.refs?.deleteUserLogin.querySelector<HTMLInputElement>('input');
 
             console.log('Delete user login: ', input?.value);
+
+            deleteUser({
+              login: input?.value,
+              chatId: this.props.chat.id
+            })
           }
         }
       }

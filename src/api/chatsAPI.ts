@@ -1,13 +1,32 @@
 import { HTTPTransport } from '../core';
-import {APIError, ChatsDTO, CreateChatRequestData, EmptyResponseData, GetChatsRequestData} from './types';
+import {
+  APIError,
+  ChatsDTO,
+  ChatUserActionDTO,
+  CreateChatDTO,
+  EmptyResponseData,
+  GetChatsDTO,
+} from './types';
 
 const http = new HTTPTransport('https://ya-praktikum.tech/api/v2');
 
 const chatsAPI = {
-  getChats: (data: GetChatsRequestData = {}) => http.get<ChatsDTO | APIError>('/chats', {
+  getChats: (data: GetChatsDTO = {}) => http.get<ChatsDTO | APIError>('/chats', {
     data
   }),
-  createChat: (data: CreateChatRequestData) => http.post<EmptyResponseData>('/chats', {
+  createChat: (data: CreateChatDTO) => http.post<EmptyResponseData>('/chats', {
+    data: JSON.stringify(data),
+    headers: {
+      'content-type': 'application/json'
+    }
+  }),
+  addUser: (data: ChatUserActionDTO) => http.put<EmptyResponseData>('/chats/users', {
+    data: JSON.stringify(data),
+    headers: {
+      'content-type': 'application/json'
+    }
+  }),
+  deleteUser: (data: ChatUserActionDTO) => http.delete<EmptyResponseData>('/chats/users', {
     data: JSON.stringify(data),
     headers: {
       'content-type': 'application/json'

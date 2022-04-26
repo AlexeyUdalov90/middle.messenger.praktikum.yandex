@@ -3,7 +3,7 @@ export type APIError = {
 };
 
 export type UserDTO = {
-  id?: number;
+  id: number;
   first_name: string;
   second_name: string;
   display_name?: string;
@@ -59,7 +59,7 @@ export type ChangePasswordDTO = {
   newPassword: string;
 }
 
-export type GetChatsRequestData = {
+export type GetChatsDTO = {
   offset?: number;
   limit?: number;
   title?: string;
@@ -79,8 +79,17 @@ export type LastMessageDTO = {
   content: string;
 };
 
-export type CreateChatRequestData = {
+export type CreateChatDTO = {
   title: string;
+};
+
+export type SearchUserDTO = {
+  login: string;
+};
+
+export type ChatUserActionDTO = {
+  users: Array<number>;
+  chatId: number;
 };
 
 export type EmptyResponseData = object | APIError;
