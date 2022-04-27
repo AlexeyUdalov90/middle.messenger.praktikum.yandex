@@ -56,7 +56,7 @@ class Conversation extends Block<ConversationProps> {
         <div class="conversation__content">
           <div class="conversation__avatar">
               {{#if avatar}}
-                  <img src="https://ya-praktikum.tech/api/v2/resources{{avatar}}" alt="">
+                  <img src="https://ya-praktikum.tech/api/v2/resources{{avatar}}" alt="Аватар чата">
               {{/if}}
           </div>
           <div class="conversation__wrapper">
