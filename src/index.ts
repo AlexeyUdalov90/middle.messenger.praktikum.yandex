@@ -35,8 +35,8 @@ document.addEventListener('DOMContentLoaded', () => {
     .use('/sign-up', SignInPage)
     .use('/messenger', MessengerPage)
     .use('/settings', ProfilePage)
-    .use('/settings/profile', ChangeProfilePage)
-    .use('/settings/password', ChangePasswordPage)
+    .use('/settings-profile', ChangeProfilePage)
+    .use('/settings-password', ChangePasswordPage)
     .use('/error', ErrorPage)
     .use('*', ErrorPage);
 

@@ -87,10 +87,10 @@ class ProfilePage extends Block<ProfilePageProps> {
                         </ul>
                         <ul class="profile-data">
                             <li class="profile-data__item">
-                                {{{Link to="/settings/profile" text="Изменить данные"}}}
+                                {{{Link to="/settings-profile" text="Изменить данные"}}}
                             </li>
                             <li class="profile-data__item">
-                                {{{Link to="/settings/password" text="Изменить пароль"}}}
+                                {{{Link to="/settings-password" text="Изменить пароль"}}}
                             </li>
                             <li class="profile-data__item">
                                 {{{Button className="button_text profile-data__logout-button" text="Выйти" onCLick=onLogout}}}
