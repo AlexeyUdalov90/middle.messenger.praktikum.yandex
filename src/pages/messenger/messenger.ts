@@ -1,6 +1,7 @@
 import { Block, Router } from '../../core';
 import '../../styles/messenger.css';
 import { withRouter, withStore } from '../../utils';
+import { getChats } from '../../services';
 
 type MessengerPageProps = {
   router: Router;
@@ -43,8 +44,10 @@ class MessengerPage extends Block<MessengerPageProps> {
 
   componentDidMount() {
     if (!this.props.isAuth) {
-      this.props.router.go('/')
+      return this.props.router.go('/')
     }
+
+    getChats();
   }
 
   protected getStateFromProps() {

@@ -1,7 +1,6 @@
 import authAPI from '../api/authAPI';
-import chatsAPI from '../api/chatsAPI';
 import { UserDTO } from '../api/types';
-import { apiHasError, transformUser, transformChats } from '../utils';
+import { apiHasError, transformUser } from '../utils';
 
 export async function initApp() {
   window.store.set('isLoading', true);
@@ -13,14 +12,7 @@ export async function initApp() {
       return;
     }
 
-    const responseChats = await chatsAPI.getChats();
-
-    if (apiHasError(responseChats)) {
-      return;
-    }
-
     window.store.set('user', transformUser.fromDTO(response as UserDTO));
-    window.store.set('chats', transformChats.fromDTO(responseChats));
     window.store.set('isAuth', true);
   } catch (err) {
     console.error(err);

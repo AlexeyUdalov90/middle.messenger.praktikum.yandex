@@ -3,6 +3,21 @@ import { searchUser } from './user';
 import { CreateChatDTO } from '../api/types';
 import { apiHasError, transformChats } from '../utils';
 
+export async function getChats () {
+  window.store.set('isLoading', true);
+
+  const responseChats = await chatsAPI.getChats();
+
+  if (apiHasError(responseChats)) {
+    window.store.set('isLoading', false);
+
+    return;
+  }
+
+  window.store.set('isLoading', false);
+  window.store.set('chats', transformChats.fromDTO(responseChats));
+}
+
 export async function createChat (data: CreateChatDTO) {
   window.store.set('isLoading', true);
 
@@ -14,16 +29,18 @@ export async function createChat (data: CreateChatDTO) {
     return;
   }
 
-  const responseGetChats = await chatsAPI.getChats();
+  await getChats();
 
-  if (apiHasError(responseGetChats)) {
-    window.store.set('isLoading', false);
-
-    return;
-  }
-
-  window.store.set('isLoading', false);
-  window.store.set('chats', transformChats.fromDTO(responseGetChats));
+  // const responseGetChats = await chatsAPI.getChats();
+  //
+  // if (apiHasError(responseGetChats)) {
+  //   window.store.set('isLoading', false);
+  //
+  //   return;
+  // }
+  //
+  // window.store.set('isLoading', false);
+  // window.store.set('chats', transformChats.fromDTO(responseGetChats));
 }
 
 type actionChatUser = {
