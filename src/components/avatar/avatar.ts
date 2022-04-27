@@ -81,7 +81,7 @@ export class Avatar extends Block<AvatarProps> {
       <div class="avatar">
           <button class="avatar__button js-avatar-button">
               {{#if avatar}}
-                  <img src="https://ya-praktikum.tech/api/v2/{{avatar}}" alt="">
+                  <img src="https://ya-praktikum.tech/api/v2/resources{{avatar}}" alt="">
               {{/if}}
               <span class="avatar__text">Поменять<br>аватар</span>
           </button>
