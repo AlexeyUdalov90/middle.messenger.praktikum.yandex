@@ -34,7 +34,7 @@ export class Message extends Block<MessageProps> {
           {{#if isRead}}
             <span class="message__status"></span>
           {{/if}}
-          <span class="message__time">{{time}}</span>
+          <time class="message__time">{{time}}</time>
         </div>
       </div>
     `;

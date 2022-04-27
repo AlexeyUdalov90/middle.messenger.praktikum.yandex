@@ -67,7 +67,7 @@ class Conversation extends Block<ConversationProps> {
               {{/if}}
               {{lastMessage.content}}
             </span>
-            <span class="conversation__time">{{lastMessage.time}}</span>
+            <time class="conversation__time">{{lastMessage.time}}</time>
             {{#if unreadCount}}
               <span class="conversation__badge">{{unreadCount}}</span>
             {{/if}}
