@@ -1,0 +1,14 @@
+.add-chat {
+  &__button {
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    font-size: 18px;
+    line-height: 30px;
+    color: #ffffff;
+    background-color: var(--app-color);
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+  }
+}

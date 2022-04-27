@@ -7,7 +7,7 @@ interface BlockConstructable<Props = any> {
 }
 
 export default function registerComponent<Props = any>(Component: BlockConstructable) {
-  Handlebars.registerHelper(Component.componentName, function ({ hash: { ref, ...hash }, data }: HelperOptions, options) {
+  Handlebars.registerHelper(Component.componentName || Component.name, function (this: Props, { hash: { ref, ...hash }, data, fn }: HelperOptions) {
 
     if (!data.root.children) {
       data.root.children = {};
@@ -19,6 +19,19 @@ export default function registerComponent<Props = any>(Component: BlockConstruct
 
     const { children, refs } = data.root;
 
+    /**
+     * Костыль для того, чтобы передавать переменные
+     * внутрь блоков вручную подменяя значение
+     */
+    (Object.keys(hash) as any).forEach((key: keyof Props) => {
+      if (this[key] && typeof hash[key] === 'string') {
+        hash[key] = hash[key].replace(
+          new RegExp(`{{${key}}}`, 'i'),
+          this[key],
+        );
+      }
+    });
+
     const component = new Component(hash);
 
     children[component.id] = component;
@@ -27,6 +40,8 @@ export default function registerComponent<Props = any>(Component: BlockConstruct
       refs[ref] = component.getContent();
     }
 
-    return `<div data-id="${component.id}"></div>`;
+    const contents = fn ? fn(this) : '';
+
+    return `<div data-id="${component.id}">${contents}</div>`;
   })
 }

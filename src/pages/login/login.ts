@@ -1,12 +1,69 @@
-import { Block } from '../../core';
+import { Block, Router } from '../../core';
 import '../../styles/login.css'
+import { LoginRequestData } from '../../api/types';
+import { withStore, withRouter } from '../../utils';
+import { checkValidation, login } from '../../services';
 
-export class LoginPage extends Block {
+type LoginPageProps = {
+  router: Router;
+  isLoading: boolean;
+  isAuth: boolean;
+  events: Record<string, (e: Event) => void>;
+  onSubmit?: (data: LoginRequestData) => void;
+};
+
+class LoginPage extends Block<LoginPageProps> {
   static componentName = 'LoginPage';
+
+  constructor(props: LoginPageProps) {
+    super({
+      ...props,
+      events: {
+        submit: (e) => {
+          e.preventDefault();
+
+          const newInputsState = Object.entries(this.refs).reduce((res: any, [name, item]) => {
+            const input = item.querySelector<HTMLInputElement>('input');
+
+            if (input) {
+              res[name] = {
+                ...this.state.inputs[name],
+                value: input.value,
+                error: checkValidation(name, input.value)
+              };
+            }
+
+            return res;
+          }, {});
+
+          this.setState({
+            inputs: { ...newInputsState }
+          });
+
+          const isInvalid = Object.values(this.state.inputs).some(input => Boolean((input as Input).error));
+
+          if (!isInvalid) {
+            const result = Object.entries(this.state.inputs).reduce((submitRes: any, [key, data ]) => {
+              submitRes[key] = (data as Input).value;
+
+              return submitRes;
+            }, {});
+
+            login(result);
+          }
+        }
+      }
+    });
+  }
+
+  componentDidMount() {
+    if (this.props.isAuth) {
+      this.props.router.go('/messenger')
+    }
+  }
 
   protected getStateFromProps() {
     this.state = {
-      title: 'Вход',
       inputs: {
         login: {
           label: 'Логин',
@@ -32,13 +89,27 @@ export class LoginPage extends Block {
     // language=hbs
 
     return `
-      <section class="section login">
-        <div class="login__content">
-          <h2 class="title login__title">{{title}}</h2>
-          {{{Form className="login__form" data=inputs buttonText="Авторизоваться"}}}
-          <a class="login__link" href="./signin.html">Нет аккаунта?</a>
-        </div>
-      </section>
+        {{#Layout name="LoginPage" isLoading=isLoading}}
+            <section class="section login">
+                <div class="login__content">
+                    <h2 class="title login__title">Вход</h2>
+                    <form class="form login__form">
+                        {{#each inputs}}
+                            {{{FormField className="form__input" ref=ref label=label type=type name=name value=value error=error}}}
+                        {{/each}}
+                        {{{Button type="submit" text="Авторизоваться" className="form__button"}}}
+                    </form>
+                    {{{Link className="login__link" to="/sign-up" text="Нет аккаунта?"}}}
+                </div>
+            </section>
+        {{/Layout}}
     `;
   }
 }
+
+const mapStateToProps = (state: AppState) => ({
+  isLoading: state.isLoading,
+  isAuth: state.isAuth
+});
+
+export default withRouter(withStore(LoginPage, mapStateToProps));

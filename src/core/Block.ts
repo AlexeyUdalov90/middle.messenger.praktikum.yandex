@@ -1,6 +1,7 @@
 import EventBus from './EventBus';
 import { nanoid } from 'nanoid';
 import Handlebars from 'handlebars';
+import {isEqual} from '../utils';
 
 interface BlockMeta<P = any> {
   props: P;
@@ -8,11 +9,17 @@ interface BlockMeta<P = any> {
 
 type Events = Values<typeof Block.EVENTS>;
 
+export interface BlockClass<P> extends Function {
+  new (props: P): Block<P>;
+  componentName?: string;
+}
+
 export default class Block<P = any> {
   static EVENTS = {
     INIT: 'init',
     FLOW_CDM: 'flow:component-did-mount',
     FLOW_CDU: 'flow:component-did-update',
+    FLOW_CWU: 'flow:component-will-unmount',
     FLOW_RENDER: 'flow:render',
   } as const;
 
@@ -49,14 +56,31 @@ export default class Block<P = any> {
     eventBus.emit(Block.EVENTS.INIT, this.props);
   }
 
-  _registerEvents(eventBus: EventBus<Events>) {
+  /**
+   * Хелпер, который проверяет, находится ли элемент в DOM дереве
+   * И есть нет, триггерит событие COMPONENT_WILL_UNMOUNT
+   */
+  private _checkInDom() {
+    const elementInDOM = document.body.contains(this._element);
+
+    if (elementInDOM) {
+      setTimeout(() => this._checkInDom(), 1000);
+
+      return;
+    }
+
+    this.eventBus().emit(Block.EVENTS.FLOW_CWU, this.props);
+  }
+
+  private _registerEvents(eventBus: EventBus<Events>) {
     eventBus.on(Block.EVENTS.INIT, this.init.bind(this));
     eventBus.on(Block.EVENTS.FLOW_CDM, this._componentDidMount.bind(this));
     eventBus.on(Block.EVENTS.FLOW_CDU, this._componentDidUpdate.bind(this));
+    eventBus.on(Block.EVENTS.FLOW_CWU, this._componentWillUnmount.bind(this));
     eventBus.on(Block.EVENTS.FLOW_RENDER, this._render.bind(this));
   }
 
-  protected getStateFromProps(props: any): void {
+  protected getStateFromProps(props: P): void {
     this.state = {};
   }
 
@@ -64,13 +88,21 @@ export default class Block<P = any> {
     this.eventBus().emit(Block.EVENTS.FLOW_RENDER, this.props);
   }
 
-  _componentDidMount(props: P) {
+  private _componentDidMount(props: P) {
+    this._checkInDom();
     this.componentDidMount(props);
   }
 
   componentDidMount(props: P) {}
 
-  _componentDidUpdate(oldProps: P, newProps: P) {
+  private _componentWillUnmount() {
+    this.eventBus().destroy();
+    this.componentWillUnmount();
+  }
+
+  componentWillUnmount() {}
+
+  private _componentDidUpdate(oldProps: P, newProps: P) {
     const response = this.componentDidUpdate(oldProps, newProps);
 
     if (!response) {
@@ -81,7 +113,7 @@ export default class Block<P = any> {
   }
 
   componentDidUpdate(oldProps: P, newProps: P) {
-    return true;
+    return !isEqual(oldProps, newProps);
   }
 
   setProps (nextProps: P) {
@@ -112,7 +144,8 @@ export default class Block<P = any> {
     return this._element;
   }
 
-  _render() {
+  private _render() {
+    // debugger
     const fragment = this._compile();
     const newElement = fragment.firstElementChild!;
 
@@ -143,7 +176,7 @@ export default class Block<P = any> {
     return this.element!;
   }
 
-  _makePropsProxy(props: any): any {
+  private _makePropsProxy(props: any): any {
     return new Proxy(props as unknown as object, {
       get: (target: Record<string, unknown>, prop: string) => {
         if (prop.indexOf('_') === 0) {
@@ -174,11 +207,11 @@ export default class Block<P = any> {
     }) as unknown as P;
   }
 
-  _createDocumentElement(tagName: string) {
+  private _createDocumentElement(tagName: string) {
     return document.createElement(tagName);
   }
 
-  _removeEvents() {
+  private _removeEvents() {
     const events: Record<string, () => void> = (this.props as any).events;
 
     if (!events || !this._element) {
@@ -190,7 +223,7 @@ export default class Block<P = any> {
     });
   }
 
-  _addEvents() {
+  private _addEvents() {
     const events: Record<string, () => void> = (this.props as any).events;
 
     if (!events) {
@@ -198,11 +231,11 @@ export default class Block<P = any> {
     }
 
     Object.entries(events).forEach(([event, listener]) => {
-      this._element!.addEventListener(event, listener);
+      this._element?.addEventListener(event, listener);
     });
   }
 
-  _compile(): DocumentFragment {
+  private _compile(): DocumentFragment {
     const fragment = document.createElement('template') as HTMLTemplateElement;
     const template = Handlebars.compile(this.render());
 
@@ -221,17 +254,30 @@ export default class Block<P = any> {
         return;
       }
 
+      const stubChilds = stub.childNodes.length ? stub.childNodes : [];
+
       /**
        * Заменяем заглушку на component._element
        */
-      stub.replaceWith(component.getContent());
+      const content = component.getContent();
+
+      stub.replaceWith(content);
+
+      /**
+       * Ищем элемент layout-а, куда вставлять детей
+       */
+      const layoutContent = content.querySelector('[data-layout="1"]');
+
+      if (layoutContent && stubChilds.length) {
+        layoutContent.append(...stubChilds);
+      }
     });
 
     return fragment.content;
   }
 
   show() {
-    this.getContent().style.display = 'block';
+    this.getContent().style.display = '';
   }
 
   hide() {

@@ -1,53 +1,57 @@
 import { Block } from '../../core';
-import { checkValidation } from '../../services';
-import { IFormField } from '../../interfaces';
 import './form-field.css';
+import { checkValidation } from '../../services';
 
-export class FormField extends Block {
+export class FormField extends Block<Input> {
   static componentName = 'FormField';
 
-  constructor(props: IFormField) {
+  constructor({type = 'text', ...props}: Input) {
     super({
       ...props,
+      type,
       events: {
-        focusout: (e: Event) => {
+        focusout: (e) => {
           const input = e.target as HTMLInputElement;
 
-          if (input.value !== this.state.value) {
-            this.setState({
-              value: input.value,
-              error: checkValidation(input.name, input.value)
-            });
+          if (input.tagName === 'INPUT') {
+            const { name, value } = input;
+            const error = checkValidation(name, value);
+            const errorBlock = input.nextElementSibling as HTMLElement;
+
+            if (value !== this.props.value) {
+              this.setProps({
+                ...this.props,
+                value,
+                error
+              });
+            }
+
+            if (errorBlock && errorBlock.classList.contains('form-field__error') && error) {
+              errorBlock.style.display = 'block';
+            }
           }
-        },
-        focusin: (e: Event) => {
-          const input = e.target as HTMLInputElement;
-          const idErrorComp: string = this.refs.error.dataset.id ?? '';
 
-          this.setChildState(idErrorComp, {
-            error: checkValidation(input.name, input.value)
-          });
+        },
+        focusin: (e) => {
+          const input = e.target as HTMLInputElement;
+          const errorBlock = input.nextElementSibling as HTMLElement;
+
+          if (errorBlock && errorBlock.classList.contains('form-field__error')) {
+            errorBlock.style.display = 'none';
+          }
         }
       }
     });
   }
 
-  protected getStateFromProps({ value, error }: any) {
-    this.state = {
-      value,
-      error
-    };
-  }
-
   render() {
-    const { value, error } = this.state;
     // language=hbs
 
     return `
-      <label class="form-field {{className}} form-field_error">
+      <label class="form-field {{className}} {{#if error}}form-field_error{{/if}}">
         <span class="form-field__label">{{label}}</span>
-        <input class="form-field__input" type="{{type}}" value="${value}" name="{{name}}" placeholder="{{placeholder}}">
-        {{{FormFieldError ref="error" error="${error}"}}}
+        <input class="form-field__input" type="{{type}}" value="{{value}}" name="{{name}}" placeholder="{{placeholder}}">
+        <p class="form-field__error">{{error}}</p>
       </label>
     `;
   }

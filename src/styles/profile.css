@@ -22,7 +22,7 @@
     color: var(--other-text-color);
   }
 
-  &__logout-button {
+  &__logout-button.button_text {
     color: var(--logout-color);
   }
 }

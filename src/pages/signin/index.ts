@@ -1,1 +1,1 @@
-export { SignInPage as default } from './signin';
+export { default } from './signin';

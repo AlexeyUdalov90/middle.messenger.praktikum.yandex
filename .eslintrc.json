@@ -1,5 +1,5 @@
 {
-  "extends": "eslint:recommended",
+  "extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended"],
   "parser": "@typescript-eslint/parser",
   "plugins": ["@typescript-eslint"],
   "parserOptions": {
@@ -19,10 +19,6 @@
       { "blankLine": "always", "prev": ["const", "let", "var"], "next": "*" },
       { "blankLine": "any", "prev": ["const", "let", "var"], "next": ["const", "let", "var"] },
       { "blankLine": "always", "prev": "*", "next": "if" }
-    ],
-    "camelcase": [
-      "error",
-      { "ignoreImports": true }
     ],
     "indent": ["error", 2]
   }

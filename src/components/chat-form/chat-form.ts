@@ -1,11 +1,17 @@
 import { Block } from '../../core';
 import './chat-form.css';
 
-export class ChatForm extends Block {
+type ChatFormProps = {
+  onSubmit: (data: Record<string, any>) => void;
+  events: Record<string, (e: Event) => void>;
+};
+
+export class ChatForm extends Block<ChatFormProps> {
   static componentName = 'ChatForm';
 
-  constructor () {
+  constructor (props: ChatFormProps) {
     super({
+      ...props,
       events: {
         submit: (e: Event) => {
           e.preventDefault();
@@ -13,8 +19,9 @@ export class ChatForm extends Block {
           const input = this.element?.querySelector<HTMLInputElement>('input');
 
           if (input && input.value) {
-            console.log({
-              message: input.value
+            props.onSubmit({
+              content: input.value,
+              type: 'message'
             });
 
             input.value = '';

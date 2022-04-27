@@ -5,6 +5,10 @@
   }
 
   &__right {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     flex-grow: 1;
   }
 }
@@ -19,6 +23,16 @@
     flex-direction: column;
     flex-shrink: 0;
     padding: 20px 10px 14px;
+  }
+
+  &__wrapper {
+    display: flex;
+    align-items: center;
+  }
+
+  &__search {
+    flex-grow: 1;
+    margin-right: 10px;
   }
 
   &__profile {
