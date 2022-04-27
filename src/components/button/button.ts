@@ -6,21 +6,21 @@ type ButtonProps = {
   className?: string;
   type?: 'button' | 'submit' | 'reset';
   disabled?: boolean;
-  onCLick?: () => void;
+  onClick?: () => void;
   events: Record<string, any>;
 }
 
 export class Button extends Block<ButtonProps> {
   static componentName = 'Button';
 
-  constructor({ type = 'button', onCLick, ...props }: ButtonProps) {
+  constructor({ type = 'button', onClick, ...props }: ButtonProps) {
     super({
       ...props,
       type,
       events: {
         click: () => {
-          if (typeof onCLick === 'function') {
-            onCLick()
+          if (typeof onClick === 'function') {
+            onClick()
           }
         }
       }
