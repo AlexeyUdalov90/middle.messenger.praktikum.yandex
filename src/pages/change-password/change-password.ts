@@ -7,6 +7,7 @@ type ChangePasswordPageProps = {
   router: Router;
   isLoading: boolean;
   isAuth: boolean;
+  user: User;
   events: Record<string, (e: Event) => void>;
 };
 
@@ -114,7 +115,8 @@ class ChangePasswordPage extends Block<ChangePasswordPageProps> {
 
 const mapStateToProps = (state: AppState) => ({
   isLoading: state.isLoading,
-  isAuth: state.isAuth
+  isAuth: state.isAuth,
+  user: state.user
 });
 
 export default withRouter(withStore(ChangePasswordPage, mapStateToProps));
