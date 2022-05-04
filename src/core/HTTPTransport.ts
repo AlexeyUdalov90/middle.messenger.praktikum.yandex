@@ -4,11 +4,10 @@ enum METHOD {
   GET = 'GET',
   POST = 'POST',
   PUT = 'PUT',
-  PATCH = 'PATCH',
   DELETE = 'DELETE'
 }
 
-type RequestData = object | string | FormData;
+type RequestData = string | FormData;
 type RequestOptions = {
   data?: RequestData;
   method?: METHOD;
@@ -44,7 +43,7 @@ export default class HTTPTransport {
   };
 
   request = <T>(url: string, options: RequestOptions, timeout = 5000): Promise<T> => {
-    const {method = METHOD.GET, data, headers = {}} = options;
+    const { method = METHOD.GET, data, headers = {} } = options;
 
     return new Promise((resolve, reject) => {
       if (!method) {
@@ -57,12 +56,16 @@ export default class HTTPTransport {
       const isGet = method === METHOD.GET;
 
       if (this.apiBaseUrl) {
-        requestUrl = `${this.apiBaseUrl}${requestUrl}`
+        requestUrl = `${this.apiBaseUrl}${requestUrl}`;
       }
 
-      xhr.open(method, isGet && !!data ? `${requestUrl}${queryStringify(data)}` : requestUrl)
+      if (isGet && data && typeof data === 'string') {
+        requestUrl = `${requestUrl}${queryStringify(JSON.parse(data))}`;
+      }
 
-      xhr.withCredentials = true
+      xhr.open(method, requestUrl);
+
+      xhr.withCredentials = true;
 
       Object.keys(headers).forEach(name => {
         xhr.setRequestHeader(name, headers[name]);
@@ -74,10 +77,8 @@ export default class HTTPTransport {
         if (isJson) {
           resolve(JSON.parse(xhr.response));
         } else {
-          resolve(xhr.response)
+          resolve(xhr.response);
         }
-
-
       };
 
       xhr.onabort = reject;

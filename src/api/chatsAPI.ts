@@ -13,7 +13,7 @@ const http = new HTTPTransport('https://ya-praktikum.tech/api/v2');
 
 const chatsAPI = {
   getChats: (data: GetChatsDTO = {}) => http.get<ChatsDTO | APIError>('/chats', {
-    data
+    data: JSON.stringify(data)
   }),
   createChat: (data: CreateChatDTO) => http.post<EmptyResponseData>('/chats', {
     data: JSON.stringify(data),

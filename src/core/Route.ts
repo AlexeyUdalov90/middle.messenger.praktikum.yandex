@@ -1,10 +1,6 @@
 import { renderDOM, Block } from './index';
 import { BlockClass } from './Block';
 
-function isEqual(lhs: any, rhs: any) {
-  return lhs === rhs;
-}
-
 interface RouteProps {
   rootQuery: string;
 }
@@ -12,7 +8,7 @@ interface RouteProps {
 export default class Route {
   private _pathname: string;
   private readonly _blockClass: BlockClass<any>;
-  private _block: Nullable<Block<P>>;
+  private _block: Nullable<Block<any>>;
   private _props: RouteProps;
 
   constructor(pathname: string, view: BlockClass<any>, props: RouteProps) {
@@ -36,12 +32,12 @@ export default class Route {
   }
 
   match(pathname: string): boolean {
-    return isEqual(pathname, this._pathname);
+    return pathname === this._pathname;
   }
 
   render(): void {
     if (!this._block) {
-      this._block = new this._blockClass();
+      this._block = new this._blockClass(this._props);
     }
 
     renderDOM(this._props.rootQuery, this._block);

@@ -18,7 +18,7 @@ function cloneDeep<T extends object = object>(obj: T) {
     // Handle:
     // * Date
     if (item instanceof Date) {
-      return new Date(item.valueOf());
+      return new Date((item as Date).valueOf());
     }
 
     // Handle:
@@ -54,15 +54,15 @@ function cloneDeep<T extends object = object>(obj: T) {
     // Handle:
     // * Object
     if (isPlainObject(item)) {
-      const copy: PlainObject = {};
+      const copy: Record<string | symbol, unknown> = {};
 
       // Handle:
       // * Object.symbol
-      Object.getOwnPropertySymbols(item).forEach(s => (copy[s] = _cloneDeep(item[s])));
+      Object.getOwnPropertySymbols(item).forEach(s => (copy[s] = _cloneDeep(item[s] as T)));
 
       // Handle:
       // * Object.name (other)
-      Object.keys(item).forEach(k => (copy[k] = _cloneDeep(item[k])));
+      Object.keys(item).forEach(k => (copy[k] = _cloneDeep(item[k] as T)));
 
       return copy;
     }

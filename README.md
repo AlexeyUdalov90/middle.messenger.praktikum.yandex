@@ -1,7 +1,5 @@
 # Чат
 
-PR Sprint 3 https://github.com/AlexeyUdalov90/middle.messenger.praktikum.yandex/pull/3
-
 Это учебный проект курса Middle frontend-developer от Яндекс Практикума
 
 Проект использует [TypeScript][typescript], все страницы собираются на клиненте с помощью шаблонизатора [Handlebars][handlebars].

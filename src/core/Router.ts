@@ -21,8 +21,8 @@ export default class Router {
     Router.__instance = this;
   }
 
-  use(pathname: string, block: BlockClass<any>): Router {
-    const route = new Route(pathname, block, {rootQuery: this._rootQuery});
+  use(pathname: string, block: BlockClass<any>, props: PlainObject = {}): Router {
+    const route = new Route(pathname, block, { ...props, rootQuery: this._rootQuery });
 
     this.routes.push(route);
 
@@ -31,7 +31,7 @@ export default class Router {
 
   start(): void {
     window.onpopstate = (event: PopStateEvent) => {
-      this._onRoute(event.currentTarget?.location.pathname);
+      this._onRoute((event.currentTarget as Window).location.pathname);
     };
 
     this._onRoute(window.location.pathname);
