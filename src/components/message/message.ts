@@ -19,7 +19,7 @@ export class Message extends Block<MessageProps> {
     this.state = {
       time: dateFormat(props.data.time),
       text: props.data.content,
-      isRead: props.data.isRead,
+      isRead: props.data.isRead && props.userId === props.data.userId,
       isMy: props.userId === props.data.userId
     }
   }
