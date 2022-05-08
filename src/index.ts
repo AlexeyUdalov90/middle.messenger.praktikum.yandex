@@ -1,3 +1,4 @@
+import 'regenerator-runtime/runtime';
 import { registerComponent, Router, Store } from './core';
 import './styles/style.css';
 import { defaultState } from './store';
