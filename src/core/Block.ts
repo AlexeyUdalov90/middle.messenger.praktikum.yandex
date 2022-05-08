@@ -3,10 +3,6 @@ import { nanoid } from 'nanoid';
 import Handlebars from 'handlebars';
 import { isEqual } from '../utils';
 
-// interface BlockMeta<P = any> {
-//   props: P;
-// }
-
 type Events = Values<typeof Block.EVENTS>;
 
 export interface BlockClass<P extends object> extends Function {
@@ -26,7 +22,6 @@ export default class Block<P extends object> {
   static componentName: string;
 
   public id = nanoid(6);
-  // private readonly _meta: BlockMeta;
 
   protected _element: Nullable<HTMLElement> = null;
   protected readonly props: P;
@@ -39,10 +34,6 @@ export default class Block<P extends object> {
 
   public constructor(props?: P) {
     const eventBus = new EventBus<Events>();
-
-    // this._meta = {
-    //   props,
-    // };
 
     this.getStateFromProps(props || {} as P);
 
@@ -149,7 +140,6 @@ export default class Block<P extends object> {
   }
 
   private _render() {
-    // debugger
     const fragment = this._compile();
     const newElement = fragment.firstElementChild!;
 
