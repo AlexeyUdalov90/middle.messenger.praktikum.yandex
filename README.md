@@ -5,7 +5,10 @@
 Проект использует [TypeScript][typescript], все страницы собираются на клиненте с помощью шаблонизатора [Handlebars][handlebars].
 
 Ссылка на прототип проекта в [Figma][figma]
+
 Ссылка на настроенный [Netlify][netlify]
+
+Ссылка на настроенный [Heroku][heroku]
 
 ## Инструкция по использованию
 
@@ -19,3 +22,4 @@
 [netlify]: https://bright-sprinkles-ee9918.netlify.app/
 [typescript]: https://www.typescriptlang.org
 [handlebars]: https://handlebarsjs.com
+[heroku]: https://audalov-messenger.herokuapp.com
