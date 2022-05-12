@@ -79,12 +79,6 @@
       "<rootDir>/src/tests/setup.ts"
     ]
   },
-//  "pre-commit": [
-//    "lint:editorconfig",
-//    "lint:stylelint",
-//    "link:eslint",
-//    "test"
-//  ],
   "gitHooks": {
     "pre-commit": "lint-staged"
   },
@@ -96,7 +90,8 @@
       "stylelint --fix"
     ],
     "*.{ts,js}": [
-      "eslint --fix"
+      "eslint --fix",
+      "git add"
     ]
   }
 }
