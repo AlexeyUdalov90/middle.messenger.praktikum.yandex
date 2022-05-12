@@ -5,7 +5,7 @@
   "scripts": {
     "serve": "webpack serve --mode development",
     "build": "webpack --mode production",
-    "start": "npm run build && node server-old.js",
+    "start": "npm run build && node server.js",
     "test": "jest",
     "docker-build": "docker build -t lesson1 .",
     "docker-run": "docker run -p 3000:3000 -d lesson1",
