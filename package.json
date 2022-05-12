@@ -45,6 +45,7 @@
     "express": "4.17.3",
     "html-webpack-plugin": "5.5.0",
     "jest": "27.5.1",
+    "lint-staged": "12.4.1",
     "postcss": "8.4.12",
     "postcss-loader": "6.2.1",
     "postcss-nested": "5.0.6",
@@ -78,10 +79,24 @@
       "<rootDir>/src/tests/setup.ts"
     ]
   },
-  "pre-commit": [
-    "lint:editorconfig",
-    "lint:stylelint",
-    "link:eslint",
-    "test"
-  ]
+//  "pre-commit": [
+//    "lint:editorconfig",
+//    "lint:stylelint",
+//    "link:eslint",
+//    "test"
+//  ],
+  "gitHooks": {
+    "pre-commit": "lint-staged"
+  },
+  "lint-staged": {
+    "*": [
+      "editorconfig-checker"
+    ],
+    "*.{css,html}": [
+      "stylelint --fix"
+    ],
+    "*.{ts,js}": [
+      "eslint --fix"
+    ]
+  }
 }
