@@ -1,7 +1,7 @@
 import { BlockClass } from './Block';
 import Handlebars, { HelperOptions } from 'handlebars';
 
-export default function registerComponent<Props = Record<string, unknown>>(Component: BlockClass<unknown>) {
+export default function registerComponent<Props = Record<string, unknown>>(Component: BlockClass<any>) {
   Handlebars.registerHelper(Component.componentName || Component.name, function (this: Props, { hash: { ref, ...hash }, data, fn }: HelperOptions) {
 
     if (!data.root.children) {

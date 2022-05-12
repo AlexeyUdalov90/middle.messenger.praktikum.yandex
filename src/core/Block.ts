@@ -10,7 +10,7 @@ export interface BlockClass<P> extends Function {
   componentName?: string;
 }
 
-export default class Block<P = Record<string, unknown>> {
+export default class Block<P> {
   static EVENTS = {
     INIT: 'init',
     FLOW_CDM: 'flow:component-did-mount',
@@ -29,7 +29,7 @@ export default class Block<P = Record<string, unknown>> {
 
   eventBus: () => EventBus<Events>;
 
-  protected state = {};
+  protected state: any = {};
   protected refs: {[key: string]: HTMLElement} = {};
 
   public constructor(props?: P) {
@@ -38,7 +38,7 @@ export default class Block<P = Record<string, unknown>> {
     this.getStateFromProps(props || {} as P);
 
     this.props = this._makePropsProxy(props || {} as P);
-    this.state = this._makePropsProxy(this.state as P);
+    this.state = this._makePropsProxy(this.state);
 
     this.eventBus = () => eventBus;
 
@@ -71,6 +71,7 @@ export default class Block<P = Record<string, unknown>> {
     eventBus.on(Block.EVENTS.FLOW_RENDER, this._render.bind(this));
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   protected getStateFromProps(props: P): void {
     this.state = {
       ...props
@@ -119,20 +120,12 @@ export default class Block<P = Record<string, unknown>> {
     Object.assign(this.props, nextProps);
   }
 
-  setState (nextState: P) {
+  setState (nextState: Record<string, unknown>) {
     if (!nextState) {
       return;
     }
 
     Object.assign(this.state, nextState);
-  }
-
-  setChildState (childId: string, nextState: P) {
-    const isHasChild = Object.keys(this.children).includes(childId);
-
-    if (isHasChild) {
-      (this.children[childId] as Block<P>).setState(nextState);
-    }
   }
 
   get element() {
@@ -204,7 +197,7 @@ export default class Block<P = Record<string, unknown>> {
   }
 
   private _removeEvents() {
-    const events: Record<string, () => void> = (this.props as P)?.events;
+    const events: Record<string, () => void> = (this.props as any).events;
 
     if (!events || !this._element) {
       return;
@@ -216,7 +209,7 @@ export default class Block<P = Record<string, unknown>> {
   }
 
   private _addEvents() {
-    const events: Record<string, () => void> = (this.props as P)?.events;
+    const events: Record<string, () => void> = (this.props as any).events;
 
     if (!events) {
       return;
