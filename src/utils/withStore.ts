@@ -14,9 +14,9 @@ export function withStore<P>(WrappedBlock: BlockClass<P>, mapStateToProps: (stat
       this.setProps({ ...this.props, ...mapStateToProps(window.store.getState()) });
     }
 
-    componentDidMount(props: P) {
+    componentDidMount() {
       window.store.on(StoreEvents.Updated, this.__onChangeStoreCallback);
-      super.componentDidMount(props);
+      super.componentDidMount();
     }
 
     componentWillUnmount() {

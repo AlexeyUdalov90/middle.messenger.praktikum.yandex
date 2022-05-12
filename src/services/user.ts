@@ -1,5 +1,5 @@
 import userAPI from '../api/userAPI';
-import { ChangePasswordDTO, ChangeProfileRequestData, SearchUserDTO } from '../api/types';
+import {ChangePasswordDTO, ChangeProfileRequestData, SearchUserDTO, UserDTO} from '../api/types';
 import { apiHasError, transformUser, transformUserProfile } from '../utils';
 
 export async function changeProfile (data: ChangeProfileRequestData) {
@@ -14,7 +14,7 @@ export async function changeProfile (data: ChangeProfileRequestData) {
   }
 
   window.store.set('isLoading', false);
-  window.store.set('user', transformUser.fromDTO(responseChangeProfile));
+  window.store.set('user', transformUser.fromDTO(responseChangeProfile as UserDTO));
 }
 
 export async function changePassword (data: ChangePasswordDTO) {
@@ -43,7 +43,7 @@ export async function setAvatar (data: FormData) {
   }
 
   window.store.set('isLoading', false);
-  window.store.set('user', transformUser.fromDTO(responseSetAvatar));
+  window.store.set('user', transformUser.fromDTO(responseSetAvatar as UserDTO));
 }
 
 export async function searchUser (data: SearchUserDTO) {

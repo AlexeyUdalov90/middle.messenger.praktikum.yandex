@@ -4,7 +4,7 @@ import './search-form.css';
 type SearchFormProps = {
   value?: string;
   onSubmit?: () => void;
-  events: Record<string, any>;
+  events: Record<string, () => void>;
 }
 
 export class SearchForm extends Block<SearchFormProps> {

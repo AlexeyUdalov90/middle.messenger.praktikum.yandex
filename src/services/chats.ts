@@ -1,6 +1,6 @@
 import chatsAPI from '../api/chatsAPI';
 import { searchUser } from './user';
-import { CreateChatDTO } from '../api/types';
+import {ChatsDTO, CreateChatDTO, TokenResponse, UserDTO} from '../api/types';
 import { apiHasError, transformChats } from '../utils';
 
 export async function getChats () {
@@ -15,7 +15,7 @@ export async function getChats () {
   }
 
   window.store.set('isLoading', false);
-  window.store.set('chats', transformChats.fromDTO(responseChats));
+  window.store.set('chats', transformChats.fromDTO(responseChats as ChatsDTO));
 }
 
 export async function createChat (data: CreateChatDTO) {
@@ -30,17 +30,6 @@ export async function createChat (data: CreateChatDTO) {
   }
 
   await getChats();
-
-  // const responseGetChats = await chatsAPI.getChats();
-  //
-  // if (apiHasError(responseGetChats)) {
-  //   window.store.set('isLoading', false);
-  //
-  //   return;
-  // }
-  //
-  // window.store.set('isLoading', false);
-  // window.store.set('chats', transformChats.fromDTO(responseGetChats));
 }
 
 type actionChatUser = {
@@ -56,7 +45,7 @@ export async function addUser ({ login, chatId }: actionChatUser) {
   });
 
   if (responseSearchUser) {
-    const users = responseSearchUser.map(user => user.id);
+    const users = (responseSearchUser as Array<UserDTO>).map(user => user.id);
 
     const responseAddUser = await chatsAPI.addUser({
       users,
@@ -81,7 +70,7 @@ export async function deleteUser ({ login, chatId }: actionChatUser) {
   });
 
   if (responseSearchUser) {
-    const users = responseSearchUser.map(user => user.id);
+    const users = (responseSearchUser as Array<UserDTO>).map(user => user.id);
 
     const responseDeleteUser = await chatsAPI.deleteUser({
       users,
@@ -105,5 +94,5 @@ export async function getToken(id: number) {
     return;
   }
 
-  return responseToken.token;
+  return (responseToken as TokenResponse).token;
 }

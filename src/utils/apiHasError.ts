@@ -1,5 +1,5 @@
 import { APIError } from '../api/types';
 
-export default function hasError(response: any): response is APIError {
-  return response && response.reason;
+export default function hasError(response: Record<string, unknown> | Array<unknown> | APIError): boolean {
+  return response && !Array.isArray(response) && Boolean(response?.reason);
 }

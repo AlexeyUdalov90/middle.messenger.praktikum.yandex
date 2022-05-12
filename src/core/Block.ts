@@ -1,11 +1,7 @@
 import EventBus from './EventBus';
 import { nanoid } from 'nanoid';
 import Handlebars from 'handlebars';
-import {isEqual} from '../utils';
-
-interface BlockMeta<P = any> {
-  props: P;
-}
+import { isEqual } from '../utils';
 
 type Events = Values<typeof Block.EVENTS>;
 
@@ -14,7 +10,7 @@ export interface BlockClass<P> extends Function {
   componentName?: string;
 }
 
-export default class Block<P = any> {
+export default class Block<P> {
   static EVENTS = {
     INIT: 'init',
     FLOW_CDM: 'flow:component-did-mount',
@@ -26,11 +22,10 @@ export default class Block<P = any> {
   static componentName: string;
 
   public id = nanoid(6);
-  private readonly _meta: BlockMeta;
 
   protected _element: Nullable<HTMLElement> = null;
   protected readonly props: P;
-  protected children: {[id: string]: Block} = {};
+  protected children: {[id: string]: Block<P>} = {};
 
   eventBus: () => EventBus<Events>;
 
@@ -40,11 +35,7 @@ export default class Block<P = any> {
   public constructor(props?: P) {
     const eventBus = new EventBus<Events>();
 
-    this._meta = {
-      props,
-    };
-
-    this.getStateFromProps(props)
+    this.getStateFromProps(props || {} as P);
 
     this.props = this._makePropsProxy(props || {} as P);
     this.state = this._makePropsProxy(this.state);
@@ -80,26 +71,31 @@ export default class Block<P = any> {
     eventBus.on(Block.EVENTS.FLOW_RENDER, this._render.bind(this));
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   protected getStateFromProps(props: P): void {
-    this.state = {};
+    this.state = {
+      ...props
+    };
   }
 
   init() {
     this.eventBus().emit(Block.EVENTS.FLOW_RENDER, this.props);
   }
 
-  private _componentDidMount(props: P) {
+  private _componentDidMount() {
     this._checkInDom();
-    this.componentDidMount(props);
+    this.componentDidMount();
   }
 
-  componentDidMount(props: P) {}
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  componentDidMount() {}
 
   private _componentWillUnmount() {
     this.eventBus().destroy();
     this.componentWillUnmount();
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   componentWillUnmount() {}
 
   private _componentDidUpdate(oldProps: P, newProps: P) {
@@ -112,7 +108,7 @@ export default class Block<P = any> {
     this._render();
   }
 
-  componentDidUpdate(oldProps: P, newProps: P) {
+  componentDidUpdate(oldProps: P, newProps: P): boolean {
     return !isEqual(oldProps, newProps);
   }
 
@@ -124,7 +120,7 @@ export default class Block<P = any> {
     Object.assign(this.props, nextProps);
   }
 
-  setState (nextState: any) {
+  setState (nextState: Record<string, unknown>) {
     if (!nextState) {
       return;
     }
@@ -132,26 +128,18 @@ export default class Block<P = any> {
     Object.assign(this.state, nextState);
   }
 
-  setChildState (childId: string, nextState: any) {
-    const isHasChild = Object.keys(this.children).includes(childId);
-
-    if (isHasChild) {
-      (this.children[childId] as Block).setState(nextState);
-    }
-  }
-
   get element() {
     return this._element;
   }
 
   private _render() {
-    // debugger
     const fragment = this._compile();
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const newElement = fragment.firstElementChild!;
 
     if (this._element) {
       this._removeEvents();
-      this._element!.replaceWith(newElement);
+      this._element?.replaceWith(newElement);
     }
 
     this._element = newElement as HTMLElement;
@@ -173,10 +161,11 @@ export default class Block<P = any> {
       }, 100)
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     return this.element!;
   }
 
-  private _makePropsProxy(props: any): any {
+  private _makePropsProxy(props: P): P {
     return new Proxy(props as unknown as object, {
       get: (target: Record<string, unknown>, prop: string) => {
         if (prop.indexOf('_') === 0) {
@@ -207,10 +196,6 @@ export default class Block<P = any> {
     }) as unknown as P;
   }
 
-  private _createDocumentElement(tagName: string) {
-    return document.createElement(tagName);
-  }
-
   private _removeEvents() {
     const events: Record<string, () => void> = (this.props as any).events;
 
@@ -219,7 +204,7 @@ export default class Block<P = any> {
     }
 
     Object.entries(events).forEach(([event, listener]) => {
-      this._element!.removeEventListener(event, listener);
+      this._element?.removeEventListener(event, listener);
     });
   }
 

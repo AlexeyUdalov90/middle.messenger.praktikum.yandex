@@ -7,7 +7,7 @@ type ButtonProps = {
   type?: 'button' | 'submit' | 'reset';
   disabled?: boolean;
   onClick?: () => void;
-  events: Record<string, any>;
+  events: Record<string, () => void>;
 }
 
 export class Button extends Block<ButtonProps> {

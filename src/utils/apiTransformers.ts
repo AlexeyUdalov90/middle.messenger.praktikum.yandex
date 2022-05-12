@@ -83,17 +83,14 @@ export const transformChats = {
 
 export const transformMessage = {
   fromDTO (data: messageDTO) {
-    const result = {
+    return {
       chatId: data.chat_id,
       time: data.time,
       type: data.type,
       userId: data.user_id,
       content: data.content,
-      isRead: data.is_read
-    }
-
-    if (data.file) {
-      result.file = {
+      isRead: data.is_read,
+      file: data?.file && {
         id: data.file.id,
         userId: data.file.user_id,
         path: data.file.path,
@@ -102,8 +99,6 @@ export const transformMessage = {
         contentSize: data.file.content_size,
         uploadDate: data.file.upload_date
       }
-    }
-
-    return result;
+    };
   }
 }

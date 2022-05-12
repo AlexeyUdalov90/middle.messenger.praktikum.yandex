@@ -1,4 +1,5 @@
-import { Block, registerComponent, Router, Store } from './core';
+import 'regenerator-runtime/runtime';
+import { registerComponent, Router, Store } from './core';
 import './styles/style.css';
 import { defaultState } from './store';
 import { initApp } from './services';
@@ -9,11 +10,10 @@ import ProfilePage from './pages/profile';
 import ChangeProfilePage from './pages/change-profile';
 import ChangePasswordPage from './pages/change-password';
 import ErrorPage from './pages/error';
-
-const components = require('./components/**/index.ts') as {[key: string]: { default: typeof Block }};
+import components from './components';
 
 Object.values(components).forEach(component => {
-  registerComponent(component.default);
+  registerComponent(component);
 });
 
 declare global {

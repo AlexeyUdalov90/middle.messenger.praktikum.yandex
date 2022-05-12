@@ -1,13 +1,14 @@
 # Чат
 
-PR Sprint 3 https://github.com/AlexeyUdalov90/middle.messenger.praktikum.yandex/pull/3
-
 Это учебный проект курса Middle frontend-developer от Яндекс Практикума
 
 Проект использует [TypeScript][typescript], все страницы собираются на клиненте с помощью шаблонизатора [Handlebars][handlebars].
 
 Ссылка на прототип проекта в [Figma][figma]
+
 Ссылка на настроенный [Netlify][netlify]
+
+Ссылка на настроенный [Heroku][heroku]
 
 ## Инструкция по использованию
 
@@ -21,3 +22,4 @@ PR Sprint 3 https://github.com/AlexeyUdalov90/middle.messenger.praktikum.yandex/
 [netlify]: https://bright-sprinkles-ee9918.netlify.app/
 [typescript]: https://www.typescriptlang.org
 [handlebars]: https://handlebarsjs.com
+[heroku]: https://audalov-messenger.herokuapp.com
