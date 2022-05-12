@@ -3,7 +3,7 @@ import { BlockClass } from './Block';
 
 export default class Router {
   protected routes: Array<Route> = [];
-  protected history: Record<string, any> = window.history;
+  protected history: History = window.history;
   private _currentRoute: Nullable<Route> = null;
   private readonly _rootQuery: string = '';
   static __instance: Router;
@@ -21,7 +21,7 @@ export default class Router {
     Router.__instance = this;
   }
 
-  use(pathname: string, block: BlockClass<any>, props: PlainObject = {}): Router {
+  use(pathname: string, block: BlockClass<unknown>, props: PlainObject = {}): Router {
     const route = new Route(pathname, block, { ...props, rootQuery: this._rootQuery });
 
     this.routes.push(route);

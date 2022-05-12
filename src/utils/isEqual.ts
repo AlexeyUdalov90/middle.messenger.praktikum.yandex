@@ -1,7 +1,8 @@
 import isArray from './isArray';
 import isPlainObject from './isPlainObject';
 
-function isEqual<L extends object | [], R extends object | []>(lhs: L, rhs: R): boolean {
+// eslint-disable-next-line @typescript-eslint/ban-types
+function isEqual<L extends {} | [], R extends {} | []>(lhs: L, rhs: R): boolean {
   if (Object.keys(lhs).length !== Object.keys(rhs).length) {
     return false;
   }

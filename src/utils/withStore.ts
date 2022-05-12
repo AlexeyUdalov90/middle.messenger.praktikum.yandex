@@ -1,6 +1,6 @@
 import { BlockClass, StoreEvents } from '../core';
 
-export function withStore<P>(WrappedBlock: BlockClass<any>, mapStateToProps: (state: AppState) => Record<string, unknown>) {
+export function withStore<P>(WrappedBlock: BlockClass<unknown>, mapStateToProps: (state: AppState) => Record<string, unknown>) {
   // @ts-expect-error No base constructor has the specified
   return class extends WrappedBlock<P> {
     public static componentName = WrappedBlock.componentName || WrappedBlock.name;
@@ -24,5 +24,5 @@ export function withStore<P>(WrappedBlock: BlockClass<any>, mapStateToProps: (st
       super.componentWillUnmount();
     }
 
-  } as BlockClass<any>;
+  } as BlockClass<unknown>;
 }

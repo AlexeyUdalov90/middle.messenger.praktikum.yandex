@@ -2,6 +2,7 @@ import { Block, Router } from '../../core';
 import '../../styles/profile.css';
 import { withStore, withRouter } from '../../utils';
 import { checkValidation, changePassword } from '../../services';
+import {ChangePasswordDTO} from '../../api/types';
 
 type ChangePasswordPageProps = {
   router: Router;
@@ -21,7 +22,7 @@ class ChangePasswordPage extends Block<ChangePasswordPageProps> {
         submit: (e) => {
           e.preventDefault();
 
-          const newInputsState = Object.entries(this.refs).reduce((res: any, [name, item]) => {
+          const newInputsState = Object.entries(this.refs).reduce((res: Record<string, unknown>, [name, item]) => {
             const input = item.querySelector<HTMLInputElement>('input');
 
             if (input) {
@@ -42,13 +43,13 @@ class ChangePasswordPage extends Block<ChangePasswordPageProps> {
           const isInvalid = Object.values(this.state.inputs).some(input => Boolean((input as Input).error));
 
           if (!isInvalid) {
-            const result = Object.entries(this.state.inputs).reduce((submitRes: any, [key, data ]) => {
+            const result = Object.entries(this.state.inputs).reduce((submitRes: Record<string, unknown>, [key, data ]) => {
               submitRes[key] = (data as Input).value;
 
               return submitRes;
             }, {});
 
-            changePassword(result);
+            changePassword(result as ChangePasswordDTO);
           }
         }
       }

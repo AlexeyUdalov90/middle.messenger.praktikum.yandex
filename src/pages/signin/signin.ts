@@ -2,6 +2,7 @@ import { Block, Router } from '../../core';
 import '../../styles/login.css';
 import { checkValidation, createUser } from '../../services';
 import { withStore, withRouter } from '../../utils';
+import {CreateUserRequestData} from '../../api/types';
 
 type SignInPageProps = {
   router: Router;
@@ -20,7 +21,7 @@ class SignInPage extends Block<SignInPageProps> {
         submit: (e) => {
           e.preventDefault();
 
-          const newInputsState = Object.entries(this.refs).reduce((res: any, [name, item]) => {
+          const newInputsState = Object.entries(this.refs).reduce((res: Record<string, unknown>, [name, item]) => {
             const input = item.querySelector<HTMLInputElement>('input');
 
             if (input) {
@@ -41,13 +42,13 @@ class SignInPage extends Block<SignInPageProps> {
           const isInvalid = Object.values(this.state.inputs).some(input => Boolean((input as Input).error));
 
           if (!isInvalid) {
-            const result = Object.entries(this.state.inputs).reduce((submitRes: any, [key, data]) => {
+            const result = Object.entries(this.state.inputs).reduce((submitRes: Record<string, unknown>, [key, data]) => {
               submitRes[key] = (data as Input).value;
 
               return submitRes;
             }, {});
 
-            createUser(result);
+            createUser(result as CreateUserRequestData);
           }
         }
       }

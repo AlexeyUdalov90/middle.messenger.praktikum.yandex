@@ -7,11 +7,11 @@ interface RouteProps {
 
 export default class Route {
   private _pathname: string;
-  private readonly _blockClass: BlockClass<any>;
-  private _block: Nullable<Block<any>>;
+  private readonly _blockClass: BlockClass<unknown>;
+  private _block: Nullable<Block<unknown>>;
   private _props: RouteProps;
 
-  constructor(pathname: string, view: BlockClass<any>, props: RouteProps) {
+  constructor(pathname: string, view: BlockClass<unknown>, props: RouteProps) {
     this._pathname = pathname;
     this._blockClass = view;
     this._block = null;

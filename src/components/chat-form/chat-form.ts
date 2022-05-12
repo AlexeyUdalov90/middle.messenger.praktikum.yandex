@@ -2,7 +2,7 @@ import { Block } from '../../core';
 import './chat-form.css';
 
 type ChatFormProps = {
-  onSubmit: (data: Record<string, any>) => void;
+  onSubmit: (data: Record<string, unknown>) => void;
   events: Record<string, (e: Event) => void>;
 };
 

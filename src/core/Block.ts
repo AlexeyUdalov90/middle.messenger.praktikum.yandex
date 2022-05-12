@@ -5,12 +5,12 @@ import { isEqual } from '../utils';
 
 type Events = Values<typeof Block.EVENTS>;
 
-export interface BlockClass<P extends object> extends Function {
+export interface BlockClass<P> extends Function {
   new (props: P): Block<P>;
   componentName?: string;
 }
 
-export default class Block<P extends object> {
+export default class Block<P = Record<string, unknown>> {
   static EVENTS = {
     INIT: 'init',
     FLOW_CDM: 'flow:component-did-mount',
@@ -29,7 +29,7 @@ export default class Block<P extends object> {
 
   eventBus: () => EventBus<Events>;
 
-  protected state: any = {};
+  protected state = {};
   protected refs: {[key: string]: HTMLElement} = {};
 
   public constructor(props?: P) {
@@ -38,7 +38,7 @@ export default class Block<P extends object> {
     this.getStateFromProps(props || {} as P);
 
     this.props = this._makePropsProxy(props || {} as P);
-    this.state = this._makePropsProxy(this.state);
+    this.state = this._makePropsProxy(this.state as P);
 
     this.eventBus = () => eventBus;
 
@@ -94,7 +94,7 @@ export default class Block<P extends object> {
     this.componentWillUnmount();
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   componentWillUnmount() {}
 
   private _componentDidUpdate(oldProps: P, newProps: P) {
@@ -107,7 +107,7 @@ export default class Block<P extends object> {
     this._render();
   }
 
-  componentDidUpdate(oldProps: P, newProps: P) {
+  componentDidUpdate(oldProps: P, newProps: P): boolean {
     return !isEqual(oldProps, newProps);
   }
 
@@ -119,7 +119,7 @@ export default class Block<P extends object> {
     Object.assign(this.props, nextProps);
   }
 
-  setState (nextState: any) {
+  setState (nextState: P) {
     if (!nextState) {
       return;
     }
@@ -127,7 +127,7 @@ export default class Block<P extends object> {
     Object.assign(this.state, nextState);
   }
 
-  setChildState (childId: string, nextState: any) {
+  setChildState (childId: string, nextState: P) {
     const isHasChild = Object.keys(this.children).includes(childId);
 
     if (isHasChild) {
@@ -141,6 +141,7 @@ export default class Block<P extends object> {
 
   private _render() {
     const fragment = this._compile();
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const newElement = fragment.firstElementChild!;
 
     if (this._element) {
@@ -167,10 +168,11 @@ export default class Block<P extends object> {
       }, 100)
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     return this.element!;
   }
 
-  private _makePropsProxy(props: any): any {
+  private _makePropsProxy(props: P): P {
     return new Proxy(props as unknown as object, {
       get: (target: Record<string, unknown>, prop: string) => {
         if (prop.indexOf('_') === 0) {
@@ -202,7 +204,7 @@ export default class Block<P extends object> {
   }
 
   private _removeEvents() {
-    const events: Record<string, () => void> = (this.props as any).events;
+    const events: Record<string, () => void> = (this.props as P)?.events;
 
     if (!events || !this._element) {
       return;
@@ -214,7 +216,7 @@ export default class Block<P extends object> {
   }
 
   private _addEvents() {
-    const events: Record<string, () => void> = (this.props as any).events;
+    const events: Record<string, () => void> = (this.props as P)?.events;
 
     if (!events) {
       return;

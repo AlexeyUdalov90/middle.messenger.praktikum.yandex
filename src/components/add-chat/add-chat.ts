@@ -36,7 +36,7 @@ export class AddChat extends Block<AddChatProps> {
         submit: (e) => {
           e.preventDefault();
 
-          const newState = Object.entries(this.refs).reduce((res: any, [name, item]) => {
+          const newState = Object.entries(this.refs).reduce((res: Record<string, unknown>, [name, item]) => {
             const input = item.querySelector<HTMLInputElement>('input');
 
             if (input) {

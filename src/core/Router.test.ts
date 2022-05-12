@@ -7,13 +7,13 @@ enum PATH {
   messenger = '/messenger'
 }
 
-class MockLoginPage extends Block<any> {
+class MockLoginPage extends Block<unknown> {
   render () {
     return `<div data-testid="login"></div>`
   }
 }
 
-class MockMessengerPage extends Block<any> {
+class MockMessengerPage extends Block<unknown> {
   render () {
     return `<div data-testid="messenger"></div>`
   }

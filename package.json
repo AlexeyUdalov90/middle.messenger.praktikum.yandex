@@ -9,7 +9,9 @@
     "test": "jest",
     "docker-build": "docker build -t lesson1 .",
     "docker-run": "docker run -p 3000:3000 -d lesson1",
-    "lint:editorconfig": "editorconfig-checker"
+    "lint:editorconfig": "editorconfig-checker",
+    "lint:stylelint": "npx stylelint \"src/**/*.css\" --fix",
+    "link:eslint": "npx eslint \"src/**/*.ts\""
   },
   "engines": {
     "node": "14.16.0"
@@ -75,12 +77,10 @@
       "<rootDir>/src/tests/setup.ts"
     ]
   },
-  "gitHooks": {
-    "pre-commit": "lint-staged"
-  },
-  "lint-staged": {
-    "*": [
-      "editorconfig-checker"
-    ]
-  }
+  "pre-commit": [
+    "lint:editorconfig",
+    "lint:stylelint",
+    "link:eslint",
+    "test"
+  ]
 }
